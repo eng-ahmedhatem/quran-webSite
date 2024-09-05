@@ -1,0 +1,75 @@
+.row-1 .cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(200px,350px));
+    gap: 20px;
+}
+.row-1 .cards .card{
+    position: relative;
+    z-index: 1;
+    background-color: var(--main-bg);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    height: 150px;
+    padding:0 20px;
+    box-shadow: var(--box-shadow)  0px 5px 15px;
+        transition: transform 0.5s ease,box-shadow  0.5s 0.1s ease;
+    cursor: pointer;
+    color: var(--main-text-color);
+}
+.row-1 .cards .card h2 {
+    font-size: var(--main-font-s);
+}
+.row-1 .cards .card:hover {
+    transform: scale(1.01);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.row-1 .cards .card::after{
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 5%;
+    background-repeat: no-repeat;
+        width: 150px;
+    height: 110px;
+}
+.row-1 .cards .card.listen::after {
+    background: url(./img/listen.png);
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+}
+.row-1 .cards .card.reade::after {
+    background: url(./img/moshaf.png);
+    background-size: cover;
+}
+.row-1 .cards .card.radio::after {
+    background: url(./img/radio.png);
+    background-size: cover;
+}
+.row-1 .cards .card.tv::after {
+    background: url(./img/tv.png) no-repeat ;
+    background-size: contain;
+}
+.row-1 .cards .card.salah-time::after {
+    background: url(./img/salah-time.png) no-repeat ;
+    background-size: contain; 
+    height: 120px;
+}
+@media (min-width:820px) and (max-width:1180px) {
+    .row-1 .cards{
+        grid-template-columns: repeat(auto-fill,minmax(200px,320px));
+    }
+    .row-1 .cards .card{
+        padding:0 10px;
+    }
+    .row-1 .cards .card::after{
+        left: 1%;
+    }
+}
+@media (max-width:768px) {
+    .row-1 .cards .card::after{
+        left: 1%;
+        padding: 0 10px;
+    }
+  }

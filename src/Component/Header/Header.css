@@ -1,0 +1,104 @@
+header{
+    max-width: 100%;
+    height: fit-content;
+    grid-area: hdr;
+    padding: 15px;
+    position: relative;
+}
+header::after{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 5%;
+    animation: rotate infinite 2s linear alternate;
+    width: 100px;
+    height: 100px;
+    background: url(../../public/img/lamp.png) no-repeat  ;
+    background-size: contain;
+    z-index: 2;
+    /* background-color: #547634; */
+}
+header::before{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 7%;
+    width: 25px;
+    filter: blur(5px);
+    height: 10px;
+
+    background-size: contain;
+    z-index: 3;
+    background-color: var(--second-bg);
+}
+header .container {
+    display: flex ;
+    align-items: center;
+    width: 60%;
+    justify-content: space-between;
+}
+header .logo{
+    display: flex;
+    align-items: center; 
+    margin-left: 2px;
+
+}
+header .logo img {
+    width: 40px;
+    height: 40px; 
+}
+header .logo h2 {
+    color: var(--main-text-color);
+    font-size: 17px;
+    margin-right: 20px;
+    text-wrap: nowrap;
+}
+header .container .search{
+    position: relative;
+}
+header .container input{
+    background-color: var(--main-bg );
+    color: var(--main-text-color);
+    width: 250px;
+    border-radius: 20px;
+    border: #7777 1px solid;
+    padding: 10px 20px ;
+    padding-left: 40px;
+
+}
+header .container input:focus {
+    outline: none
+}
+header .container input::placeholder {
+    color: var(--second-text-color);
+}
+header .container .search label {
+    position: absolute;
+    top: 55%;
+    left: 4%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: var(--main-text-color);
+}
+@media (min-width:820px) and (max-width:1180px) {
+    header .container {
+        width: 80%;
+    }
+}
+
+@media (max-width:768px) {
+    header .container {
+        width: 100%;
+    }
+    header .container input{
+
+        width: 170px;
+    }
+    
+  }
+  @media (max-width:400px) {
+    header .container input{
+        width: 130px;
+    }
+    
+  }
