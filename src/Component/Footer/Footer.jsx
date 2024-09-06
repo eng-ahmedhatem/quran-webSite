@@ -7,7 +7,6 @@ import Twitter from "react-useanimations/lib/twitter";
 
 export default function Footer() {
   const [them] = useContext(MyContext);
-  console.log(them);
   return (
     <footer>
       <ul>

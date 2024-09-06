@@ -2,6 +2,7 @@ import React,{useContext} from 'react'
 import "./nav.css"
 import { MyContext } from '../../App'
 import { FaHome } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 export default function Nav() {
     const [ them, setThem ] = useContext(MyContext)
@@ -17,7 +18,7 @@ export default function Nav() {
   return (
     <nav>
         <div className="link">
-        <a><i><FaHome /></i></a>
+        <Link to={"/"}><i><FaHome /></i></Link>
         <a><i>x</i></a>
         <a><i>x</i></a>
         </div>

@@ -5,10 +5,13 @@ import React, { createContext, useEffect, useState } from "react"
 import Nav from "./Component/Nav/Nav"
 import Main from "./Component/Main/main"
 import Footer from './Component/Footer/Footer';
-import { Home } from './pages/Index';
+import { Home, Listen } from './pages/Index';
+import { createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from 'react-router-dom';
 export const MyContext = createContext(null)
+
 export default function App() {
   const [them,setThem] = useState(null)
+  const [isLoading,setIsLoading] = useState(false)
   gsap.registerPlugin(useGSAP);
   useEffect(()=>{
     if (localStorage.getItem('them')) {
@@ -21,10 +24,10 @@ document.body.classList = them
   useGSAP(
     () => {
         // gsap code here...
-        gsap.to('.looding', { 
-          delay:1,
+        gsap.to('.loading', { 
+          delay:0,
           scale :0,
-          duration: 1,
+          duration: .3,
           ease: "elastic.inOut(0, 0.3)",
           visibility:"hidden",
           display:"none",
@@ -35,18 +38,41 @@ document.body.classList = them
     },
     { scope: "body" }
 ); // <-- scope is for selector text (optional)
-  return (
-    <>
-  <MyContext.Provider value= {[them,setThem]}>
-      <div className="looding">
-      <span className="loader"></span>
-    </div>
-    <Header/>
+
+
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<Route_layout/>}>
+      <Route index element={<Home/>}/>
+      <Route path='listen' element={<Listen/>}/>
+    </Route>
+  )
+)
+function Route_layout(){
+return (
+<>
+<Header/> 
     <Nav/>
     <Main>
-      <Home/>
+      <div className={isLoading ? "loading_section": "loading_section end"}>
+        
+      <span className="loader_section"></span>
+      </div>
+      <Outlet/>
     </Main>
     <Footer/>
+</>
+)
+}
+
+  return (
+    <>
+  <MyContext.Provider value= {[them,setThem,isLoading,setIsLoading]}>
+       <div className="loading">
+      <span className="loader"></span>
+    </div>
+    <RouterProvider router={router}/>
   </MyContext.Provider>
     </>
   )
