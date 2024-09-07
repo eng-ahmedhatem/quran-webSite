@@ -1,0 +1,167 @@
+.listen {
+    width: 100%;
+}
+.listen .carousel {
+    position: relative;
+    right: 0;
+    direction: ltr !important;
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    }
+.listen .carousel .slider{
+    margin-bottom: 40px !important;
+    width: 300px;
+    height: max-content;
+    padding:0 20px;
+    position: relative;
+}
+
+.listen .carousel .slider h6 {
+    position: absolute;
+    width: 100%;
+    color: #ffffff;
+    bottom: 5%;
+    font-size: 20px;
+    left: 30%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+.listen .carousel .slider .img-slider {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    object-fit: cover;
+} 
+
+.listen .carousel .slider .img-slider img {
+    filter: grayscale(0.5);
+    transition: filter 300ms;
+    min-height: 400px;
+    max-height: 400px;
+    width: 100%;
+    pointer-events: none;
+}
+.listen .carousel .slider .img-slider:hover img{
+    filter: grayscale(0);
+}
+
+.arrow {
+    position: absolute;
+    font-size: 30px;
+    color: var(--main-text-color);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    cursor: pointer;
+    transition: color 300ms;
+}
+.arrow:hover {
+    color: var(--green-text-color);
+}
+.arrow-right {
+    left: 53%;
+} 
+.listen .content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+}
+.sorah .noResults {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(1)
+}
+.sorah .noResults h4 {
+    font-size: 35px;
+    color: var(--main-text-color);
+    text-align: center;
+    margin-bottom: 15px;
+    display: inline-block;
+    margin-left: 20px;
+}
+.sorah .noResults p{
+    background: rgba(255, 0, 0, 0.678);
+    color: #fff;
+    padding: 10px;
+    width: fit-content;
+    border-radius: 20px;
+
+}
+
+.sorah .Section_header{
+    position: sticky !important;
+    top: 2px;
+}
+.sorah .Section_header h1::after {
+
+   width: 100%;
+}
+.sorah .search{
+    margin: 0 auto;
+    margin-bottom: 30px;
+    width: 250px;
+} 
+.sorah .search label{
+left: -17%;
+}
+.sorah .cards{
+    display: grid;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+
+ }
+.card-sorah{
+    background: var(--main-bg);
+    border-radius: 20px;
+    padding: 20px;
+    transition: .3s;
+}
+.card-sorah .sorahId {
+    display: inline-block ;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: var(--green-text-color);
+    background: var(--green-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+.card-sorah .title {
+    font-size: var(--main-font-s);
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--second-text-color);
+    margin-bottom: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--main-text-color);
+}
+.card-sorah .ayaCount {
+    color: var(--second-text-color);
+}
+@media (max-width:1080px) {
+
+    .listen .content {
+        display: none;
+        grid-template-columns: none;
+        display: flex;
+       
+        gap: 20px;
+        flex-direction: column-reverse;
+    }
+    .listen .carousel {
+        max-width: 100%;
+    }
+    .arrow {
+        left: 45%;
+    }
+    .arrow-right {
+        left: 55%;
+    } 
+}

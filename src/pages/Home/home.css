@@ -13,7 +13,7 @@
     height: 150px;
     padding:0 20px;
     box-shadow: var(--box-shadow)  0px 5px 15px;
-        transition: transform 0.5s ease,box-shadow  0.5s 0.5s ease;
+        transition: transform 0.5s ease,box-shadow  0.5s 0.s ease;
     cursor: pointer;
     color: var(--main-text-color);
 }
@@ -34,25 +34,25 @@
     height: 110px;
 }
 .row-1 .cards .card.listen::after {
-    background: url(./img/listen.png);
+    background: url(/img/listen.png);
     background-size: cover;
     width: 100px;
     height: 100px;
 }
 .row-1 .cards .card.reade::after {
-    background: url(./img/moshaf.png);
+    background: url(/img/moshaf.png);
     background-size: cover;
 }
 .row-1 .cards .card.radio::after {
-    background: url(./img/radio.png);
+    background: url(/img/radio.png);
     background-size: cover;
 }
 .row-1 .cards .card.tv::after {
-    background: url(./img/tv.png) no-repeat ;
+    background: url(/img/tv.png) no-repeat ;
     background-size: contain;
 }
 .row-1 .cards .card.salah-time::after {
-    background: url(./img/salah-time.png) no-repeat ;
+    background: url(/img/salah-time.png) no-repeat ;
     background-size: contain; 
     height: 120px;
 }

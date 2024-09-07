@@ -5,7 +5,7 @@ import React, { createContext, useEffect, useState } from "react"
 import Nav from "./Component/Nav/Nav"
 import Main from "./Component/Main/main"
 import Footer from './Component/Footer/Footer';
-import { Home, Listen } from './pages/Index';
+import { Home, ListenLayout  , Audio} from './pages/Index';
 import { createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from 'react-router-dom';
 export const MyContext = createContext(null)
 
@@ -45,7 +45,9 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Route_layout/>}>
       <Route index element={<Home/>}/>
-      <Route path='listen' element={<Listen/>}/>
+      <Route path='listen' element={<ListenLayout/>}>
+      <Route path='audio' element={<Audio/>} />
+      </Route>
     </Route>
   )
 )
