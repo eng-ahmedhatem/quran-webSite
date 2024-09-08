@@ -11,11 +11,11 @@
 }
 @font-face {
   font-family: "Readex-light";
-  src: url("./Fonts/ReadexPro-VariableFont_HEXPwght.ttf");
+  src: url("/Fonts/ReadexPro-VariableFont_HEXPwght.ttf");
 }
 @font-face {
   font-family: "Cairo-Medium";
-  src: url("./Fonts/Cairo-Medium.ttf");
+  src: url("/Fonts/Cairo-Medium.ttf");
 }
 * {
   padding: 0;

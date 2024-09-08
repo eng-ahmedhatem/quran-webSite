@@ -17,6 +17,9 @@ nav .link a {
   display: inline-block;
   margin-block: 15px;
 }
+nav .link a.active i{
+color: var(--green-text-color);
+}
 nav .link i {
   font-size: 30px;
   color: var(--main-text-color);

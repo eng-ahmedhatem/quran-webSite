@@ -1,14 +1,16 @@
 import React, { useEffect ,useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useNavigate } from "react-router";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import Section_header from "../../Component/Section_header/Section_header";
 import { Search_component } from "../../Component/Header/Header";
 import axios from "axios";
-function CardSlider({name , image}){
+import { Navigate } from "react-router";
+function CardSlider({name , image , navigateAudio , data}){
     return(
-        <div className="slider">
+        <div className="slider" onClick={(e)=> navigateAudio(data)}>
             <div className="img-slider">
                 <img src={image} alt="" />
             </div>
@@ -16,9 +18,9 @@ function CardSlider({name , image}){
         </div>
     )
 }
-function Sorah_card({sorahId,title,ayaCount,theClass}) {
+function Sorah_card({sorahId,title,ayaCount,theClass,transform}) {
     return(
-        <div className={`card-sorah ${theClass}`} id={sorahId}>
+        <div title={title} onClick={(e)=> transform(e)} className={`card-sorah ${theClass}`} id={sorahId}>
             <span className="sorahId">
                 {sorahId}
             </span>
@@ -26,12 +28,14 @@ function Sorah_card({sorahId,title,ayaCount,theClass}) {
                 {title}
             </h5>
             <span className="ayaCount">
-            {ayaCount}  أيات
+            {ayaCount}  أيه
             </span>
         </div>
     )
 }
 export default function Hero() {
+
+  const navigate = useNavigate();
     const [sorah, setSorah] = useState({})
     const [fillterSorah, setFillterSorah] = useState([])
     const [searchVal, setSearchVal] = useState("")
@@ -45,20 +49,31 @@ export default function Hero() {
         }
         }
         getData("https://api.alquran.cloud/v1/surah")
+        return (
+            setSorah([])
+        )
     },[])
     useEffect(()=>{
       if(sorah.length > 0){
-         setFillterSorah(prev => prev = sorah.map(ele => <Sorah_card key={ele.number} sorahId={ele.number} title={ele.name} ayaCount={ele.numberOfAyahs} theClass={"show"}/>))
+         setFillterSorah(prev => prev = sorah.map(ele => <Sorah_card transform={handelClick} key={ele.number} sorahId={ele.number} title={ele.name} ayaCount={ele.numberOfAyahs} theClass={"show"}/>))
       }
     },[sorah])
+    function handelClick(e) {
+      console.log(e.currentTarget)
+      const state = {
+        title:e.currentTarget.title,
+        id:e.currentTarget.id
+      }
+      navigate("/listen/audio",{state : state})
+    }
     let handelSearch = (e)=>{    
       e.target.scrollIntoView({ behavior: "smooth" })
       setSearchVal(val => val = e.target.value)
             const newData = sorah.map(ele => {
               if(ele.name.includes(e.target.value)){
-                return <Sorah_card key={ele.number} sorahId={ele.number} title={ele.name} ayaCount={ele.numberOfAyahs} theClass={"show"}/>
+                return <Sorah_card key={ele.number} transform={handelClick} sorahId={ele.number} title={ele.name} ayaCount={ele.numberOfAyahs} theClass={"show"}/>
               }
-              return <Sorah_card key={ele.number} sorahId={ele.number} title={ele.name} ayaCount={ele.numberOfAyahs} theClass={"hidden"}/>
+              return <Sorah_card key={ele.number}  transform={handelClick} sorahId={ele.number} title={ele.name} ayaCount={ele.numberOfAyahs} theClass={"hidden"}/>
             })
             setFillterSorah(newData)  
     }
@@ -82,14 +97,17 @@ export default function Hero() {
         }
       };
       const data = [
-        {name:"محمد صديق المنشاوي",img:"/img/المنشاوي.jpg"},
-        {name:"محمود خليل الحصري",img:"/img/الحصري.jpg"},
-        {name:"محمد حسنين جبريل",img:"/img/محمد جبريل.jpg"},
-        {name:"عبد الباسط عبد الصمد",img:"/img/عبد الباسط.jpg"},
-        {name:"ماهر المعيقلي",img:"/img/ماهر المعيقلي.jpg"},
-        {name:"سعود الشريم",img:"/img/سعود الشريم.jpg"}
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:122,ro:112,name:"محمد صديق المنشاوي",img:"/img/المنشاوي.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:118,ro:270,name:"محمود خليل الحصري",img:"/img/الحصري.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:111,ro:111,name:"محمد حسنين جبريل",img:"/img/محمد جبريل.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:51,ro:53,name:"عبد الباسط عبد الصمد",img:"/img/عبد الباسط.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:102,ro:102,name:"ماهر المعيقلي",img:"/img/ماهر المعيقلي.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:31,ro:31,name:"سعود الشريم",img:"/img/سعود الشريم.jpg"}
       ]
       // console.log(fillterSorah)
+      let handelNavegateAudio = (data)=>{
+        navigate("/listen/audio",{state : data })
+      }
       let l = fillterSorah.filter(ele => ele.props.theClass == "hidden")
       return (
 <>
@@ -147,7 +165,7 @@ customTransition={"transform 300ms linear"}
   sliderClass=""
   slidesToSlide={1}
 >
- {data.map((item , id) => <CardSlider key={id} name={item.name} image={item.img}/>)}
+ {data.map((item ) => <CardSlider data={{...item}} key={item.id} navigateAudio={handelNavegateAudio} name={item.name} image={item.img}  ro={item.ro}/>)}
 </Carousel>
 <div className="sorah">
 <Section_header title="السُور" />

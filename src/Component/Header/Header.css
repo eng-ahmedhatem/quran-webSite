@@ -13,7 +13,7 @@ header::after{
     animation: rotate infinite 2s linear alternate;
     width: 100px;
     height: 100px;
-    background: url(../../public/img/lamp.png) no-repeat  ;
+    background: url(/img/lamp.png) no-repeat  ;
     background-size: contain;
     z-index: 2;
     /* background-color: #547634; */

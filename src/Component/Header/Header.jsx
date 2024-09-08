@@ -1,6 +1,7 @@
 import React from "react";
 import "./Header.css";
 import { CiSearch } from "react-icons/ci";
+import { Link } from "react-router-dom";
 export function Search_component({change , value}){
   function handelFocus(e){
     e.target.scrollIntoView({ behavior: "smooth" })
@@ -16,10 +17,12 @@ export default function Header() {
   return (
     <header>
       <div className="container">
+        <Link to={"/"}>
         <div className="logo">
           <img src="/img/logo.png" alt="" />
           <h2>القرآن الكريم</h2>
         </div>
+        </Link>
         <Search_component/>
       </div>
     </header>
