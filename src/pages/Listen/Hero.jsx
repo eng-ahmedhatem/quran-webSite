@@ -62,7 +62,9 @@ export default function Hero() {
       console.log(e.currentTarget)
       const state = {
         title:e.currentTarget.title,
-        id:e.currentTarget.id
+        sorah_id:e.currentTarget.id,
+        id:112,
+        ro:112
       }
       navigate("/listen/audio",{state : state})
     }
@@ -97,7 +99,7 @@ export default function Hero() {
         }
       };
       const data = [
-        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:122,ro:112,name:"محمد صديق المنشاوي",img:"/img/المنشاوي.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:112,ro:112,name:"محمد صديق المنشاوي",img:"/img/المنشاوي.jpg"},
         {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:118,ro:270,name:"محمود خليل الحصري",img:"/img/الحصري.jpg"},
         {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:111,ro:111,name:"محمد حسنين جبريل",img:"/img/محمد جبريل.jpg"},
         {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:51,ro:53,name:"عبد الباسط عبد الصمد",img:"/img/عبد الباسط.jpg"},

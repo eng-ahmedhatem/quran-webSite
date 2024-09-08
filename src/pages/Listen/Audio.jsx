@@ -4,23 +4,25 @@ import { useLocation } from "react-router";
 import AudioPlayer  from 'react-modern-audio-player';
 import axios from 'axios';
 export default function Audio() {
-  const [Select_input_UserId , setSelect_input_UserId] = useState()
   const [Select_reway , setSelect_reway] = useState()
   const location = useLocation();
   if (location.state == null) {
     location.state = {
       title: "سُورَةُ ٱلْفَاتِحَةِ",
-      id: 1
+      sorah_id: 1,
+      id: 112,
+      ro: 112,
     };
   }
-  console.log(location.state.id.toString().padStart(3,0))
-  const [reader,setReader] = useState([])
+  const [Select_input_UserId , setSelect_input_UserId] = useState("")
+  const [inputsSelect,setInputsSelect] = useState({
+    userId: location.state.id,
+    reway: location.state.ro,
+  })
   const [rewaya,setRewaya] = useState([])
+  const [reader,setReader] = useState([])
   const [serverAudio , setServerAdio]= useState("")
-  // const [readerID,setReader_id] = useState('')
   useEffect( ()=>{
-    // async function getReader() {
-    // }
     axios.get("https://mp3quran.net/api/v3/reciters")
     .then(res => {
       setReader(res.data.reciters)
@@ -40,27 +42,19 @@ export default function Audio() {
       id: 1,
     },
   ]
-  
-
-  if(!Select_input_UserId){
-    setSelect_input_UserId("112")
-    setSelect_reway("113")
-  }
   useEffect(()=>{
     if(reader.length >0){
-      const reway_arry = reader.filter(ele => ele.id == Select_input_UserId)[0].moshaf
-      console.log(reway_arry)
+      const reway_arry = reader.filter(ele => ele.id == inputsSelect.userId)[0].moshaf
       setRewaya(reway_arry)
-      console.log(Select_reway)
-      if(Select_reway) {
-        let server = reway_arry.filter(ele => ele.id == Select_reway)[0].server
-        server += `${location.state.id.toString().padStart(3,0)}.mp3`
+      console.log(inputsSelect.reway)
+      if(inputsSelect.reway){
+        let server = reway_arry.filter(ele => ele.id == inputsSelect.reway)[0].server
+        server += `${location.state.sorah_id.toString().padStart(3,0)}.mp3`
         setServerAdio(server)
-        console.log(server)
       }
+      console.log(location.state)
     }
-  },[Select_input_UserId,reader,Select_reway,location.state])
-  console.log(Select_input_UserId,Select_reway)
+  },[reader,inputsSelect,location.state])
   return (
     <div className="Audio">
       <div className="row-1">
@@ -72,23 +66,22 @@ export default function Audio() {
         </h2>
       </div>
 
-      <select name="" id="readerSelect" onChange={(event)=>{
-        setSelect_input_UserId(event.target.value)
-        setSelect_reway(null)
-      }} value={Select_input_UserId} >
-        <option value="j" disabled>
+      <select value={inputsSelect.userId} name="" id="readerSelect" onChange={(event)=>{
+        setInputsSelect(prev=> (prev = {...prev,userId:event.target.value}))
+        setInputsSelect(prev => prev = {...prev,reway:""})
+      }}  >
+        <option key={10201} value="j" disabled>
           اختر القارئ
         </option>
-      {reader.length > 0 && reader.sort().map(pharson => <option value={pharson.id}>{pharson.name}</option>)}
+      {reader.length > 0 && reader.map(pharson => <option key={pharson.id} value={pharson.id}>{pharson.name}</option>)}
       </select>
       <select id="rewaySelect" onChange={(event)=>{
-        setSelect_reway(event.target.value)
-        console.log(serverAudio)
-      }} value={Select_reway ? Select_reway : "s"} >
-        <option disabled value={"s"} selected>
+        setInputsSelect(prev => prev = {...prev,reway:event.target.value})
+      }} value={inputsSelect.reway ? inputsSelect.reway : "s"} >
+        <option key={10200} disabled value={"s"} selected>
           اختر الرواية
         </option>
-      {rewaya.length > 0 && rewaya.sort().map(rewaya => <option value={rewaya.id}>{rewaya.name}</option>)}
+      {rewaya.length > 0 && rewaya.sort().map(rewaya => <option key={rewaya.id} value={rewaya.id}>{rewaya.name}</option>)}
       </select>
       <div className="audio-ui">
       {serverAudio && <AudioPlayer
