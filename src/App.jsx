@@ -8,7 +8,6 @@ import Footer from './Component/Footer/Footer';
 import { Home, ListenLayout  , Audio} from './pages/Index';
 import { createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from 'react-router-dom';
 export const MyContext = createContext(null)
-
 export default function App() {
   const [them,setThem] = useState(null)
   const [isLoading,setIsLoading] = useState(false)
@@ -38,9 +37,6 @@ document.body.classList = them
     },
     { scope: "body" }
 ); // <-- scope is for selector text (optional)
-
-
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Route_layout/>}>
@@ -58,7 +54,6 @@ return (
     <Nav/>
     <Main>
       <div className={isLoading ? "loading_section": "loading_section end"}>
-        
       <span className="loader_section"></span>
       </div>
       <Outlet/>
@@ -67,11 +62,10 @@ return (
 </>
 )
 }
-
   return (
     <>
   <MyContext.Provider value= {[them,setThem,isLoading,setIsLoading]}>
-       <div className="loading">
+      <div className="loading">
       <span className="loader"></span>
     </div>
     <RouterProvider router={router}/>

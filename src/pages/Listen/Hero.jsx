@@ -1,13 +1,10 @@
-import React, { useEffect ,useState } from "react";
+import React, { memo, useEffect ,useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useNavigate } from "react-router";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { MdKeyboardArrowLeft } from "react-icons/md";
 import Section_header from "../../Component/Section_header/Section_header";
 import { Search_component } from "../../Component/Header/Header";
 import axios from "axios";
-import { Navigate } from "react-router";
 function CardSlider({name , image , navigateAudio , data}){
     return(
         <div className="slider" onClick={(e)=> navigateAudio(data)}>
@@ -33,7 +30,7 @@ function Sorah_card({sorahId,title,ayaCount,theClass,transform}) {
         </div>
     )
 }
-export default function Hero() {
+export default memo(function Hero() {
 
   const navigate = useNavigate();
     const [sorah, setSorah] = useState({})
@@ -59,7 +56,6 @@ export default function Hero() {
       }
     },[sorah])
     function handelClick(e) {
-      console.log(e.currentTarget)
       const state = {
         title:e.currentTarget.title,
         sorah_id:e.currentTarget.id,
@@ -79,32 +75,13 @@ export default function Hero() {
             })
             setFillterSorah(newData)  
     }
-    const responsive = {
-        superLargeDesktop: {
-          // the naming can be any, depends on you.
-          breakpoint: { max: 4000, min: 3000 },
-          items: 5
-        },
-        desktop: {
-          breakpoint: { max: 3000, min: 1024 },
-          items: 3
-        },
-        tablet: {
-          breakpoint: { max: 1024, min: 464 },
-          items: 2
-        },
-        mobile: {
-          breakpoint: { max: 464, min: 0 },
-          items: 1
-        }
-      };
       const data = [
-        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:112,ro:112,name:"محمد صديق المنشاوي",img:"/img/المنشاوي.jpg"},
-        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:118,ro:270,name:"محمود خليل الحصري",img:"/img/الحصري.jpg"},
-        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:111,ro:111,name:"محمد حسنين جبريل",img:"/img/محمد جبريل.jpg"},
-        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:51,ro:53,name:"عبد الباسط عبد الصمد",img:"/img/عبد الباسط.jpg"},
-        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:102,ro:102,name:"ماهر المعيقلي",img:"/img/ماهر المعيقلي.jpg"},
-        {title:"سُورَةُ ٱلْفَاتِحَةِ",sorah_id:1,id:31,ro:31,name:"سعود الشريم",img:"/img/سعود الشريم.jpg"}
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",fromSlider:true,sorah_id:1,id:112,ro:112,name:"محمد صديق المنشاوي",img:"/img/المنشاوي.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",fromSlider:true,sorah_id:1,id:118,ro:270,name:"محمود خليل الحصري",img:"/img/الحصري.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",fromSlider:true,sorah_id:1,id:111,ro:111,name:"محمد حسنين جبريل",img:"/img/محمد جبريل.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",fromSlider:true,sorah_id:1,id:51,ro:53,name:"عبد الباسط عبد الصمد",img:"/img/عبد الباسط.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",fromSlider:true,sorah_id:1,id:102,ro:102,name:"ماهر المعيقلي",img:"/img/ماهر المعيقلي.jpg"},
+        {title:"سُورَةُ ٱلْفَاتِحَةِ",fromSlider:true,sorah_id:1,id:31,ro:31,name:"سعود الشريم",img:"/img/سعود الشريم.jpg"}
       ]
       // console.log(fillterSorah)
       let handelNavegateAudio = (data)=>{
@@ -118,8 +95,6 @@ export default function Hero() {
 customTransition={"transform 300ms linear"}
   additionalTransfrom={10}
   arrows
-  customLeftArrow={<MdKeyboardArrowLeft className="arrow arrow-left"/>}
-  customRightArrow={<MdKeyboardArrowRight className="arrow arrow-right" />}
   autoPlay
   autoPlaySpeed={5000}
   className="carousel"
@@ -128,7 +103,6 @@ customTransition={"transform 300ms linear"}
   draggable
   focusOnSelect={false}
   infinite={true}
-  itemClass=""
   minimumTouchDrag={80}
   pauseOnHover
   renderArrowsWhenDisabled={false}
@@ -171,7 +145,7 @@ customTransition={"transform 300ms linear"}
 </Carousel>
 <div className="sorah">
 <Section_header title="السُور" />
-<Search_component change={handelSearch} value={searchVal}/>
+<Search_component change={handelSearch} value={searchVal} id={"search-2"}/>
 <div className="cards">
 {sorah.length > 0 && fillterSorah}
 {l.length == 114 && <div className="noResults"><h4>لا يوجد نتائج</h4><p>تأكد من كتابة اول ثلاث احرف فقط من اسم السورة</p></div>}
@@ -181,3 +155,4 @@ customTransition={"transform 300ms linear"}
   </>
       )
 }
+)

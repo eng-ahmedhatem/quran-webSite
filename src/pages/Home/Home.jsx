@@ -18,7 +18,7 @@ export default function Home() {
     function Handel_transform(link) {  
         targetLink = link 
         setIsLoading(true)
-        
+
     }
   return (
     <>

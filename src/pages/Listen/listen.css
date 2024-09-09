@@ -15,6 +15,7 @@
     height: max-content;
     padding:0 20px;
     position: relative;
+    cursor: pointer;
 }
 .listen .carousel .slider h6 {
     position: absolute;
@@ -43,22 +44,23 @@
 .listen .carousel .slider .img-slider:hover img{
     filter: grayscale(0);
 }
-.arrow {
-    position: absolute;
-    font-size: 30px;
-    color: var(--main-text-color);
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    display: inline-block;
-    cursor: pointer;
-    transition: color 300ms;
+/* react-multiple-carousel__arrow react-multiple-carousel__arrow--right  */
+.react-multiple-carousel__arrow {
+    position: absolute !important;
+    font-size: 30px !important;
+    color: var(--main-text-color) !important;
+    background: transparent !important;
+    bottom: -15px !important;
+    right: 0 !important;
+    display: inline-block !important;
+    transition: color 300ms !important;
 }
-.arrow:hover {
-    color: var(--green-text-color);
+
+.react-multiple-carousel__arrow:hover {
+    color: var(--green-text-color) !important;
 }
-.arrow-right {
-    left: 53%;
+.react-multiple-carousel__arrow--right {
+    left: 10%;
 } 
 .listen .content {
     display: grid;
@@ -151,11 +153,8 @@ left: -17%;
     .listen .carousel {
         max-width: 100%;
     }
-    .arrow {
-        left: 45%;
-    }
-    .arrow-right {
-        left: 55%;
+    .react-multiple-carousel__arrow--right{
+        left: 20% !important;
     } 
 }
 /* auido  */
@@ -166,7 +165,7 @@ left: -17%;
     padding-top: 50px;
     border-radius: 30px;
     display: flex;
-    height: 300px;
+    height: 370px; 
     /* justify-content: center; */
     /* justify-content: space-between; */
     align-items: center;
@@ -210,6 +209,10 @@ left: -17%;
     border-radius: 50%;
 }
 .Audio .img img {
+    width: 70px;
+    height: 70px;
+}
+.Audio a > img {
     width: 70px;
     height: 70px;
 }

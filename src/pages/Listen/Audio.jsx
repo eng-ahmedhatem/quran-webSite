@@ -3,8 +3,9 @@ import { useLocation } from "react-router";
 // import { AudioPlayer } from 'react-audio-player-component';
 import AudioPlayer  from 'react-modern-audio-player';
 import axios from 'axios';
-export default function Audio() {
-  const [Select_reway , setSelect_reway] = useState()
+import { memo } from 'react';
+export default memo(function Audio() {
+  const [isLoading,setIsLoading] = useState(true)
   const location = useLocation();
   if (location.state == null) {
     location.state = {
@@ -14,7 +15,6 @@ export default function Audio() {
       ro: 112,
     };
   }
-  const [Select_input_UserId , setSelect_input_UserId] = useState("")
   const [inputsSelect,setInputsSelect] = useState({
     userId: location.state.id,
     reway: location.state.ro,
@@ -26,7 +26,7 @@ export default function Audio() {
     axios.get("https://mp3quran.net/api/v3/reciters")
     .then(res => {
       setReader(res.data.reciters)
-    
+      setIsLoading(false)
     })
     .catch((error)=> console.log(error))
     return (
@@ -43,20 +43,29 @@ export default function Audio() {
     },
   ]
   useEffect(()=>{
+    if (location.state.fromSlider){
+      setInputsSelect(prev => prev = {
+        userId: location.state.id,
+        reway: location.state.ro,
+      })
+    }
+  },[location.state])
+  useEffect(()=>{
     if(reader.length >0){
       const reway_arry = reader.filter(ele => ele.id == inputsSelect.userId)[0].moshaf
       setRewaya(reway_arry)
-      console.log(inputsSelect.reway)
       if(inputsSelect.reway){
         let server = reway_arry.filter(ele => ele.id == inputsSelect.reway)[0].server
         server += `${location.state.sorah_id.toString().padStart(3,0)}.mp3`
         setServerAdio(server)
       }
-      console.log(location.state)
     }
-  },[reader,inputsSelect,location.state])
+  },[location.state,reader,inputsSelect])
   return (
-    <div className="Audio">
+    <div className="Audio" style={{overflow:isLoading && "hidden"}}>
+    <div className={isLoading ? "loading_section": "loading_section end"}>
+    <span className="loader_section"></span>
+    </div>
       <div className="row-1">
         <div className="img">
           <img src="/img/logo.png" alt="" />
@@ -66,7 +75,7 @@ export default function Audio() {
         </h2>
       </div>
 
-      <select value={inputsSelect.userId} name="" id="readerSelect" onChange={(event)=>{
+      <select value={inputsSelect.userId} name=""  onChange={(event)=>{
         setInputsSelect(prev=> (prev = {...prev,userId:event.target.value}))
         setInputsSelect(prev => prev = {...prev,reway:""})
       }}  >
@@ -75,21 +84,24 @@ export default function Audio() {
         </option>
       {reader.length > 0 && reader.map(pharson => <option key={pharson.id} value={pharson.id}>{pharson.name}</option>)}
       </select>
-      <select id="rewaySelect" onChange={(event)=>{
+      <select  onChange={(event)=>{
         setInputsSelect(prev => prev = {...prev,reway:event.target.value})
       }} value={inputsSelect.reway ? inputsSelect.reway : "s"} >
-        <option key={10200} disabled value={"s"} selected>
+        <option key={10200} disabled value={"s"} >
           اختر الرواية
         </option>
       {rewaya.length > 0 && rewaya.sort().map(rewaya => <option key={rewaya.id} value={rewaya.id}>{rewaya.name}</option>)}
       </select>
+      <a href={serverAudio} download>
+        <img src={"/img/downloadBtn.png"} alt="downloadBtn.png" />
+      </a>
       <div className="audio-ui">
       {serverAudio && <AudioPlayer
         playList={playList}
         audioInitialState={{
           muted: false,
-          volume: 0.5,
-          isPlaying:true,
+          volume: 0.2,
+          isPlaying:false,
           curPlayId: 1,
         }}
         placement={{
@@ -116,3 +128,4 @@ export default function Audio() {
     </div>
   );
 }
+) 
