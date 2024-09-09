@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-// import { AudioPlayer } from 'react-audio-player-component';
-import AudioPlayer  from 'react-modern-audio-player';
-import axios from 'axios';
-import { memo } from 'react';
+import AudioPlayer  from "react-modern-audio-player";
+import axios from "axios";
+import { memo } from "react";
 export default memo(function Audio() {
   const [isLoading,setIsLoading] = useState(true)
   const location = useLocation();
@@ -23,6 +22,17 @@ export default memo(function Audio() {
   const [reader,setReader] = useState([])
   const [serverAudio , setServerAdio]= useState("")
   useEffect( ()=>{
+    if(innerWidth < 768 && location.pathname == "/listen/audio"){
+      document.querySelector(".hero").style.cssText = `
+        display: flex;
+        flex-direction: column-reverse;
+      `
+      document.querySelector(".hero .Section_header").style.cssText = `
+          margin-block: 40px;
+          margin-bottom: 0;
+      `
+    }
+    scrollTo(0,0)
     axios.get("https://mp3quran.net/api/v3/reciters")
     .then(res => {
       setReader(res.data.reciters)
@@ -52,6 +62,7 @@ export default memo(function Audio() {
   },[location.state])
   useEffect(()=>{
     if(reader.length >0){
+      if(innerWidth < 1600) document.querySelector("main").scrollIntoView({ behavior: "smooth" })
       const reway_arry = reader.filter(ele => ele.id == inputsSelect.userId)[0].moshaf
       setRewaya(reway_arry)
       if(inputsSelect.reway){
@@ -78,6 +89,7 @@ export default memo(function Audio() {
       <select value={inputsSelect.userId} name=""  onChange={(event)=>{
         setInputsSelect(prev=> (prev = {...prev,userId:event.target.value}))
         setInputsSelect(prev => prev = {...prev,reway:""})
+        setServerAdio("")
       }}  >
         <option key={10201} value="j" disabled>
           اختر القارئ

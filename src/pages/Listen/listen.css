@@ -12,39 +12,55 @@
 .listen .carousel .slider{
     margin-bottom: 40px !important;
     width: 300px;
-    height: max-content;
-    padding:0 20px;
+    padding:20px;
+    
     position: relative;
     cursor: pointer;
 }
 .listen .carousel .slider h6 {
     position: absolute;
-    width: 100%;
+    text-indent: 10px;
+    direction: ltr;
+    bottom: 10%;
+    background: #172920cb;
+    width: fit-content;
+    right: 20px;
+    border-radius: 20px 0 0 20px;
     color: #ffffff;
-    bottom: 5%;
-    font-size: 20px;
-    left: 30%;
-    transform: translateX(-50%);
+    padding: 10px;
+    font-size: 15px;
+    transition: width 0.3s;
     z-index: 2;
+
 }
+
 .listen .carousel .slider .img-slider {
     width: 100%;
     border-radius: 20px;
     overflow: hidden;
     object-fit: cover;
+    box-shadow: 0px 0px 10px 1px var(--main-text-color) ;
+
 } 
 .listen .carousel .slider .img-slider img {
     filter: grayscale(0.5);
     transition: filter 300ms;
     min-height: 400px;
     max-height: 400px;
+    transform: scale(1.02);
     width: 100%;
     pointer-events: none;
+    transition: .3s linear;
 }
 .listen .carousel .slider .img-slider:hover img{
     filter: grayscale(0);
+    transform: rotate(5deg) scale(1.2);
 }
 /* react-multiple-carousel__arrow react-multiple-carousel__arrow--right  */
+.react-multiple-carousel__arrow::before {
+    color: var(--main-text-color) !important;
+}
+
 .react-multiple-carousel__arrow {
     position: absolute !important;
     font-size: 30px !important;
@@ -97,11 +113,8 @@
 .sorah .search{
     margin: 0 auto;
     margin-bottom: 30px;
-    width: 250px;
 } 
-.sorah .search label{
-left: -17%;
-}
+
 .sorah .cards{
     display: grid;
     gap: 20px;
@@ -159,21 +172,21 @@ left: -17%;
 }
 /* auido  */
 .Audio{
-    margin-bottom: 80px;
+    margin-bottom: 60px;
     padding: 50px;
     background: var(--main-bg);
     padding-top: 50px;
     border-radius: 30px;
     display: flex;
     height: 370px; 
-    /* justify-content: center; */
-    /* justify-content: space-between; */
     align-items: center;
     flex-direction: column;
     background-image: linear-gradient(to top, #00ff557c 0%, #330867 100%);
 }
 .Audio h2 {
     color: var(--main-text-color);
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 30px;
 }
 .Audio select{
     background: var(--second-bg);
@@ -188,9 +201,16 @@ left: -17%;
 .Audio select:focus { 
     outline: 2px solid var(--green-color);
 }
-@media (max-width:500px) {
+@media (max-width:768px) {
+    .hero {
+        display: flex;
+        flex-direction: column-reverse;
+    }
     .Audio select{
         width: 200px;
+    }
+    .Audio {
+        position: relative;
     }
 }
 .Audio .row-1  {
@@ -217,7 +237,7 @@ left: -17%;
     height: 70px;
 }
 .Audio .audio-ui > div{
-    margin-top: 11px;
+    margin-top: -11px;
     border-radius: 50px;
     position: relative !important;
     --rm-audio-player-interface-container:transparent;
@@ -250,4 +270,10 @@ border-radius: 10px;
         margin-top: -91px;
     top: 100px;
  }
+}
+.audio-ui {
+    transition: .3s linear;
+    /* min-width: 337px;
+    
+    min-height: 96px; */
 }

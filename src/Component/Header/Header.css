@@ -55,6 +55,8 @@ header .logo h2 {
 }
 .search{
     position: relative;
+    max-width: fit-content;
+
 }
 .search input{
     background-color: var(--main-bg );
@@ -73,12 +75,20 @@ header .logo h2 {
     color: var(--second-text-color);
 }
 .search label {
+    min-width: 100%;
+    width: 100%;
     position: absolute;
     top: 55%;
-    left: 4%;
+    left: 0;
     transform: translateY(-50%);
     font-size: 20px;
     color: var(--main-text-color);
+}
+.search label svg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px; 
 }
 @media (min-width:820px) and (max-width:1180px) {
     header .container {
@@ -86,13 +96,36 @@ header .logo h2 {
     }
 }
 
-@media (max-width:768px) {
+    @media (max-width:768px) {
+        header .container {
+            width: 100%;
+        justify-content: space-between;
+    }
+
+    header .container .logo
+     {
+        margin-left: 15px;
+    }
+    header .search input {
+        width: 200px;
+    }
+    
+  }
+@media (max-width:450px) {
     header .container {
         width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
     }
     .search input{
 
-        width: 170px;
+        width: 150px;
+    }
+    header .container .logo
+     {
+        margin-bottom: 15px;
+
     }
     
   }

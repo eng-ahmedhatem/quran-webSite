@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Section_header from '../../Component/Section_header/Section_header'
+import React, { useContext, useEffect, useState } from "react"
+import Section_header from "../../Component/Section_header/Section_header"
 import "./home.css"
-import { Link, useNavigate } from 'react-router-dom'
-import { MyContext } from '../../App'
+import { useNavigate } from "react-router-dom"
+import { MyContext } from "../../App"
 let targetLink
 export default function Home() {
     const [,,isLoading,setIsLoading]= useContext(MyContext)

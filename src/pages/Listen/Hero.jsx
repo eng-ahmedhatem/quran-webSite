@@ -1,4 +1,4 @@
-import React, { memo, useEffect ,useState } from "react";
+import React, { memo, useEffect ,useState ,useRef} from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useNavigate } from "react-router";
@@ -31,12 +31,19 @@ function Sorah_card({sorahId,title,ayaCount,theClass,transform}) {
     )
 }
 export default memo(function Hero() {
-
+  const hero = useRef()
   const navigate = useNavigate();
     const [sorah, setSorah] = useState({})
     const [fillterSorah, setFillterSorah] = useState([])
     const [searchVal, setSearchVal] = useState("")
+    console.log("ahmed")
     useEffect(()=>{
+        if(innerWidth < 768 && location.pathname == "/listen"){
+          document.querySelector(".hero").style.cssText = `
+            display: block;
+            flex-direction: none;
+          `
+        }
         async function getData(url){
         try {
             await axios.get(url
@@ -56,6 +63,7 @@ export default memo(function Hero() {
       }
     },[sorah])
     function handelClick(e) {
+      if(innerWidth < 1600) hero.current.parentElement.parentElement.scrollIntoView({ behavior: "smooth" })
       const state = {
         title:e.currentTarget.title,
         sorah_id:e.currentTarget.id,
@@ -85,12 +93,15 @@ export default memo(function Hero() {
       ]
       // console.log(fillterSorah)
       let handelNavegateAudio = (data)=>{
+        if(innerWidth < 1600) hero.current.parentElement.parentElement.scrollIntoView({ behavior: "smooth" })
         navigate("/listen/audio",{state : data })
       }
       let l = fillterSorah.filter(ele => ele.props.theClass == "hidden")
       return (
 <>
-<div className="hero">
+<div className="hero" ref={hero}>
+<div className="row-">
+<Section_header title="أفضل القٌراء" />
 <Carousel
 customTransition={"transform 300ms linear"}
   additionalTransfrom={10}
@@ -143,6 +154,7 @@ customTransition={"transform 300ms linear"}
 >
  {data.map((item ) => <CardSlider data={{...item}} key={item.id} navigateAudio={handelNavegateAudio} name={item.name} image={item.img}  ro={item.ro}/>)}
 </Carousel>
+</div>
 <div className="sorah">
 <Section_header title="السُور" />
 <Search_component change={handelSearch} value={searchVal} id={"search-2"}/>

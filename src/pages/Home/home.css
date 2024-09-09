@@ -31,7 +31,9 @@
     z-index: -1;
     left: 5%;
     background-repeat: no-repeat;
-        width: 150px;
+        width: 100px;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
     height: 110px;
 }
 .row-1 .cards .card.listen::after {
@@ -69,6 +71,17 @@
     }
 }
 @media (max-width:768px) {
+    main{
+        padding: 15px;
+    }
+    .row-1 .cards{
+        width: 100%; 
+        grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); 
+    }
+    .row-1 .cards .card{
+        padding:0 10px;
+        width: 95%;
+    }
     .row-1 .cards .card::after{
         left: 1%;
         padding: 0 10px;
