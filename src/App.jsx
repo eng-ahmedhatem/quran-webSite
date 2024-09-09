@@ -6,7 +6,7 @@ import Nav from "./Component/Nav/Nav"
 import Main from "./Component/Main/main"
 import Footer from './Component/Footer/Footer';
 import { Home, ListenLayout  , Audio} from './pages/Index';
-import { createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from 'react-router-dom';
+import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider, Routes } from 'react-router-dom';
 export const MyContext = createContext(null)
 export default function App() {
   const [them,setThem] = useState(null)
@@ -47,6 +47,7 @@ const router = createBrowserRouter(
     </Route>
   )
 )
+
 function Route_layout(){
 return (
 <>
@@ -68,7 +69,17 @@ return (
       <div className="loading">
       <span className="loader"></span>
     </div>
-    <RouterProvider router={router}/>
+    <BrowserRouter basename='/index.html'>
+    <Routes>
+      <Route path='/' element={<Route_layout/>}>
+        <Route index element={<Home/>}/>
+        <Route path='listen' element={<ListenLayout/>}>
+        <Route path='audio' element={<Audio/>} />
+        </Route>
+      </Route>
+    </Routes>
+    </BrowserRouter>
+    {/* <RouterProvider router={router}/> */}
   </MyContext.Provider>
     </>
   )
