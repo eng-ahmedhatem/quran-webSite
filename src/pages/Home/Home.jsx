@@ -20,6 +20,7 @@ export default function Home() {
         setIsLoading(true)
 
     }
+
   return (
     <>
     <div className="row-1">

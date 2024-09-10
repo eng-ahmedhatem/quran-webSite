@@ -4,6 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import { useNavigate } from "react-router";
 import Section_header from "../../Component/Section_header/Section_header";
 import { Search_component } from "../../Component/Header/Header";
+
 import axios from "axios";
 function CardSlider({name , image , navigateAudio , data}){
     return(
@@ -36,8 +37,9 @@ export default memo(function Hero() {
     const [sorah, setSorah] = useState({})
     const [fillterSorah, setFillterSorah] = useState([])
     const [searchVal, setSearchVal] = useState("")
-    console.log("ahmed")
     useEffect(()=>{
+     
+      
         if(innerWidth < 768 && location.pathname == "/listen"){
           document.querySelector(".hero").style.cssText = `
             display: block;
@@ -63,7 +65,10 @@ export default memo(function Hero() {
       }
     },[sorah])
     function handelClick(e) {
-      if(innerWidth < 1600) hero.current.parentElement.parentElement.scrollIntoView({ behavior: "smooth" })
+      if(innerWidth < 1600) {
+        document.querySelector("main").scrollTop = 0  
+      }
+        // alert("")
       const state = {
         title:e.currentTarget.title,
         sorah_id:e.currentTarget.id,
@@ -73,7 +78,7 @@ export default memo(function Hero() {
       navigate("/listen/audio",{state : state})
     }
     let handelSearch = (e)=>{    
-      e.target.scrollIntoView({ behavior: "smooth" })
+      document.querySelector("main").scrollTop
       setSearchVal(val => val = e.target.value)
             const newData = sorah.map(ele => {
               if(ele.name.includes(e.target.value)){
@@ -156,7 +161,7 @@ customTransition={"transform 300ms linear"}
 </Carousel>
 </div>
 <div className="sorah">
-<Section_header title="السُور" />
+<Section_header title=" السُور " />
 <Search_component change={handelSearch} value={searchVal} id={"search-2"}/>
 <div className="cards">
 {sorah.length > 0 && fillterSorah}

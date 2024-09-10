@@ -9,20 +9,19 @@ header::after{
     content: "";
     position: absolute;
     top: 100%;
-    left: 5%;
+    left: 15px;
     animation: rotate infinite 2s linear alternate;
     width: 100px;
     height: 100px;
     background: url(/img/lamp.png) no-repeat  ;
     background-size: contain;
     z-index: 2;
-    /* background-color: #547634; */
 }
 header::before{
     content: "";
     position: absolute;
     top: 100%;
-    left: 7%;
+    left: 4%;
     width: 25px;
     filter: blur(5px);
     height: 10px;

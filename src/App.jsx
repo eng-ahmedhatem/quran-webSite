@@ -1,11 +1,14 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Header from "./Component/Header/Header"
-import React, { createContext, useEffect, useState } from "react"
+import React, { createContext, useEffect, useState ,useRef} from "react"
 import Nav from "./Component/Nav/Nav"
 import Main from "./Component/Main/main"
 import Footer from "./Component/Footer/Footer";
+import UseAnimations from "react-useanimations";
+import arrowUp from 'react-useanimations/lib/arrowUp';
 import { Home, ListenLayout  , Audio} from "./pages/Index";
+
 import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider, Routes } from 'react-router-dom';
 export const MyContext = createContext(null)
 export default function App() {
@@ -13,6 +16,8 @@ export default function App() {
   const [isLoading,setIsLoading] = useState(false)
   gsap.registerPlugin(useGSAP);
   useEffect(()=>{
+
+    // btn_scrollToTop.current.classList.add("showBtn")
     if (localStorage.getItem('them')) {
       setThem(localStorage.getItem("them"))
       return
@@ -56,6 +61,9 @@ return (
     <Main>
       <div className={isLoading ? "loading_section": "loading_section end"}>
       <span className="loader_section"></span>
+      </div>
+      <div className={`scrollTo_top`} >
+      <UseAnimations animation={arrowUp} size={56} />
       </div>
       <Outlet/>
     </Main>

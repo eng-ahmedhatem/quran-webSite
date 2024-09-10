@@ -33,8 +33,8 @@
     "foot foot";
 }
 body {
-  /* transition: background .3s linear; */
   background-color: var(--main-bg);
+  scroll-behavior: smooth;
 }
 body.dark {
   /* overflow: hidden; */
@@ -74,6 +74,22 @@ body.dark {
   width: 50%;
   height: 50px;
   border-radius: 50% 0;
+}
+.scrollTo_top {
+  background: var(--green-color);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: fixed;
+  cursor: pointer;
+  bottom: 8%;
+  left: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0);
+  transition: 0.3s linear;
+
 }
 a {
   text-decoration: none;
@@ -121,6 +137,9 @@ li {
   width: 48px;
   height: 48px;
   position: relative;
+}
+.showBtn {
+  transform: scale(1) !important;
 }
 .hidden {
   transform: scale(0) rotate(1turn);
