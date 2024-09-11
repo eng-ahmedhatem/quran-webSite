@@ -34,6 +34,7 @@
 body {
   background-color: var(--main-bg);
   scroll-behavior: smooth;
+  user-select: none;
 }
 body.dark {
   --main-bg: #1e1e1e;
@@ -208,6 +209,7 @@ li {
 /* loader_section  */
 .loading_section {
   /* display: none !important; */
+  transform-origin: center bottom;
   right: 0;
   top: 0;
   position: absolute;
@@ -218,9 +220,10 @@ li {
   align-items: center;
   z-index: 10;
   backdrop-filter: blur(10px);
-  transition: 0.5s;
+  transition: transform 0.5s;
 }
 .loading_section.end {
+  opacity: 0;
   transform: scale(0) !important;
 }
 .loader_section {

@@ -10,14 +10,15 @@
 .radio .cards {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
 }
-.radio .cards  .card{
+.radio .cards .card {
+  overflow: hidden;
   text-align: center;
   position: relative;
   background: var(--main-bg);
@@ -31,7 +32,7 @@
   align-items: center;
   z-index: 1;
 }
-.radio .cards  .card .live {
+.radio .cards .card .live {
   position: absolute;
   background: #1a1919;
   border-radius: 10px;
@@ -43,11 +44,11 @@
   align-items: center;
   color: #fff;
 }
-.radio .cards  .card .live span {
+.radio .cards .card .live span {
   display: inline-block;
   margin-left: 10px;
 }
-.radio .cards  .card .live  i::after {
+.radio .cards .card .live i::after {
   content: "";
   width: 100%;
   height: 100%;
@@ -56,55 +57,57 @@
   border-radius: 50%;
   position: absolute;
   background: rgb(255, 0, 0);
-  -webkit-animation:puff-out-center 1s cubic-bezier(.165,.84,.44,1.000) infinite both;animation:puff-out-center 1s cubic-bezier(.165,.84,.44,1.000) infinite both
+  -webkit-animation: puff-out-center 1s cubic-bezier(0.165, 0.84, 0.44, 1)
+    infinite both;
+  animation: puff-out-center 1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite both;
 }
-.radio .cards  .card .live  i{
+.radio .cards .card .live i {
   position: relative;
   width: 8px;
   border-radius: 50%;
   background: red;
   height: 8px;
 }
-.radio .cards  .card h2{
+.radio .cards .card h2 {
   color: var(--main-text-color);
   font-size: 18px;
   width: 80%;
   line-height: 1.5;
   position: relative;
 }
-.radio .cards  .card h2::after {
+.radio .cards .card h2::after {
   content: "";
   position: absolute;
   bottom: -65px;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("../../../public/img/line-black.png") ;
+  background-image: url("/img/line-black.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size:cover;
+  background-size: cover;
 }
-.radio .cards  .card::before,
-.radio .cards  .card::after {
+.radio .cards .card::before,
+.radio .cards .card::after {
   content: "";
   position: absolute;
   z-index: -1;
   width: 30%;
   height: 100%;
-  background-image: url("../../../public/img/corner.png") ;
+  background-image: url("/img/corner.png");
   background-repeat: no-repeat;
-  background-size:cover;
+  background-size: cover;
   background-position: center;
   opacity: 0.1;
 }
-body.dark .radio .cards  .card::before,
-body.dark .radio .cards  .card::after {
+body.dark .radio .cards .card::before,
+body.dark .radio .cards .card::after {
   opacity: 1;
 }
-.radio .cards  .card::before {
+.radio .cards .card::before {
   left: 0;
 }
-.radio .cards  .card::after {
+.radio .cards .card::after {
   top: 0;
   right: 0;
   transform: rotate(-180deg);
@@ -112,20 +115,30 @@ body.dark .radio .cards  .card::after {
 }
 .radio .audio-ui {
   margin-bottom: 20px;
-  width: 80%;
-background: transparent !important;
+  width: 50%;
+  background: transparent !important;
   position: fixed;
   bottom: 60px;
   z-index: 5;
-  right: 50%;
-  transform: translateX(50%);
+  left: 47.5%;
+  transform: translate(-50%,100px);
+  height: max-content;
+  transition: .3s;
+
 }
-  .radio .audio-ui > div  {
-    background: rgba(131, 125, 125, 0.315);
-    box-shadow: 0 2px 20px 0 rgba(76, 77, 90, 0.37);
-    backdrop-filter: blur( 20px );
-    -webkit-backdrop-filter: blur( 20px );
-    border-radius: 10px;
-    border:none;
-backdrop-filter: blur( 3px );
-  }
+.radio .audio-ui > div {
+  background: rgba(131, 125, 125, 0);
+  box-shadow: 0 2px 20px 0 rgb(76, 77, 90);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: none;
+  backdrop-filter: blur(3px);
+}
+
+.radio .audio-ui .title{
+  color: var(--main-text-color);
+}
+.radio .audio-ui .writer{
+  display: none;
+}

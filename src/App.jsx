@@ -8,7 +8,7 @@ import Footer from "./Component/Footer/Footer";
 import UseAnimations from "react-useanimations";
 import arrowUp from 'react-useanimations/lib/arrowUp';
 import { Home, ListenLayout  , Audio} from "./pages/Index";
-
+import Tv from "./pages/Tv/Tv";
 import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider, Routes } from 'react-router-dom';
 import Radio from "./pages/Radio/Radio";
 export const MyContext = createContext(null)
@@ -86,6 +86,7 @@ return (
         <Route path='audio' element={<Audio/>} />
         </Route>
         <Route path='radio' element={<Radio/>} />
+        <Route path='tv' element={<Tv/>} />
       </Route>
     </Routes>
     </BrowserRouter>

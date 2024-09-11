@@ -34,7 +34,7 @@ export default function Home() {
         <div  data-state="new" className="card radio-homePage" onClick={()=> Handel_transform("radio")}>
             <h2>الراديو</h2>
         </div>
-        <div  data-state="soon" className="card tv">
+        <div  data-state="new" className="card tv" onClick={()=> Handel_transform("tv")}>
             <h2>تلفزيون مباشر</h2>
         </div>
         <div data-state="soon" className="card salah-time">

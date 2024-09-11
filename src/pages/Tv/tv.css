@@ -1,0 +1,67 @@
+.tv .tv-content{
+  display: flex;
+  flex-direction: column;
+
+}
+.tv .tv-content .cards{
+  display: flex;
+gap: 20px;
+flex-wrap: wrap;
+}
+.tv .tv-content .video .loading_section {
+  transform-origin: center center;
+width: 90%;
+
+}
+
+.tv .tv-content .video  {
+  position: relative;
+  overflow: hidden;
+  transition: .5s ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.tv .tv-content .video iframe {
+  border-radius: 30px;
+  width: 80%;
+  height: 600px;
+}
+.tv .tv-content .cards .card{
+  background: var(--main-bg);
+  border-radius: 10px;
+  color: var(--main-text-color);
+  cursor: pointer;
+  padding: 20px;
+  transition: .3s;
+
+}
+.tv .tv-content .cards .card.active {
+  outline: 2px solid var(--green-text-color);
+}
+.tv .tv-content .cards .card:hover {
+  transform: scale(1.1);
+}
+@media (max-width:800px) {
+  .tv .tv-content .video iframe {
+    width: 100%;
+  }
+  .tv .tv-content .cards {
+    justify-content: center;
+    align-items: center;
+
+  }
+  .tv .tv-content .cards .card{
+    padding: 10px;
+  }
+  .tv .tv-content .cards .card span {
+    font-size: 14px;
+
+  }
+  .tv .tv-content .video .loading_section {
+  width: 100%;
+
+  }
+}

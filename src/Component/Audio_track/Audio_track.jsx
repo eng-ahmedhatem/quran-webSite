@@ -6,11 +6,13 @@ if(from_radio){
   audioUi = {
     all: "all",
               progress: false,
-              trackInfo: false,
+              trackInfo: true,
               playList: false,
               prevNnext: false,
               repeatType:false,
-              trackTime:false
+              trackTime:false,
+
+              artwork:true
   }
 }else {
     audioUi = {

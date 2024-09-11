@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Section_header from "../../Component/Section_header/Section_header";
 import axios from "axios";
 import "./radio.css";
 import Audio_track from "../../Component/Audio_track/Audio_track";
 export default function Radio() {
   const [data, setData] = useState([]);
-  const [serverAudio, setServerAudio] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const audio_ui = useRef(null)
   useEffect(() => {
     async function getData() {
       axios
         .get("https://data-rosy.vercel.app/radio.json")
         .then((res) => {
-          setData((prev) => (prev = res.data.radios));
           const moreData = [
             {
               id: "25",
@@ -43,51 +43,53 @@ export default function Radio() {
               recent_date: "2023-12-02 14:42:00",
             },
             {
-              id: 18,
+              id: 180,
               name: "إذاعة سعود الشريم",
               url: "https://backup.qurango.net/radio/saud_alshuraim",
-              recent_date: "2020-04-25 16:04:04"
+              recent_date: "2020-04-25 16:04:04",
             },
             {
               id: 115,
               name: "إذاعة-سورة البقرة  لعدد من القراء",
               url: "https://backup.qurango.net/radio/albaqarah",
-              recent_date: "2020-04-25 16:04:05"
+              recent_date: "2020-04-25 16:04:05",
             },
             {
               id: 113,
               name: "إذاعة الفتاوى العامة",
               url: "https://backup.qurango.net/radio/fatwa",
-              recent_date: "2020-06-26 20:39:55"
+              recent_date: "2020-06-26 20:39:55",
             },
             {
               id: 109061,
               name: "فضل شهر رمضان",
               url: "https://backup.qurango.net/radio/ramadan",
-              recent_date: "2024-04-12 23:33:01"
+              recent_date: "2024-04-12 23:33:01",
             },
             {
               id: 10907,
               name: "أذكار المساء",
               url: "https://backup.qurango.net/radio/athkar_masa",
-              recent_date: "2021-08-27 06:49:07"
+              recent_date: "2021-08-27 06:49:07",
             },
             {
               id: 10902,
               name: "آيات السكينة",
               url: "https://backup.qurango.net/radio/sakeenah",
-              recent_date: "2020-07-17 08:39:15"
+              recent_date: "2020-07-17 08:39:15",
             },
             {
               id: 10903,
               name: "---إذاعة صور من حياة الصحابة والتابعين رضوان الله عليهم---",
               url: "https://backup.qurango.net/radio/sahabah",
-              recent_date: "2020-07-17 08:40:45"
+              recent_date: "2020-07-17 08:40:45",
             },
           ];
-          setData((prev) => (prev = [...prev, ...moreData]));
-
-          sessionStorage.setItem("radio", JSON.stringify(res.data.radios));
+          setData((prev) => (prev = [...res.data.radios, ...moreData]));
+          sessionStorage.setItem(
+            "radio",
+            JSON.stringify([...res.data.radios, ...moreData])
+          );
         })
         .catch((error) => console.log(error));
     }
@@ -97,26 +99,34 @@ export default function Radio() {
       getData();
     }
   }, []);
+  const [playList, setPlayList] = useState();
   function handelClick(ele) {
-    setServerAudio(ele.url);
+    audio_ui.current.style.cssText = "  transform: translate(-50%,0);"
+    setIsLoading(true);
+    setPlayList([
+      {
+        name: ele.name,
+        writer: "text",
+        img: "text",
+        src: ele.url,
+        id: 1,
+      },
+    ]);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
   }
-
-  const playList = [
-    {
-      name: "name",
-      writer: "writer",
-      img: "image.jpg",
-      src: serverAudio,
-      id: 1,
-    },
-  ];
-  console.log(data);
   return (
     <div className="radio">
       <Section_header title={"المحطاط المتاحة"} />
       <div className="content-audio">
-        <div className="audio-ui">
-          {serverAudio && (
+        <div className="audio-ui" ref={audio_ui}>
+          <div
+            className={isLoading ? "loading_section" : "loading_section end"}
+          >
+            <span className="loader_section"></span>
+          </div>
+          {!isLoading && (
             <Audio_track thePlayList={playList} from_radio={true} />
           )}
         </div>
