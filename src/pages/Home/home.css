@@ -18,6 +18,31 @@
     cursor: pointer;
     color: var(--main-text-color);
 }
+.row-1 .cards .card[data-state="new"]::before,
+.row-1 .cards .card[data-state="soon"]::before
+{
+  content: "جديد";
+  position: absolute;
+  display: inline-block;
+  background: green;
+  padding:5px 20px;
+  top: 0;
+  right: 0;
+  border-radius: 10px;
+  animation: shake-right 0.7s infinite cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+  animation-delay: 2s !important;
+}
+.row-1 .cards .card[data-state="soon"]::before {
+content: "قريبا....";
+animation: none;
+background: #7777;
+}
+.row-1 .cards .card[data-state="soon"] {
+  /* pointer-events: none; */
+  opacity: 0.5;
+  cursor: no-drop;
+
+}
 .row-1 .cards .card h2 {
     font-size: var(--main-font-s);
 }
@@ -29,9 +54,11 @@
     content: "";
     position: absolute;
     z-index: -1;
+    top: 50%;
+    transform: translateY(-50%);
     left: 5%;
     background-repeat: no-repeat;
-        width: 100px;
+        width: 110px;
         background-size: contain !important;
         background-repeat: no-repeat !important;
     height: 110px;
@@ -45,10 +72,12 @@
 .row-1 .cards .card.reade::after {
     background: url(/img/moshaf.png);
     background-size: cover;
+    top: 65%;
 }
-.row-1 .cards .card.radio::after {
+.row-1 .cards .card.radio-homePage::after {
     background: url(/img/radio.png);
     background-size: cover;
+    top: 65%;
 }
 .row-1 .cards .card.tv::after {
     background: url(/img/tv.png) no-repeat ;
@@ -56,9 +85,11 @@
 }
 .row-1 .cards .card.salah-time::after {
     background: url(/img/salah-time.png) no-repeat ;
-    background-size: contain; 
+    background-size: contain;
     height: 120px;
+    top: 65%;
 }
+@-webkit-keyframes shake-right{0%,100%{-webkit-transform:rotate(0deg);transform:rotate(0deg);-webkit-transform-origin:100% 50%;transform-origin:100% 50%}10%{-webkit-transform:rotate(2deg);transform:rotate(2deg)}20%,40%,60%{-webkit-transform:rotate(-4deg);transform:rotate(-4deg)}30%,50%,70%{-webkit-transform:rotate(4deg);transform:rotate(4deg)}80%{-webkit-transform:rotate(-2deg);transform:rotate(-2deg)}90%{-webkit-transform:rotate(2deg);transform:rotate(2deg)}}@keyframes shake-right{0%,100%{-webkit-transform:rotate(0deg);transform:rotate(0deg);-webkit-transform-origin:100% 50%;transform-origin:100% 50%}10%{-webkit-transform:rotate(2deg);transform:rotate(2deg)}20%,40%,60%{-webkit-transform:rotate(-4deg);transform:rotate(-4deg)}30%,50%,70%{-webkit-transform:rotate(4deg);transform:rotate(4deg)}80%{-webkit-transform:rotate(-2deg);transform:rotate(-2deg)}90%{-webkit-transform:rotate(2deg);transform:rotate(2deg)}}
 @media (min-width:820px) and (max-width:1180px) {
     .row-1 .cards{
         grid-template-columns: repeat(auto-fill,minmax(200px,320px));
@@ -75,8 +106,8 @@
         padding: 15px;
     }
     .row-1 .cards{
-        width: 100%; 
-        grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); 
+        width: 100%;
+        grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
     }
     .row-1 .cards .card{
         padding:0 10px;

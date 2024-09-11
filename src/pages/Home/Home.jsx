@@ -8,17 +8,16 @@ export default function Home() {
     const [,,isLoading,setIsLoading]= useContext(MyContext)
     const navigate = useNavigate()
     useEffect(() => {
-        if (isLoading) {            
+        if (isLoading) {
             setTimeout(()=>{
                 navigate(targetLink)
                 setIsLoading(false)
             },200)
         }
     }, [isLoading])
-    function Handel_transform(link) {  
-        targetLink = link 
+    function Handel_transform(link) {
+        targetLink = link
         setIsLoading(true)
-
     }
 
   return (
@@ -26,19 +25,19 @@ export default function Home() {
     <div className="row-1">
     <Section_header title="الأقسام المتاحة"/>
     <div className="cards">
-        <div className="card listen" onClick={()=> Handel_transform("listen")}>
+        <div  data-state="new" className="card listen" onClick={()=> Handel_transform("listen")}>
             <h2>اللاستــمـاع</h2>
         </div>
-        <div className="card reade" >
+        <div  data-state="soon" className="card reade" >
             <h2>القــراءة</h2>
         </div>
-        <div className="card radio">
+        <div  data-state="new" className="card radio-homePage" onClick={()=> Handel_transform("radio")}>
             <h2>الراديو</h2>
         </div>
-        <div className="card tv">
+        <div  data-state="soon" className="card tv">
             <h2>تلفزيون مباشر</h2>
         </div>
-        <div className="card salah-time">
+        <div data-state="soon" className="card salah-time">
             <h2>مواقيت الصلاة</h2>
         </div>
     </div>

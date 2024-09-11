@@ -38,8 +38,8 @@ export default memo(function Hero() {
     const [fillterSorah, setFillterSorah] = useState([])
     const [searchVal, setSearchVal] = useState("")
     useEffect(()=>{
-     
-      
+
+
         if(innerWidth < 768 && location.pathname == "/listen"){
           document.querySelector(".hero").style.cssText = `
             display: block;
@@ -61,12 +61,12 @@ export default memo(function Hero() {
     },[])
     useEffect(()=>{
       if(sorah.length > 0){
-         setFillterSorah(prev => prev = sorah.map(ele => <Sorah_card transform={handelClick} key={ele.number} sorahId={ele.number} title={ele.name} ayaCount={ele.numberOfAyahs} theClass={"show"}/>))
+        setFillterSorah(prev => prev = sorah.map(ele => <Sorah_card transform={handelClick} key={ele.number} sorahId={ele.number} title={ele.name} ayaCount={ele.numberOfAyahs} theClass={"show"}/>))
       }
     },[sorah])
     function handelClick(e) {
       if(innerWidth < 1600) {
-        document.querySelector("main").scrollTop = 0  
+        document.querySelector("main").scrollTop = 0
       }
         // alert("")
       const state = {
@@ -77,7 +77,7 @@ export default memo(function Hero() {
       }
       navigate("/listen/audio",{state : state})
     }
-    let handelSearch = (e)=>{    
+    let handelSearch = (e)=>{
       document.querySelector("main").scrollTop
       setSearchVal(val => val = e.target.value)
             const newData = sorah.map(ele => {
@@ -86,7 +86,7 @@ export default memo(function Hero() {
               }
               return <Sorah_card key={ele.number}  transform={handelClick} sorahId={ele.number} title={ele.name} ayaCount={ele.numberOfAyahs} theClass={"hidden"}/>
             })
-            setFillterSorah(newData)  
+            setFillterSorah(newData)
     }
       const data = [
         {title:"سُورَةُ ٱلْفَاتِحَةِ",fromSlider:true,sorah_id:1,id:112,ro:112,name:"محمد صديق المنشاوي",img:"/img/المنشاوي.jpg"},

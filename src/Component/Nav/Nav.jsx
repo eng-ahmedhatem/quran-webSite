@@ -5,6 +5,7 @@ import { FaHome } from "react-icons/fa";
 import {  NavLink } from "react-router-dom";
 import { FaHeadphones } from "react-icons/fa";
 import { FaBookReader } from "react-icons/fa";
+import { FaRadio } from "react-icons/fa6";
 
 export default function Nav() {
   const [them, setThem] = useContext(MyContext);
@@ -34,6 +35,11 @@ export default function Nav() {
           <i><FaBookReader />
           </i>
         </a>
+        <NavLink to={"radio"}>
+          <i>
+            <FaRadio />{" "}
+          </i>
+        </NavLink>
       </div>
       <div className="mode">
         <img

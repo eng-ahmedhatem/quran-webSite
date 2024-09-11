@@ -10,6 +10,7 @@ import arrowUp from 'react-useanimations/lib/arrowUp';
 import { Home, ListenLayout  , Audio} from "./pages/Index";
 
 import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider, Routes } from 'react-router-dom';
+import Radio from "./pages/Radio/Radio";
 export const MyContext = createContext(null)
 export default function App() {
   const [them,setThem] = useState(null)
@@ -28,7 +29,7 @@ document.body.classList = them
   useGSAP(
     () => {
         // gsap code here...
-        gsap.to('.loading', { 
+        gsap.to('.loading', {
           delay:0,
           scale :0,
           duration: .3,
@@ -56,7 +57,7 @@ const router = createBrowserRouter(
 function Route_layout(){
 return (
 <>
-<Header/> 
+<Header/>
     <Nav/>
     <Main>
       <div className={isLoading ? "loading_section": "loading_section end"}>
@@ -84,6 +85,7 @@ return (
         <Route path='listen' element={<ListenLayout/>}>
         <Route path='audio' element={<Audio/>} />
         </Route>
+        <Route path='radio' element={<Radio/>} />
       </Route>
     </Routes>
     </BrowserRouter>
