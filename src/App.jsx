@@ -3,7 +3,7 @@ import gsap from "gsap";
 import Header from "./Component/Header/Header"
 import React, { createContext, useEffect, useState ,useRef} from "react"
 import Nav from "./Component/Nav/Nav"
-import Main from "./Component/Main/main"
+import Main from "./Component/Main/Main"
 import Footer from "./Component/Footer/Footer";
 import UseAnimations from "react-useanimations";
 import arrowUp from 'react-useanimations/lib/arrowUp';
@@ -40,7 +40,7 @@ document.body.classList = them
           }
         });
 
-        
+
     },
     { scope: "body" }
 ); // <-- scope is for selector text (optional)
