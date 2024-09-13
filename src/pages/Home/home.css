@@ -1,120 +1,196 @@
-.row-1 .cards{
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(200px,350px));
-    gap: 20px;
+.row-1 .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 350px));
+  gap: 20px;
 }
-.row-1 .cards .card{
-    position: relative;
-    z-index: 1;
-    background-color: var(--main-bg);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    height: 150px;
-    padding:0 20px;
-    box-shadow: var(--box-shadow)  0px 5px 15px;
-    transition: transform 0.5s ease-in-out  ;
-    width: 310px;
-    cursor: pointer;
-    color: var(--main-text-color);
+.row-1 .cards .card {
+  /* overflow: hidden; */
+  background-color: var(--main-bg);
+  border-radius: 10px;
+  height: 150px;
+  box-shadow: var(--box-shadow) 0px 5px 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  /* background-image: linear-gradient(to top, #00ff557c 0%, #330867 100%); */
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
 }
-.row-1 .cards .card[data-state="new"]::before,
-.row-1 .cards .card[data-state="soon"]::before
-{
+.row-1 .cards .card .card-content {
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  background: var(--main-bg);
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+
+}
+.row-1 .cards .card[data-state="new"] .card-content::before,
+.row-1 .cards .card[data-state="soon"] .card-content::before {
   content: "جديد";
   position: absolute;
   display: inline-block;
   background: green;
-  padding:5px 20px;
+  padding: 5px 20px;
+  color: #fff;
   top: 0;
   right: 0;
   border-radius: 10px;
-  animation: shake-right 0.7s infinite cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+  animation: shake-right 0.7s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955)
+    both;
   animation-delay: 2s !important;
 }
-.row-1 .cards .card[data-state="soon"]::before {
-content: "قريبا....";
-animation: none;
-background: #7777;
+.row-1 .cards .card[data-state="soon"] .card-content::before {
+  content: "قريبا....";
+  animation: none;
+  background: #7777;
 }
 .row-1 .cards .card[data-state="soon"] {
   /* pointer-events: none; */
   opacity: 0.5;
   cursor: no-drop;
-
 }
-.row-1 .cards .card h2 {
-    font-size: var(--main-font-s);
+.row-1 .cards .card .card-content h2 {
+  font-size: var(--main-font-s);
+  color: var(--main-text-color);
 }
 .row-1 .cards .card:hover {
-    transform: scale(1.01);
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.3);
+  border-radius: 20px;
 }
-.row-1 .cards .card::after{
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 5%;
-    background-repeat: no-repeat;
-        width: 110px;
-        background-size: contain !important;
-        background-repeat: no-repeat !important;
-    height: 110px;
+.row-1 .cards .card:hover .card-content {
+  transform: scale(0.98);
+  border-radius: 20px;
+  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
 }
-.row-1 .cards .card.listen::after {
-    background: url(/img/listen.png);
-    background-size: cover;
-    width: 100px;
-    height: 100px;
+.row-1 .cards .card .card-content::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5%;
+  background-repeat: no-repeat;
+  width: 110px;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  height: 110px;
 }
-.row-1 .cards .card.reade::after {
-    background: url(/img/moshaf.png);
-    background-size: cover;
-    top: 65%;
+.row-1 .cards .card .card-content.listen::after {
+  background: url(/img/listen.png);
+  background-size: cover;
+  width: 100px;
+  height: 100px;
 }
-.row-1 .cards .card.radio-homePage::after {
-    background: url(/img/radio.png);
-    background-size: cover;
-    top: 65%;
+.row-1 .cards .card .card-content.reade::after {
+  background: url(/img/moshaf.png);
+  background-size: cover;
+  top: 65%;
 }
-.row-1 .cards .card.tv::after {
-    background: url(/img/tv.png) no-repeat ;
-    background-size: contain;
+.row-1 .cards .card .card-content.radio-homePage::after {
+  background: url(/img/radio.png);
+  background-size: cover;
+  top: 65%;
 }
-.row-1 .cards .card.salah-time::after {
-    background: url(/img/salah-time.png) no-repeat ;
-    background-size: contain;
-    height: 120px;
-    top: 65%;
+.row-1 .cards .card .card-content.tv::after {
+  background: url(/img/tv.png) no-repeat;
+  background-size: contain;
 }
-@-webkit-keyframes shake-right{0%,100%{-webkit-transform:rotate(0deg);transform:rotate(0deg);-webkit-transform-origin:100% 50%;transform-origin:100% 50%}10%{-webkit-transform:rotate(2deg);transform:rotate(2deg)}20%,40%,60%{-webkit-transform:rotate(-4deg);transform:rotate(-4deg)}30%,50%,70%{-webkit-transform:rotate(4deg);transform:rotate(4deg)}80%{-webkit-transform:rotate(-2deg);transform:rotate(-2deg)}90%{-webkit-transform:rotate(2deg);transform:rotate(2deg)}}@keyframes shake-right{0%,100%{-webkit-transform:rotate(0deg);transform:rotate(0deg);-webkit-transform-origin:100% 50%;transform-origin:100% 50%}10%{-webkit-transform:rotate(2deg);transform:rotate(2deg)}20%,40%,60%{-webkit-transform:rotate(-4deg);transform:rotate(-4deg)}30%,50%,70%{-webkit-transform:rotate(4deg);transform:rotate(4deg)}80%{-webkit-transform:rotate(-2deg);transform:rotate(-2deg)}90%{-webkit-transform:rotate(2deg);transform:rotate(2deg)}}
-@media (min-width:820px) and (max-width:1180px) {
-    .row-1 .cards{
-        grid-template-columns: repeat(auto-fill,minmax(200px,320px));
-    }
-    .row-1 .cards .card{
-        padding:0 10px;
-    }
-    .row-1 .cards .card::after{
-        left: 1%;
-    }
+.row-1 .cards .card .card-content.salah-time::after {
+  background: url(/img/salah-time.png) no-repeat;
+  background-size: contain;
+  height: 120px;
+  top: 65%;
 }
-@media (max-width:768px) {
-    main{
-        padding: 15px;
-    }
-    .row-1 .cards{
-        width: 100%;
-        grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
-    }
-    .row-1 .cards .card{
-        padding:0 10px;
-        width: 95%;
-    }
-    .row-1 .cards .card::after{
-        left: 1%;
-        padding: 0 10px;
-    }
+@-webkit-keyframes shake-right {
+  0%,
+  100% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
   }
+  10% {
+    -webkit-transform: rotate(2deg);
+    transform: rotate(2deg);
+  }
+  20%,
+  40%,
+  60% {
+    -webkit-transform: rotate(-4deg);
+    transform: rotate(-4deg);
+  }
+  30%,
+  50%,
+  70% {
+    -webkit-transform: rotate(4deg);
+    transform: rotate(4deg);
+  }
+  80% {
+    -webkit-transform: rotate(-2deg);
+    transform: rotate(-2deg);
+  }
+  90% {
+    -webkit-transform: rotate(2deg);
+    transform: rotate(2deg);
+  }
+}
+@keyframes shake-right {
+  0%,
+  100% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+  }
+  10% {
+    -webkit-transform: rotate(2deg);
+    transform: rotate(2deg);
+  }
+  20%,
+  40%,
+  60% {
+    -webkit-transform: rotate(-4deg);
+    transform: rotate(-4deg);
+  }
+  30%,
+  50%,
+  70% {
+    -webkit-transform: rotate(4deg);
+    transform: rotate(4deg);
+  }
+  80% {
+    -webkit-transform: rotate(-2deg);
+    transform: rotate(-2deg);
+  }
+  90% {
+    -webkit-transform: rotate(2deg);
+    transform: rotate(2deg);
+  }
+}
+@media (min-width: 821px) and (max-width: 1180px) {
+  .row-1 .cards {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 320px));
+  }
+
+  .row-1 .cards .card::after {
+    left: 1%;
+  }
+}
+@media (max-width: 820px) {
+  main {
+    padding: 15px;
+  }
+  .row-1 .cards {
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+
+  .row-1 .cards .card::after {
+    left: 1%;
+    padding: 0 10px;
+  }
+}

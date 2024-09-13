@@ -15,10 +15,12 @@ export default memo( function Main({children , btnTotop}) {
         }
       });
 },[])
+
   return (
     <main id="main">
+
       <div className='content'>
-        {children}        
+        {children}
       </div>
     </main>
   )

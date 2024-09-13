@@ -27,7 +27,8 @@ width: 90%;
 .tv .tv-content .video iframe {
   border-radius: 30px;
   width: 80%;
-  height: 600px;
+  height: 500px;
+  object-fit: cover;
 }
 .tv .tv-content .cards .card{
   background: var(--main-bg);

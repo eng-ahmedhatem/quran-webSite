@@ -56,7 +56,6 @@
     filter: grayscale(0);
     transform: rotate(5deg) scale(1.2);
 }
-/* react-multiple-carousel__arrow react-multiple-carousel__arrow--right  */
 .react-multiple-carousel__arrow::before {
     color: var(--main-text-color) !important;
 }
@@ -70,6 +69,7 @@
     right: 0 !important;
     display: inline-block !important;
     transition: color 300ms !important;
+    z-index: 1 !important;
 }
 
 .react-multiple-carousel__arrow:hover {
@@ -111,8 +111,12 @@
    width: 100%;
 }
 .sorah .search{
+  width: 550px;
     margin: 0 auto;
     margin-bottom: 30px;
+} 
+.sorah .search input{
+  width: 300px;
 }
 
 .sorah .cards{
@@ -172,6 +176,7 @@
 }
 /* auido  */
 .Audio{
+    box-sizing: content-box;
     margin-bottom: 60px;
     padding: 50px;
     background: var(--main-bg);
@@ -181,7 +186,9 @@
     height: 370px;
     align-items: center;
     flex-direction: column;
-    background-image: linear-gradient(to top, #00ff557c 0%, #330867 100%);
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+
+
 }
 .Audio h2 {
     color: #ffffff;
@@ -242,7 +249,7 @@
     height: 70px;
 }
 .audio-ui > div{
-    margin-top: -11px;
+    margin-top: 11px;
     border-radius: 50px;
     position: relative !important;
     --rm-audio-player-interface-container:transparent;

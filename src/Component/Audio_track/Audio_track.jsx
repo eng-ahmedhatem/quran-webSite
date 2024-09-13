@@ -17,7 +17,7 @@ if(from_radio){
 }else {
     audioUi = {
       all: "all",
-                progress: "waveform",
+                progress: "bar",
                 trackInfo: false,
                 playList: false,
                 prevNnext: false,

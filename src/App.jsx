@@ -17,7 +17,6 @@ export default function App() {
   const [isLoading,setIsLoading] = useState(false)
   gsap.registerPlugin(useGSAP);
   useEffect(()=>{
-
     // btn_scrollToTop.current.classList.add("showBtn")
     if (localStorage.getItem('them')) {
       setThem(localStorage.getItem("them"))
@@ -40,6 +39,8 @@ document.body.classList = them
             amount: 0.1
           }
         });
+
+        
     },
     { scope: "body" }
 ); // <-- scope is for selector text (optional)

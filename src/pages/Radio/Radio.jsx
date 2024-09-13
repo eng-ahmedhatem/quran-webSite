@@ -6,7 +6,7 @@ import Audio_track from "../../Component/Audio_track/Audio_track";
 export default function Radio() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const audio_ui = useRef(null)
+  const audio_ui = useRef(null);
   useEffect(() => {
     async function getData() {
       axios
@@ -101,7 +101,7 @@ export default function Radio() {
   }, []);
   const [playList, setPlayList] = useState();
   function handelClick(ele) {
-    audio_ui.current.style.cssText = "  transform: translate(-50%,0);"
+    audio_ui.current.style.cssText = "  transform: translate(-50%,0);";
     setIsLoading(true);
     setPlayList([
       {
@@ -118,7 +118,7 @@ export default function Radio() {
   }
   return (
     <div className="radio">
-      <Section_header title={"المحطاط المتاحة"} />
+      <Section_header title={"المحطات المتاحة"} />
       <div className="content-audio">
         <div className="audio-ui" ref={audio_ui}>
           <div

@@ -119,7 +119,7 @@ header .logo h2 {
     }
     .search input{
 
-        width: 150px;
+        width: 100%;
     }
     header .container .logo
      {
