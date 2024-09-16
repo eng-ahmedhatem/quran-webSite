@@ -126,26 +126,37 @@ body.dark .radio .cards .card::after {
   height: max-content;
   transition: .3s ease-in-out;
 }
+
 .radio .audio-ui > div {
-  background: rgba(131, 125, 125, 0);
+  background: rgba(77, 73, 73, 0.301);
   box-shadow: 0 2px 20px 0 rgb(76, 77, 90);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
   border: none;
   backdrop-filter: blur(3px);
+  width: 100%;
+}
+.radio .audio-ui > div .interface-grid div:empty {
+  display: none !important;
+
 }
 
 .radio .audio-ui .title{
   color: var(--main-text-color);
+  width: fit-content;
+  display: inline-block;
 }
 .radio .audio-ui .writer{
   display: none;
 }
 @media (max-width:768px) {
   .radio .audio-ui {
-    width: 60%;
+    width: 70%;
+    left: 52%;
+  }
+  .radio .audio-ui > div .sc-cwHptR{
+    justify-content: center;
 
   }
-
 }

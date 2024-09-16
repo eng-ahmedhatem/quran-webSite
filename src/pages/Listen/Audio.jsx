@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import { useLocation } from "react-router";
 import axios from "axios";
 import { memo } from "react";
@@ -98,45 +104,66 @@ export default memo(function Audio() {
         <h2>{location.state.title && location.state.title}</h2>
       </div>
 
-      <select
-        value={inputsSelect.userId}
-        name=""
-        onChange={(event) => {
-          setInputsSelect(
-            (prev) => (prev = { ...prev, userId: event.target.value })
-          );
-          setInputsSelect((prev) => (prev = { ...prev, reway: "" }));
-          setServerAdio("");
-        }}
-      >
-        <option key={10201} value="j" disabled>
-          اختر القارئ
-        </option>
-        {reader.length > 0 &&
+      <Box className={"audio-select"} fullWidth style ={{minWidth:"100%",direction:"rtl",marginBottom:"20px"}} >
+      <FormControl fullWidth style ={{direction:"rtl"}}>
+        <InputLabel         className="audio-label" style={{color:"#fff",fontFamily:"Readex-light"}} id="select-reader">أختر القارئ</InputLabel>
+        <Select
+        className="audio-select"
+        style={{color:"#fff",fontFamily:"Readex-light"}}
+          labelId="select-reader"
+          id="theReader"
+          value={inputsSelect.userId}
+          label="أختر القارئ"
+          onChange={(event) => {
+            setInputsSelect(
+              (prev) => (prev = { ...prev, userId: event.target.value })
+            );
+            setInputsSelect((prev) => (prev = { ...prev, reway: "" }));
+            setServerAdio("");
+          }}
+        >
+          {reader.length > 0 &&
           reader.map((pharson) => (
-            <option key={pharson.id} value={pharson.id}>
+            <MenuItem style ={{fontFamily:"Readex-light",fontSize:"14px"}} key={pharson.id} value={pharson.id}>
               {pharson.name}
-            </option>
+            </MenuItem>
           ))}
-      </select>
-      <select
-        onChange={(event) => {
-          setInputsSelect(
-            (prev) => (prev = { ...prev, reway: event.target.value })
-          );
-        }}
-        value={inputsSelect.reway ? inputsSelect.reway : "s"}
-      >
-        <option key={10200} disabled value={"s"}>
-          اختر الرواية
-        </option>
-        {rewaya.length > 0 &&
+
+        </Select>
+      </FormControl>
+    </Box>
+      <Box className={"audio-select"} fullWidth style ={{minWidth:"100%",direction:"rtl"}} >
+      <FormControl fullWidth style ={{direction:"rtl",color:"#fff"}}>
+        <InputLabel
+              className="audio-label"
+  style ={{direction:"rtl",color:"#fff",fontFamily:"Readex-light"}} id="select-rewaya">اختر الرواية</InputLabel>
+        <Select
+        className="audio-select"
+        style ={{direction:"rtl",color:"#fff",fontFamily:"Readex-light"}}
+          labelId="select-rewaya"
+          id="the rewaya"
+          label="أختر الرواية"
+          onChange={(event) => {
+            setInputsSelect(
+              (prev) => (prev = { ...prev, reway: event.target.value })
+            );
+          }}
+          // ? inputsSelect.reway : "s"
+          value={inputsSelect.reway }
+        >
+          {rewaya.length > 0 &&
           rewaya.sort().map((rewaya) => (
-            <option key={rewaya.id} value={rewaya.id}>
+            <MenuItem style ={{fontFamily:"Readex-light",fontSize:"14px"}} key={rewaya.id} value={rewaya.id}>
               {rewaya.name}
-            </option>
+            </MenuItem>
           ))}
-      </select>
+
+
+
+        </Select>
+      </FormControl>
+    </Box>
+
       <a href={serverAudio} download>
         <img src={"/img/downloadBtn.png"} alt="downloadBtn.png" />
       </a>

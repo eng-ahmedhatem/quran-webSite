@@ -139,6 +139,7 @@ export default function Radio() {
                   onClick={() => handelClick(ele)}
                   key={ele.id}
                   className="card"
+
                 >
                   <div className="live">
                     <span>مباشر</span>
