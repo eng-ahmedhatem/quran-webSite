@@ -1,0 +1,168 @@
+main .content {
+  height: 100%;
+  min-height: 100%;
+  max-height: max-content;
+}
+
+.Timing {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-between;
+}
+
+.Timing::before {
+  content: "";
+  position: absolute;
+  width: calc(100% + 60px);
+  top: -20px;
+  right: -30px;
+  height: calc(100% + 40px);
+  background: url("/img/timing/img-3.jpg") no-repeat;
+  background-position: center ;
+  background-size: cover;
+  opacity: .9;
+  filter:  blur(15px);
+  z-index: -1;
+  /* filter: grayscale(80%); */
+
+}
+
+.Timing .row-1 {
+  background-size: cover;
+  position: relative;
+  flex-basis: 60%;
+  /* height: 60%; */
+}
+
+.Timing .row-1 .text-day {
+  width: 130px;
+  color: var(--main-text-color);
+
+}
+
+.Timing .row-1 .text-day h4 {
+  font-weight: bold;
+  font-size: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+
+}
+
+.Timing .row-1 .text-day p {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Timing .row-1 .text-location {
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  color: var(--main-text-color);
+
+
+}
+
+.Timing .row-1 .text-location h1 {
+  margin-bottom: 20px;
+}
+.Timing .row-1 .text-location span{
+  text-decoration:underline wavy ;
+}
+
+
+.Timing .row-2 {
+  flex-basis: 40%;
+  overflow-y: auto;
+}
+.Timing .row-2 .cards{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(150px,300px));
+  margin-top: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.Timing .row-2 .cards .salah-card.next h2{
+  font-weight: normal;
+  opacity: 0.9;
+}
+.Timing .row-2 .cards .salah-card.next{
+  outline: var(--green-text-color) 5px solid;
+  transition: .3s ease-in-out;
+  animation: fade infinite 1s alternate-reverse;
+
+}
+@keyframes fade {
+  to {
+    outline-color: transparent;
+  }
+
+}
+.Timing .row-2 .cards .salah-card.next .nextSalah{
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.Timing .row-2 .cards .salah-card.next .timeNext{
+  display: inline-block;
+  font-size: 30px;
+  margin-bottom: 10px;
+  color: var(--green-text-color);
+
+}
+.Timing .row-2 .cards .salah-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: var(--second-bg);
+  border-radius: 10px;
+  color: var(--main-text-color);
+  min-height: 100px;
+}
+.Timing .row-2 .cards .salah-card h2 {
+  font-weight: bold;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+.Timing .row-2 .cards .salah-card p {
+text-transform: uppercase;
+opacity: .6;
+}
+.Timing .row-2 .cards .salah-card .nextSalah{
+  font-weight: bold;
+}
+  @media (max-width:768px) {
+
+    .Timing .row-1 .text-location {
+      width: 80%;
+      text-align: center;
+    }
+
+    .Timing .row-1 .text-location h1 {
+      font-size: 20px;
+    }
+    .Timing .row-2 .cards{
+      margin-bottom: 20px;
+    }
+    .Timing .row-1 {
+      flex-basis: 40%;
+    }
+    .Timing .row-2 {
+      flex-basis: 55% ;
+    }
+    .Timing .row-2 .cards{
+
+      grid-template-columns: repeat(1,minmax(150px,300px));
+
+    }
+  }

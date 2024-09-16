@@ -11,6 +11,7 @@ import { Home, ListenLayout  , Audio} from "./pages/Index";
 import Tv from "./pages/Tv/Tv";
 import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider, Routes } from 'react-router-dom';
 import Radio from "./pages/Radio/Radio";
+import Timing from "./pages/Timing/Timing";
 export const MyContext = createContext(null)
 export default function App() {
   const [them,setThem] = useState(null)
@@ -88,6 +89,7 @@ return (
         </Route>
         <Route path='radio' element={<Radio/>} />
         <Route path='tv' element={<Tv/>} />
+        <Route path='timings' element={<Timing/>} />
       </Route>
     </Routes>
     </BrowserRouter>

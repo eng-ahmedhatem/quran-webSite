@@ -28,7 +28,7 @@ export default function Home() {
     <div className="row-1">
     <Section_header title="الأقسام المتاحة"/>
     <div className="cards">
-        <div  data-state="new" className="card " onClick={()=> Handel_transform("listen")}>
+        <div  className="card " onClick={()=> Handel_transform("listen")}>
             <div className="card-content listen">
             <h2>اللاستــمـاع</h2>
             </div>
@@ -39,18 +39,18 @@ export default function Home() {
             <h2>القــراءة</h2>
             </div>
         </div>
-        <div  data-state="new" className="card " onClick={()=> Handel_transform("radio")}>
+        <div  className="card " onClick={()=> Handel_transform("radio")}>
             <div className="card-content radio-homePage">
 
             <h2>الراديو</h2>
             </div>
         </div>
-        <div  data-state="new" className="card " onClick={()=> Handel_transform("tv")}>
+        <div  className="card " onClick={()=> Handel_transform("tv")}>
             <div className="card-content tv">
             <h2>تلفزيون مباشر</h2>
             </div>
         </div>
-        <div data-state="soon" className="card ">
+        <div data-state="new" className="card " onClick={()=> Handel_transform("timings")}>
             <div className="card-content salah-time">
 
             <h2>مواقيت الصلاة</h2>

@@ -8,6 +8,8 @@ import { FaBookReader } from "react-icons/fa";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { FaRadio } from "react-icons/fa6";
+import { CgTime } from "react-icons/cg";
+
 import { ImTv } from "react-icons/im";
 
 export default function Nav() {
@@ -63,6 +65,11 @@ export default function Nav() {
         <NavLink to={"tv"}>
           <i>
             <ImTv />{" "}
+          </i>
+        </NavLink>
+        <NavLink to={"timings"}>
+          <i>
+            <CgTime />{" "}
           </i>
         </NavLink>
       </div>
