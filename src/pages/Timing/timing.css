@@ -37,7 +37,7 @@ main .content {
 }
 
 .Timing .row-1 .text-day {
-  width: 130px;
+  width: 180px;
   color: var(--main-text-color);
 
 }
@@ -46,10 +46,12 @@ main .content {
   font-weight: bold;
   font-size: 30px;
   display: flex;
-  justify-content: space-between;
   margin-bottom: 10px;
   align-items: center;
 
+}
+.Timing .row-1 .text-day h4 svg {
+margin-right: 35px;
 }
 
 .Timing .row-1 .text-day p {
@@ -58,7 +60,9 @@ main .content {
   justify-content: space-between;
   align-items: center;
 }
-
+.Timing .row-1 .text-day p:last-child{
+  justify-content: center;
+}
 .Timing .row-1 .text-location {
   position: absolute;
   bottom: 0;
@@ -71,7 +75,9 @@ main .content {
 
 .Timing .row-1 .text-location h1 {
   margin-bottom: 20px;
+
 }
+
 .Timing .row-1 .text-location span{
   text-decoration:underline wavy ;
 }

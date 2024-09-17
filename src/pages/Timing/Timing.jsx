@@ -1,6 +1,7 @@
-import {useState} from "react";
+import {useState,useEffect} from "react";
 import * as React from 'react';
-
+import moment from "moment-hijri" ;
+import 'moment/locale/ar-sa';
 import "./timing.css";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -25,23 +26,36 @@ function SalahCard({name , time ,next}) {
 }
 export default function Timing() {
   const [age, setAge] = useState('');
+  const [timeNow, setTimeNow] = useState('');
 
   const handleChange = (event) => {
     setAge(event.target.value);
   }
+
+  useEffect(()=>{
+    setInterval(() => {
+    const interval =  setTimeNow((prev)=> prev = moment().format("ss : mm : hh"))
+    return ()=>{
+      clearInterval(interval)
+    }
+    }, 1000);
+  },[])
+
   return (
     <div className="Timing">
       <div className="row-1">
         <div className="text-day">
           <h4>اليوم<FaRegCalendarAlt/></h4>
           <p>
-            <span>6</span> <span>رمضان</span>
-            <span>1441</span>
+            <span>{moment().format('iD')}</span> <span>{moment().format('iMMMM')}</span>
+            <span>{moment().format('iYYYY')} هجرياً</span>
           </p>
           <p>
-            <span>30</span> <span>ابريل</span>
-            <span>2020</span>
+            <span>{moment().format('D')}</span> <span>{moment().format('MMMM')}</span>
+            <span>{moment().format('YYYY')} ميلادياً</span>
           </p>
+          <p> {parseInt(moment().locale("en").format('hh')) <= 12 ? "ص" : "م"} {timeNow}</p>
+
         </div>
         <div className="text-location">
           <h1>اوقات الصلاة في <span>القاهرة</span></h1>
