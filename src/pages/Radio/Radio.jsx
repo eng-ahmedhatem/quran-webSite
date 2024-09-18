@@ -6,6 +6,8 @@ import Audio_track from "../../Component/Audio_track/Audio_track";
 export default function Radio() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoading_compo, setIsLoading_compo] = useState(true);
+
   const audio_ui = useRef(null);
   useEffect(() => {
     async function getData() {
@@ -90,11 +92,17 @@ export default function Radio() {
             "radio",
             JSON.stringify([...res.data.radios, ...moreData])
           );
+          setTimeout(() => {
+            setIsLoading_compo(false)
+          }, 300);
         })
         .catch((error) => console.log(error));
     }
     if (sessionStorage.getItem("radio")) {
       setData(JSON.parse(sessionStorage.getItem("radio")));
+      setTimeout(() => {
+        setIsLoading_compo(false)
+      }, 1000);
     } else {
       getData();
     }
@@ -115,6 +123,13 @@ export default function Radio() {
     setTimeout(() => {
       setIsLoading(false);
     }, 500);
+  }
+  if (isLoading_compo){
+    return(
+      <div className={"loading_section"}>
+      <span className="loader_section"></span>
+      </div>
+    )
   }
   return (
     <div className="radio">
