@@ -244,18 +244,19 @@ const[isLoading,setIsLoading] = useState(true)
         <div className="cards">
           <SalahCard
             name={"الفجر"}
-            time={prayerTimes.Fajr}
+            time={" ص " + prayerTimes.Fajr}
             next={nextPrayer.name == "Fajr" ? nextPrayer : false}
           />
-          <SalahCard name={"الشروق"} time={moment_2(prayerTimes.Sunrise,"hh:mm").format("hh:mm")} />
+          <SalahCard name={"الشروق"} time={" ص " + moment_2(prayerTimes.Sunrise,"hh:mm").format("hh:mm")} />
           <SalahCard
             name={"الظهر"}
-            time={moment_2(prayerTimes.Dhuhr,"hh:mm").format("hh:mm")}
+            time={" م " + moment_2( prayerTimes.Dhuhr,"hh:mm").format("hh:mm")}
             next={nextPrayer.name == "Dhuhr" ? nextPrayer : false}
           />
           <SalahCard
             name={"العصر"}
             time={
+              " م " +
               moment_2(prayerTimes.Asr,"hh:mm").format("hh:mm")
               }
             next={nextPrayer.name == "Asr" ? nextPrayer : false}
@@ -263,6 +264,7 @@ const[isLoading,setIsLoading] = useState(true)
           <SalahCard
             name={"المغرب"}
             time={
+              " م " +
               moment_2(prayerTimes.Maghrib,"hh:mm").format("hh:mm")
             }
             next={nextPrayer.name == "Maghrib" ? nextPrayer : false}
@@ -270,6 +272,7 @@ const[isLoading,setIsLoading] = useState(true)
           <SalahCard
             name={"العشاء"}
             time={
+              " م " +
               moment_2(prayerTimes.Isha,"hh:mm").format("hh:mm")
             }
             next={nextPrayer.name == "Isha" ? nextPrayer : false}
