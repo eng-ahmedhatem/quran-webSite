@@ -12,17 +12,17 @@ import Select from "@mui/material/Select";
 import { MyContext } from "../../App";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import axios from "axios";
-
-function SalahCard({ name, time, next }) {
-  return (
-    <div className={`salah-card ${next && "next"}`}>
-      {next && <span className="nextSalah">الصلاة التالية</span>}
-      <h2>{name}</h2>
-      {next && <span className="timeNext">{next && next.timeLeft}</span>}
-      <p>{time}</p>
-    </div>
-  );
-}
+import SalahCard from "./SalahCard";
+// function SalahCard({ name, time, next }) {
+//   return (
+//     <div className={`salah-card ${next && "next"}`}>
+//       {next && <span className="nextSalah">الصلاة التالية</span>}
+//       <h2>{name}</h2>
+//       {next && <span className="timeNext">{next && next.timeLeft}</span>}
+//       <p>{time}</p>
+//     </div>
+//   );
+// }
 export default function Timing() {
 
   const capitals = [
@@ -78,6 +78,7 @@ const[isLoading,setIsLoading] = useState(true)
       let url = `https://api.aladhan.com/v1/timingsByCity/{date}?city=${city}&country=eg`;
       const req = await axios.get(url);
       setPrayerTimes((prev) => (prev = req.data.data.timings));
+      console.log(req.data.data.timings)
       setTimeout(() => {
         setIsLoading(false)
       }, 300);
@@ -97,7 +98,7 @@ const[isLoading,setIsLoading] = useState(true)
         if(nextPrayer.name == "Fajr"){
           const fromNow_toMidNight = moment_2("23:59:59","HH:mm:ss").diff(currentTime_)
           const fromMidNight_toFajer = moment_2(prayerTimes[nextPrayer.name], "HH:mm").diff(moment_2("00:00:00","HH:mm:ss"))
-          let results = fromMidNight_toFajer + fromNow_toMidNight
+          let results = fromMidNight_toFajer + fromNow_toMidNight + 2000
           duration = moment_2.duration(results)
 
         }else {
@@ -167,6 +168,7 @@ const[isLoading,setIsLoading] = useState(true)
     )
   }
   return (
+    <>
     <div className="Timing">
       <div className="row-1">
         <div className="text-day">
@@ -280,5 +282,7 @@ const[isLoading,setIsLoading] = useState(true)
         </div>
       </div>
     </div>
+    </>
   );
+
 }

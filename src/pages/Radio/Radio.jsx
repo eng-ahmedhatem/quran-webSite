@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Section_header from "../../Component/Section_header/Section_header";
 import axios from "axios";
 import "./radio.css";
+
 import Audio_track from "../../Component/Audio_track/Audio_track";
 export default function Radio() {
   const [data, setData] = useState([]);
@@ -9,6 +10,7 @@ export default function Radio() {
   const [isLoading_compo, setIsLoading_compo] = useState(true);
 
   const audio_ui = useRef(null);
+  
   useEffect(() => {
     async function getData() {
       axios
@@ -118,6 +120,7 @@ export default function Radio() {
         img: "text",
         src: ele.url,
         id: 1,
+
       },
     ]);
     setTimeout(() => {
@@ -142,7 +145,7 @@ export default function Radio() {
             <span className="loader_section"></span>
           </div>
           {!isLoading && (
-            <Audio_track thePlayList={playList} from_radio={true} />
+            <Audio_track  thePlayList={playList} from_radio={true} />
           )}
         </div>
         <div className="cards">

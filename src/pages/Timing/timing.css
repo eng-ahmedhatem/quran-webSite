@@ -18,16 +18,37 @@ main .content {
   top: -20px;
   right: -30px;
   height: calc(100% + 40px);
-  background: url("/img/timing/img-3.jpg") no-repeat;
+  background: url("/img/timing/img-1.png") no-repeat;
   background-position: center ;
   background-size: cover;
   opacity: .9;
-  filter:  blur(15px);
+  filter:  blur(10px);
   z-index: -1;
-  /* filter: grayscale(80%); */
-
+transition: background 1s;
 }
 
+ .Timing:has(.next.Fajr)::before{
+background: url("/img/timing/fagr.jpg") no-repeat;
+background-position:  left center;
+}
+
+.Timing:has(.next.Dhuhr)::before{
+  background: url("/img/timing/img-6.jpg") no-repeat;
+  background-position: center top;
+}
+.Timing:has(.next.Asr)::before{
+  background: url("/img/timing/img-7.jpg") no-repeat;
+  background-position:  center ;
+}
+.Timing:has(.next.Maghrib)::before{
+  background: url("/img/timing/img-5.jpg") no-repeat;
+  background-position:  center ;
+
+}
+.Timing:has(.next.Isha)::before{
+  background: url("/img/timing/img-4.jpg") no-repeat;
+  background-position:  left center;
+}
 .Timing .row-1 {
   background-size: cover;
   position: relative;
