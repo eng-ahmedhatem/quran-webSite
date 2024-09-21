@@ -3,6 +3,4 @@ import React from "react";
 import App from "./App";
 import "aos/dist/aos.css"
 import "./main.css"
-// css
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App/>);
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>)

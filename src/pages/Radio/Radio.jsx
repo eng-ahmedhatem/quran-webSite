@@ -2,15 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Section_header from "../../Component/Section_header/Section_header";
 import axios from "axios";
 import "./radio.css";
-
 import Audio_track from "../../Component/Audio_track/Audio_track";
 export default function Radio() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoading_compo, setIsLoading_compo] = useState(true);
-
   const audio_ui = useRef(null);
-  
   useEffect(() => {
     async function getData() {
       axios
@@ -95,7 +92,7 @@ export default function Radio() {
             JSON.stringify([...res.data.radios, ...moreData])
           );
           setTimeout(() => {
-            setIsLoading_compo(false)
+            // setIsLoading_compo(false)
           }, 300);
         })
         .catch((error) => console.log(error));
@@ -103,7 +100,7 @@ export default function Radio() {
     if (sessionStorage.getItem("radio")) {
       setData(JSON.parse(sessionStorage.getItem("radio")));
       setTimeout(() => {
-        setIsLoading_compo(false)
+        // setIsLoading_compo(false)
       }, 1000);
     } else {
       getData();
@@ -120,22 +117,35 @@ export default function Radio() {
         img: "text",
         src: ele.url,
         id: 1,
-
       },
     ]);
     setTimeout(() => {
       setIsLoading(false);
     }, 500);
   }
-  if (isLoading_compo){
-    return(
-      <div className={"loading_section"}>
-      <span className="loader_section"></span>
-      </div>
-    )
-  }
+  useEffect(()=>{
+    setTimeout(() => {
+      document.readyState == "complete" ? setIsLoading_compo(false) : document.addEventListener("load",()=>{
+        setIsLoading_compo(false)})
+    }, 500);
+console.log(document.readyState)
+return () => {
+  document.removeEventListener("load",()=>{
+    setIsLoading_compo(true)})
+}
+  },[document.readyState])
+  // if (isLoading_compo){
+  //   return(
+  //     <div className={"loading_section"}>
+  //     <span className="loader_section"></span>
+  //     </div>
+  //   )
+  // }
   return (
     <div className="radio">
+      {isLoading_compo && <div className={"loading_section"}>
+      <span className="loader_section"></span>
+      </div>}
       <Section_header title={"المحطات المتاحة"} />
       <div className="content-audio">
         <div className="audio-ui" ref={audio_ui}>
@@ -157,7 +167,6 @@ export default function Radio() {
                   onClick={() => handelClick(ele)}
                   key={ele.id}
                   className="card"
-
                 >
                   <div className="live">
                     <span>مباشر</span>
