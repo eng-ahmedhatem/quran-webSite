@@ -32,7 +32,7 @@ document.body.classList = them
         gsap.to('.loading', {
           delay:0,
           scale :0,
-          duration: .3,
+          duration: 3,
           ease: "elastic.inOut(0, 0.3)",
           visibility:"hidden",
           display:"none",
