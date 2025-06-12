@@ -1,6 +1,6 @@
-import ReactDOM  from "react-dom/client";
 import React from "react";
 import App from "./App";
+import { createRoot } from "react-dom/client";
 import "aos/dist/aos.css"
 import "./main.css"
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+createRoot(document.getElementById("root")).render(<App/>)

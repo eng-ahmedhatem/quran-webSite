@@ -19,14 +19,7 @@
   direction: rtl;
   box-sizing: border-box;
 }
-/* .cards .card:nth-child(even) {
-  transform: translateX(-300px) ;
-  opacity: 0;
-}
-.cards .card:nth-child(odd) {
-  transform: translateX(300px) ;
-  opacity: 0;
-} */
+
 #root {
   display: grid;
   width: 100%;
@@ -183,7 +176,7 @@ footer ul a {
 li {
   list-style: none;
 }
-/* looding  */
+
 .loader {
   width: 48px;
   height: 48px;
@@ -259,9 +252,9 @@ li {
 ::-webkit-scrollbar {
   width: 5px;
 }
-/* loader_section  */
+
 .loading_section {
-  /* display: none !important; */
+
   transform-origin: center bottom;
   right: 0;
   top: 0;
@@ -297,12 +290,12 @@ li {
     transform: rotate(360deg);
   }
 }
-/* Track */
-/* Handle */
+
+
 ::-webkit-scrollbar-thumb {
   background: #888;
 }
-/* Handle on hover */
+
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }

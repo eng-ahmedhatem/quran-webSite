@@ -7,6 +7,7 @@
   display: flex;
 gap: 20px;
 flex-wrap: wrap;
+justify-content: center;
 }
 .tv .tv-content .video .loading_section {
   transform-origin: center center;
