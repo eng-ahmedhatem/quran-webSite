@@ -7,12 +7,12 @@ export default function Tv() {
     {
       id: "1",
       name: "قناة القرآن الكريم",
-      url: "https://www.youtube.com/embed/VOtARJiRPH8?si=qrx0wy9Q4IBMlFdh",
+      url: "https://www.youtube.com/embed/0O-BzXQw9fU?si=lEgVkHgrH-Y_xNOz",
     },
     {
       id: "2",
       name: "قناة السنة النبوية",
-      url: "https://www.youtube.com/embed/X3Gt5YQavOI?si=TiocazfnkhjOuKr-",
+      url: "https://www.youtube.com/embed/SY8j_i2hVbc?si=0jrTs9Brk6kPMwPd",
     },
   ];
   const [server, setServer] = useState(data[0].url);
