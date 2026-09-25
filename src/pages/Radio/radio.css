@@ -7,6 +7,22 @@
 .radio > div {
   width: 100%;
 }
+.cairo-feature { width: 100%; min-height: 230px; margin: -20px 0 28px; padding: clamp(24px, 5vw, 52px); display: flex; align-items: center; justify-content: space-between; overflow: hidden; color: #f7fffc; background: #0a5c4a; border-radius: 30px 8px 30px 8px; position: relative; isolation: isolate; }
+.cairo-feature::after { content: "القاهرة"; position: absolute; left: -12px; bottom: -38px; z-index: -1; font-size: clamp(70px, 14vw, 170px); font-weight: 800; color: rgba(255,255,255,.055); }
+.cairo-feature h2 { margin: 8px 0; font-size: clamp(25px, 4vw, 45px); }
+.cairo-feature p { max-width: 580px; opacity: .78; }
+.cairo-feature img { width: min(200px, 24vw); filter: drop-shadow(0 22px 25px rgba(0,0,0,.25)); }
+.cairo-feature button { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; border: 0; border-radius: 99px; padding: 11px 20px; background: #e9b949; color: #173e34; cursor: pointer; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .04em; }
+.radio-tools { display: grid; grid-template-columns: minmax(240px, 420px) 1fr; gap: 16px; align-items: center; margin-bottom: 24px; }
+.radio-tools > label { display: flex; align-items: center; gap: 10px; padding: 11px 15px; color: var(--muted-text); border: 1px solid var(--line-color); background: var(--main-bg); border-radius: 14px; }
+.radio-tools input { width: 100%; border: 0; outline: 0; color: var(--main-text-color); background: transparent; }
+.radio-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.radio-filters button { border: 1px solid var(--line-color); background: var(--main-bg); color: var(--main-text-color); padding: 9px 14px; border-radius: 99px; cursor: pointer; }
+.radio-filters button.active { color: white; border-color: var(--green-text-color); background: var(--green-text-color); }
+.recent-radios { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; overflow-x: auto; }
+.recent-radios > span { flex: 0 0 auto; color: var(--muted-text); font-size: 12px; }
+.recent-radios button { flex: 0 0 auto; display: flex; align-items: center; gap: 7px; border: 0; border-radius: 99px; padding: 8px 12px; color: var(--main-text-color); background: var(--green-color); cursor: pointer; }
 .radio .cards {
   display: grid;
   width: 100%;
@@ -34,6 +50,16 @@
   align-items: center;
   z-index: 1;
 }
+.radio .cards .card { box-sizing: border-box !important; justify-content: space-between; gap: 12px; height: 150px; padding: 24px; border: 1px solid var(--line-color); box-shadow: var(--card-shadow); transition: transform .2s ease, border-color .2s ease; }
+.radio .cards .card:hover { transform: translateY(-4px); border-color: var(--green-text-color); }
+.radio .cards .card.playing { border-color: var(--green-text-color); }
+.radio .cards .card > div { text-align: right; flex: 1; }
+.radio .cards .card small { color: var(--muted-text); }
+.radio .cards .card h2 { width: auto; margin-top: 8px; text-align: right; }
+.radio .cards .card h2::after { display: none; }
+.play-radio, .favorite-radio { display: grid; place-items: center; flex: 0 0 auto; border: 0; cursor: pointer; }
+.play-radio { width: 48px; height: 48px; color: white; background: var(--green-text-color); border-radius: 50%; }
+.favorite-radio { position: absolute; top: 13px; left: 14px; color: var(--green-text-color); background: transparent; }
 .radio .cards .card .live {
   position: absolute;
   background: #1a1919;
@@ -152,6 +178,10 @@ body.dark .radio .cards .card::after {
   display: none;
 }
 @media (max-width:768px) {
+  .cairo-feature { min-height: 260px; align-items: flex-start; }
+  .cairo-feature img { position: absolute; left: 12px; bottom: 12px; width: 100px; }
+  .radio-tools { grid-template-columns: 1fr; }
+  .radio .cards { grid-template-columns: 1fr; }
   .radio .audio-ui {
     width: 70%;
     left: 52%;

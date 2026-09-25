@@ -24,42 +24,41 @@ export default function Nav() {
   return (
     <nav>
       <div className="link">
-        <NavLink to={"/"}>
+        <NavLink to={"/"} aria-label="الرئيسية" title="الرئيسية">
           <i>
             <FaHome />
           </i>
         </NavLink>
-        <NavLink to={"listen"}>
+        <NavLink to={"listen"} aria-label="الاستماع" title="الاستماع">
           <i>
             <FaHeadphones />{" "}
           </i>
         </NavLink>
-        <NavLink to={"read/1"}>
+        <NavLink to={"read/1"} aria-label="قراءة القرآن" title="قراءة القرآن">
           <i><FaBookReader />
           </i>
         </NavLink>
-        <NavLink to={"radio"}>
+        <NavLink to={"radio"} aria-label="الإذاعات" title="الإذاعات">
           <i>
             <FaRadio />{" "}
           </i>
         </NavLink>
-        <NavLink to={"tv"}>
+        <NavLink to={"tv"} aria-label="البث التلفزيوني" title="البث التلفزيوني">
           <i>
             <ImTv />{" "}
           </i>
         </NavLink>
-        <NavLink to={"timings"}>
+        <NavLink to={"timings"} aria-label="مواقيت الصلاة" title="مواقيت الصلاة">
           <i>
             <CgTime />{" "}
           </i>
         </NavLink>
       </div>
       <div className="mode">
-        <img
+        <button type="button" onClick={handelThem} aria-label={them === "light" ? "تفعيل الوضع الليلي" : "تفعيل الوضع النهاري"}><img
           src={them === "light" ? "/img/moon.png" : "/img/sun.png"}
           alt={them === "light" ? "تفعيل الوضع الليلي" : "تفعيل الوضع النهاري"}
-          onClick={handelThem}
-        />
+        /></button>
       </div>
     </nav>
   );

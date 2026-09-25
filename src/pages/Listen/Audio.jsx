@@ -37,7 +37,7 @@ function Audio() {
   const availableMoshaf = useMemo(() => selectedReader?.moshaf.filter((item) => item.surah_list.split(",").includes(String(surah.sorah_id))) || [], [selectedReader, surah.sorah_id]);
   const selectedMoshaf = availableMoshaf.find((item) => String(item.id) === String(moshafId));
   const source = selectedMoshaf ? toSurahAudio(selectedMoshaf.server, surah.sorah_id) : "";
-  const playlist = source ? [{ name: surah.title, writer: selectedReader.name, img: "/img/logo.png", src: source, id: 1 }] : [];
+  const playlist = source ? [{ name: surah.title, writer: selectedReader.name, img: "/img/logo.png", src: source, id: `recitation-${selectedReader.id}-${surah.sorah_id}` }] : [];
 
   if (error) return <Status message={error} action={() => setRetry((value) => value + 1)} />;
   if (!readers.length) return <div className="loading_section"><span className="loader_section" /></div>;

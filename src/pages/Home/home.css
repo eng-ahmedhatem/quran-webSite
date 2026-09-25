@@ -1,196 +1,75 @@
-.row-1 .cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 350px));
-  gap: 20px;
-}
-.row-1 .cards .card {
-  /* overflow: hidden; */
-  background-color: var(--main-bg);
-  border-radius: 10px;
-  height: 150px;
-  box-shadow: var(--box-shadow) 0px 5px 15px;
-  cursor: pointer;
-  transition: 0.3s;
-  /* background-image: linear-gradient(to top, #00ff557c 0%, #330867 100%); */
-  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
-}
-.row-1 .cards .card .card-content {
-  transition: 0.3s;
-  display: flex;
-  align-items: center;
-  border-radius: 10px;
-  background: var(--main-bg);
-  padding: 0 20px;
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-
-}
-.row-1 .cards .card[data-state="new"] .card-content::before,
-.row-1 .cards .card[data-state="soon"] .card-content::before {
-  content: "جديد";
-  position: absolute;
-  display: inline-block;
-  background: green;
-  padding: 5px 20px;
-  color: #fff;
-  top: 0;
-  right: 0;
-  border-radius: 10px;
-  animation: shake-right 0.7s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955)
-    both;
-  animation-delay: 2s !important;
-}
-.row-1 .cards .card[data-state="soon"] .card-content::before {
-  content: "قريبا....";
-  animation: none;
-  background: #7777;
-}
-.row-1 .cards .card[data-state="soon"] {
-  /* pointer-events: none; */
-  opacity: 0.5;
-  cursor: no-drop;
-}
-.row-1 .cards .card .card-content h2 {
-  font-size: var(--main-font-s);
-  color: var(--main-text-color);
-}
-.row-1 .cards .card:hover {
-  box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.3);
-  border-radius: 20px;
-}
-.row-1 .cards .card:hover .card-content {
-  transform: scale(0.98);
-  border-radius: 20px;
-  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
-}
-.row-1 .cards .card .card-content::after {
-  content: "";
-  position: absolute;
-  z-index: 10;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 5%;
-  background-repeat: no-repeat;
-  width: 110px;
-  background-size: contain !important;
-  background-repeat: no-repeat !important;
-  height: 110px;
-}
-.row-1 .cards .card .card-content.listen::after {
-  background: url(/img/listen.png);
-  background-size: cover;
-  width: 100px;
-  height: 100px;
-}
-.row-1 .cards .card .card-content.reade::after {
-  background: url(/img/moshaf.png);
-  background-size: cover;
-  top: 65%;
-}
-.row-1 .cards .card .card-content.radio-homePage::after {
-  background: url(/img/radio.png);
-  background-size: cover;
-  top: 65%;
-}
-.row-1 .cards .card .card-content.tv::after {
-  background: url(/img/tv.png) no-repeat;
-  background-size: contain;
-}
-.row-1 .cards .card .card-content.salah-time::after {
-  background: url(/img/salah-time.png) no-repeat;
-  background-size: contain;
-  height: 120px;
-  top: 65%;
-}
-@-webkit-keyframes shake-right {
-  0%,
-  100% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-    -webkit-transform-origin: 100% 50%;
-    transform-origin: 100% 50%;
-  }
-  10% {
-    -webkit-transform: rotate(2deg);
-    transform: rotate(2deg);
-  }
-  20%,
-  40%,
-  60% {
-    -webkit-transform: rotate(-4deg);
-    transform: rotate(-4deg);
-  }
-  30%,
-  50%,
-  70% {
-    -webkit-transform: rotate(4deg);
-    transform: rotate(4deg);
-  }
-  80% {
-    -webkit-transform: rotate(-2deg);
-    transform: rotate(-2deg);
-  }
-  90% {
-    -webkit-transform: rotate(2deg);
-    transform: rotate(2deg);
-  }
-}
-@keyframes shake-right {
-  0%,
-  100% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-    -webkit-transform-origin: 100% 50%;
-    transform-origin: 100% 50%;
-  }
-  10% {
-    -webkit-transform: rotate(2deg);
-    transform: rotate(2deg);
-  }
-  20%,
-  40%,
-  60% {
-    -webkit-transform: rotate(-4deg);
-    transform: rotate(-4deg);
-  }
-  30%,
-  50%,
-  70% {
-    -webkit-transform: rotate(4deg);
-    transform: rotate(4deg);
-  }
-  80% {
-    -webkit-transform: rotate(-2deg);
-    transform: rotate(-2deg);
-  }
-  90% {
-    -webkit-transform: rotate(2deg);
-    transform: rotate(2deg);
-  }
-}
-@media (min-width: 821px) and (max-width: 1180px) {
-  .row-1 .cards {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 320px));
-  }
-
-  .row-1 .cards .card::after {
-    left: 1%;
-  }
-}
-@media (max-width: 820px) {
-  main {
-    padding: 15px;
-  }
-  .row-1 .cards {
-    width: 100%;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-
-
-  .row-1 .cards .card::after {
-    left: 1%;
-    padding: 0 10px;
-  }
-}
+.home-page { display: grid; gap: 70px; padding-bottom: 100px; }
+.home-hero { min-height: 480px; display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: clamp(30px, 6vw, 90px); padding: clamp(28px, 6vw, 72px); overflow: hidden; color: #f5fffb; border-radius: 34px 10px 34px 10px; background: #083e34; position: relative; isolation: isolate; }
+.home-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .18; background: radial-gradient(circle at 14% 20%, #7dd9bd 0 1px, transparent 2px) 0 0 / 22px 22px; mask-image: linear-gradient(90deg, black, transparent 75%); }
+.home-hero::after { content: "القرآن"; position: absolute; z-index: -1; left: -2%; bottom: -18%; font-size: clamp(120px, 22vw, 310px); font-weight: 800; color: rgba(255,255,255,.035); }
+.hero-kicker { color: #8ee0c5; font-size: 13px; font-weight: 700; }
+.hero-copy h1 { margin: 14px 0 20px; font-size: clamp(38px, 5.3vw, 76px); line-height: 1.2; letter-spacing: -.04em; }
+.hero-copy h1 em { color: #e8bd58; font-style: normal; }
+.hero-copy p { max-width: 650px; color: rgba(255,255,255,.7); line-height: 1.9; }
+.hero-actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+.hero-actions a { display: inline-flex; align-items: center; gap: 9px; padding: 12px 20px; border-radius: 99px; }
+.primary-action { color: #083e34; background: #e8bd58; }
+.secondary-action { color: white; border: 1px solid rgba(255,255,255,.3); }
+.hero-verse { min-height: 300px; display: grid; place-content: center; gap: 16px; padding: 38px; text-align: center; border: 1px solid rgba(255,255,255,.16); border-radius: 50% 50% 18px 18px; background: rgba(255,255,255,.06); backdrop-filter: blur(8px); }
+.hero-verse > span { color: #e8bd58; font-size: 56px; line-height: .5; }
+.hero-verse p { color: white; font-family: var(--quran-font); font-size: clamp(27px, 3vw, 42px); line-height: 2; }
+.hero-verse small { color: #8ee0c5; }
+.continue-strip { display: grid; grid-template-columns: 1fr minmax(180px, 320px) auto; gap: 24px; align-items: center; margin-top: -45px; padding: 20px 26px; z-index: 2; border: 1px solid var(--line-color); border-radius: 20px; color: var(--main-text-color); background: color-mix(in srgb, var(--main-bg) 92%, transparent); box-shadow: var(--card-shadow); backdrop-filter: blur(12px); }
+.continue-strip > div:first-child { display: grid; }
+.continue-strip small, .continue-strip span { color: var(--muted-text); font-size: 12px; }
+.continue-strip strong { margin: 3px 0; }
+.continue-progress { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+.continue-progress::before { content: ""; grid-column: 1; grid-row: 1; width: 100%; height: 6px; border-radius: 10px; background: var(--second-bg); }
+.continue-progress i { grid-column: 1; grid-row: 1; height: 6px; max-width: 100%; border-radius: 10px; background: var(--green-text-color); z-index: 1; }
+.continue-strip button { display: flex; gap: 8px; align-items: center; border: 0; border-radius: 99px; padding: 10px 18px; color: white; background: var(--green-text-color); cursor: pointer; }
+.home-section { display: grid; gap: 24px; }
+.home-section .Section_header h1 { margin-bottom: 0; }
+.home-radio-layout { display: grid; grid-template-columns: 1.45fr .75fr; gap: 18px; }
+.home-cairo-radio { min-height: 290px; display: flex; justify-content: space-between; align-items: center; padding: clamp(24px, 4vw, 48px); overflow: hidden; border-radius: 12px 34px 12px 34px; color: white; background: #0b6652; position: relative; }
+.home-cairo-radio h2 { max-width: 600px; margin: 12px 0; font-size: clamp(26px, 3vw, 42px); }
+.home-cairo-radio p { opacity: .72; }
+.home-cairo-radio img { width: min(190px, 24vw); filter: drop-shadow(0 20px 22px rgba(0,0,0,.25)); }
+.home-cairo-radio button { display: flex; align-items: center; gap: 8px; margin-top: 24px; padding: 11px 18px; border: 0; border-radius: 99px; color: #173e34; background: #e8bd58; cursor: pointer; }
+.live-pill { font-size: 11px; font-weight: 700; color: #9af0d4; }
+.live-pill::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 6px; border-radius: 50%; background: #ff5757; }
+.quick-radios { display: grid; gap: 10px; }
+.quick-radios button { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; border: 1px solid var(--line-color); border-radius: 16px; padding: 14px; text-align: right; color: var(--main-text-color); background: var(--main-bg); cursor: pointer; }
+.quick-radios button > span { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: white; background: var(--green-text-color); }
+.quick-radios button div { display: grid; min-width: 0; }
+.quick-radios strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.quick-radios small { color: var(--muted-text); }
+.quick-radios > a { display: flex; justify-content: center; align-items: center; gap: 8px; color: var(--green-text-color); }
+.journey-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.journey-grid article { min-height: 210px; display: flex; flex-direction: column; align-items: flex-start; padding: 24px; border: 1px solid var(--line-color); border-radius: 24px; color: var(--main-text-color); background: var(--main-bg); box-shadow: var(--card-shadow); }
+.journey-grid article:nth-child(2) { background: color-mix(in srgb, var(--green-color) 45%, var(--main-bg)); transform: translateY(16px); }
+.journey-icon { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 22px; border-radius: 14px; color: var(--green-text-color); background: var(--green-color); }
+.journey-grid small { color: var(--muted-text); }
+.journey-grid strong { margin: 7px 0; font-size: 30px; }
+.journey-grid a { margin-top: auto; color: var(--green-text-color); font-size: 13px; }
+.meter { width: 100%; height: 7px; margin-top: auto; border-radius: 10px; background: var(--second-bg); }
+.meter i { display: block; height: 100%; border-radius: inherit; background: var(--green-text-color); }
+.section-heading-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.home-search { display: flex; align-items: center; gap: 9px; min-width: 260px; padding: 10px 14px; color: var(--muted-text); border: 1px solid var(--line-color); background: var(--main-bg); border-radius: 14px; }
+.home-search input { width: 100%; border: 0; outline: 0; color: var(--main-text-color); background: transparent; }
+.surah-explorer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.surah-explorer a { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 18px; border: 1px solid var(--line-color); border-radius: 16px; color: var(--main-text-color); background: var(--main-bg); transition: .2s ease; }
+.surah-explorer a:hover { transform: translateY(-3px); border-color: var(--green-text-color); }
+.surah-explorer a > span { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; color: var(--green-text-color); background: var(--green-color); }
+.surah-explorer a div { display: grid; }
+.surah-explorer small { color: var(--muted-text); font-size: 11px; }
+.surah-explorer a > svg { color: var(--muted-text); }
+.featured-readers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.featured-readers article { min-height: 190px; display: grid; grid-template-columns: auto 130px 1fr; align-items: center; gap: 18px; overflow: hidden; border-radius: 22px; color: var(--main-text-color); background: var(--main-bg); border: 1px solid var(--line-color); }
+.featured-readers img { width: 130px; height: 190px; object-fit: cover; filter: grayscale(.25); }
+.reader-number { padding-right: 18px; font-size: 32px; color: var(--green-text-color); opacity: .35; }
+.featured-readers h3 { margin: 6px 0 18px; font-size: 20px; }
+.featured-readers small { color: var(--muted-text); }
+.featured-readers button { display: flex; gap: 7px; align-items: center; border: 0; color: var(--green-text-color); background: transparent; cursor: pointer; }
+.daily-ayah { display: grid; place-items: center; gap: 14px; padding: clamp(32px, 7vw, 90px); text-align: center; border: 1px solid color-mix(in srgb, var(--green-text-color) 25%, transparent); border-radius: 50% 50% 24px 24px; color: var(--main-text-color); background: color-mix(in srgb, var(--main-bg) 87%, var(--green-color)); }
+.ayah-label { color: var(--green-text-color); font-weight: 700; }
+.daily-ayah blockquote { max-width: 1000px; font-family: var(--quran-font); font-size: clamp(25px, 4vw, 46px); line-height: 2; }
+.daily-ayah p { color: var(--muted-text); }
+.daily-ayah > div { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; }
+.daily-ayah button { display: flex; align-items: center; gap: 7px; padding: 9px 14px; border: 1px solid var(--line-color); border-radius: 99px; color: var(--main-text-color); background: var(--main-bg); cursor: pointer; }
+@media (max-width: 1000px) { .home-hero { grid-template-columns: 1fr; } .hero-verse { min-height: 220px; } .home-radio-layout { grid-template-columns: 1fr; } .surah-explorer { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) { .home-page { gap: 48px; } .home-hero { min-height: auto; padding: 28px 22px; border-radius: 24px 8px; } .hero-copy h1 { font-size: 36px; } .hero-verse { padding: 24px; border-radius: 50% 50% 14px 14px; } .continue-strip { grid-template-columns: 1fr auto; margin-top: -28px; padding: 16px; } .continue-progress { grid-column: 1 / -1; grid-row: 2; } .home-cairo-radio { min-height: 300px; align-items: flex-start; } .home-cairo-radio img { position: absolute; left: 12px; bottom: 14px; width: 100px; } .journey-grid, .featured-readers { grid-template-columns: 1fr; } .journey-grid article:nth-child(2) { transform: none; } .section-heading-row { align-items: stretch; flex-direction: column; } .home-search { min-width: 0; } .surah-explorer { grid-template-columns: 1fr; } .featured-readers article { grid-template-columns: auto 95px 1fr; } .featured-readers img { width: 95px; height: 160px; } }

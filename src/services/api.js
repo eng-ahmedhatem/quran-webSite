@@ -2,6 +2,18 @@ import axios from "axios";
 
 const client = axios.create({ timeout: 12000 });
 
+export const CAIRO_RADIO = {
+  id: "cairo-quran-radio",
+  name: "إذاعة القرآن الكريم من القاهرة",
+  writer: "القاهرة • مصر • 98.2 FM",
+  src: "https://n12.radiojar.com/8s5u5tpdtwzuv",
+  url: "https://n12.radiojar.com/8s5u5tpdtwzuv",
+  img: "/img/radio.png",
+  isLive: true,
+  country: "مصر",
+  category: "إذاعة رسمية",
+};
+
 const readCache = (key) => {
   try {
     const cached = JSON.parse(localStorage.getItem(key));
@@ -69,4 +81,3 @@ export async function getPrayerTimes(city) {
 export function toSurahAudio(server, surahNumber) {
   return `${server}${String(surahNumber).padStart(3, "0")}.mp3`;
 }
-

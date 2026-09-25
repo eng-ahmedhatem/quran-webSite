@@ -1,11 +1,15 @@
 :root {
-  --main-bg: #fff;
-  --second-bg: #ecf0f4;
-  --green-color: #c7e6dd;
-  --main-text-color: #000;
-  --second-text-color: #bcbbbf;
-  --green-text-color: #14a584;
-  --box-shadow: rgba(0, 0, 0, 0.35);
+  --main-bg: #fbfdfc;
+  --second-bg: #eef4f1;
+  --green-color: #d9eee7;
+  --main-text-color: #12231f;
+  --second-text-color: #70817b;
+  --muted-text: #70817b;
+  --green-text-color: #0b8c6d;
+  --line-color: #dbe5e1;
+  --box-shadow: rgba(10, 62, 50, 0.12);
+  --card-shadow: 0 12px 36px rgba(10, 62, 50, .08);
+  --quran-font: "Traditional Arabic", "Noto Naskh Arabic", serif;
   --main-font-s: 24px;
 }
 @font-face {
@@ -15,7 +19,7 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: Readex-light ;
+  font-family: Readex-light, Arial, sans-serif;
   direction: rtl;
   box-sizing: border-box;
 }
@@ -31,17 +35,23 @@
     "nav main"
     "foot foot";
   }
-  body {
+body {
   overflow: hidden;
   background-color: var(--main-bg);
   scroll-behavior: smooth;
   user-select: none;
+  color: var(--main-text-color);
 }
 body.dark {
-  --main-bg: #1e1e1e;
-  --second-bg: #333333;
-  --main-text-color: #fff;
-  --box-shadow: rgba(255, 255, 255, 0.062);
+  --main-bg: #101a17;
+  --second-bg: #172621;
+  --green-color: #193f34;
+  --main-text-color: #eff8f5;
+  --second-text-color: #94aaa3;
+  --muted-text: #94aaa3;
+  --line-color: #294039;
+  --box-shadow: rgba(0, 0, 0, .3);
+  --card-shadow: 0 15px 38px rgba(0,0,0,.18);
 }
 .search-home {
   opacity: 0;
@@ -118,12 +128,13 @@ gap: 20px;
   position: absolute;
   top: 0;
   right: 0;
-  background: green;
-  opacity: 0.5;
+  background: var(--green-color);
+  opacity: 1;
   z-index: -1;
   width: 50%;
-  height: 50px;
-  border-radius: 50% 0;
+  height: 16px;
+  top: 60%;
+  border-radius: 12px 2px;
 }
 .scrollTo_top {
   background: var(--green-color);
@@ -168,6 +179,12 @@ footer {
   grid-area: foot;
   transition:background .3s ease-in-out
 }
+
+footer p {
+  margin: 0;
+  color: var(--muted-text-color);
+  font-size: .82rem;
+}
 footer ul {
   display: flex;
   align-items: center;
@@ -197,13 +214,14 @@ li {
 }
 @media (max-width: 768px) {
   #root {
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
+    grid-template-areas: "hdr" "main" "foot";
     min-height: 0;
     height: 100svh;
   }
   footer {
-    padding: 5px 0;
-    width: 100%;
+    display: none;
   }
   footer ul span svg {
     font-size: 50px;

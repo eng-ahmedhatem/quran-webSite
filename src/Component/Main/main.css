@@ -1,7 +1,7 @@
 main {
   grid-area: main;
   background-color: var(--second-bg);
-  border-radius: 30px;
+  border-radius: 28px;
   padding: 20px 30px;
   margin-left: 10px;
   margin-bottom: 10px;
@@ -33,3 +33,4 @@ z-index: -1;
     display: none;
   }
 }
+@media (max-width: 768px) { main { margin: 0 8px 8px; padding: 14px; border-radius: 22px; } main > .content { padding-bottom: 82px; } }

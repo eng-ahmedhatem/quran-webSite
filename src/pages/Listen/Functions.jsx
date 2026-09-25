@@ -12,9 +12,15 @@ export function Sorah_card({ sorahId, title, ayaCount, theClass = "show", transf
 
 export const normalizeArabic = (value = "") => value
   .normalize("NFD")
-  .replace(/[\u064B-\u065F\u0670]/g, "")
+  .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g, "")
   .replace(/[أإآٱ]/g, "ا")
+  .replace(/ؤ/g, "و")
+  .replace(/ئ/g, "ي")
+  .replace(/ء/g, "")
+  .replace(/ى/g, "ي")
   .replace(/ة/g, "ه")
+  .replace(/ـ/g, "")
+  .replace(/\s+/g, " ")
   .trim();
 
 export async function get_SorahData(setSorah) {

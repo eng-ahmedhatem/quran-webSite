@@ -1,53 +1,71 @@
-import { useContext } from "react"
-import Section_header from "../../Component/Section_header/Section_header"
-import "./home.css"
-import { useNavigate } from "react-router-dom"
-import { MyContext } from "../../App"
+import { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaArrowLeft, FaBookmark, FaBookOpen, FaCheck, FaCopy, FaHeadphones, FaHeart, FaPause, FaPlay, FaSearch, FaShareAlt } from "react-icons/fa";
+import SectionHeader from "../../Component/Section_header/Section_header";
+import { usePlayer } from "../../Component/Audio_track/PlayerContext";
+import { CAIRO_RADIO, getRadios, getReciters, getSurah, getSurahs, toSurahAudio } from "../../services/api";
+import { normalizeArabic } from "../Listen/Functions";
+import "./home.css";
+
+const readStorage = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; } };
+
 export default function Home() {
-    const [,,,setIsLoading]= useContext(MyContext)
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const player = usePlayer();
+  const [surahs, setSurahs] = useState([]);
+  const [radios, setRadios] = useState([]);
+  const [reciters, setReciters] = useState([]);
+  const [dailyAyah, setDailyAyah] = useState(null);
+  const [query, setQuery] = useState("");
+  const [copied, setCopied] = useState(false);
+  const lastRead = readStorage("quran:last-read", { surahNumber: 1, surahName: "سُورَةُ ٱلْفَاتِحَةِ", ayahNumber: 1 });
+  const bookmarks = readStorage("quran:bookmarks", []);
 
-    function Handel_transform(link) {
-        setIsLoading(true)
-        navigate(link)
-        window.setTimeout(() => setIsLoading(false), 250)
-    }
+  useEffect(() => {
+    let active = true;
+    Promise.all([getSurahs(), getRadios(), getReciters(), getSurah(55)]).then(([surahData, radioData, reciterData, dailySurah]) => {
+      if (!active) return;
+      setSurahs(surahData); setRadios(radioData.slice(0, 4)); setReciters(reciterData.filter((reader) => reader.moshaf?.some((moshaf) => moshaf.surah_list.split(",").includes("1"))).slice(0, 4));
+      const index = Math.floor(Date.now() / 86400000) % dailySurah.ayahs.length;
+      setDailyAyah({ ...dailySurah.ayahs[index], surah: dailySurah });
+    }).catch(() => {});
+    return () => { active = false; };
+  }, []);
 
-  return (
-    <>
-    <div className="row-1">
-    <Section_header title="الأقسام المتاحة"/>
-    <div className="cards">
-        <div  className="card " onClick={()=> Handel_transform("listen")}>
-            <div className="card-content listen">
-            <h2>اللاستــمـاع</h2>
-            </div>
-        </div>
-        <div className="card" onClick={()=> Handel_transform("read/1")}>
-            <div className="card-content reade">
+  const filteredSurahs = useMemo(() => {
+    const search = normalizeArabic(query);
+    return surahs.filter((surah) => normalizeArabic(surah.name).includes(search)).slice(0, query ? 12 : 8);
+  }, [query, surahs]);
+  const khatmaProgress = Math.max(1, Math.round((Number(lastRead.surahNumber) / 114) * 100));
+  const cairoPlaying = player.track?.id === CAIRO_RADIO.id && player.playing;
 
-            <h2>القــراءة</h2>
-            </div>
-        </div>
-        <div  className="card " onClick={()=> Handel_transform("radio")}>
-            <div className="card-content radio-homePage">
+  const playRadio = (radio) => {
+    const item = radio.id === CAIRO_RADIO.id ? CAIRO_RADIO : { ...radio, src: radio.url, img: "/img/radio.png", writer: "إذاعة قرآن مباشرة", isLive: true };
+    player.track?.id === item.id ? player.toggle() : player.playTrack(item);
+  };
+  const playReader = (reader) => {
+    const moshaf = reader.moshaf.find((item) => item.surah_list.split(",").includes("1"));
+    player.playTrack({ id: `reader-${reader.id}`, name: "سورة الفاتحة", writer: reader.name, src: toSurahAudio(moshaf.server, 1), img: "/img/logo.png", isLive: false });
+  };
+  const copyAyah = async () => { if (!dailyAyah) return; await navigator.clipboard.writeText(`${dailyAyah.text} — ${dailyAyah.surah.name} (${dailyAyah.numberInSurah})`); setCopied(true); window.setTimeout(() => setCopied(false), 1500); };
+  const shareAyah = () => { if (!dailyAyah) return; const text = `${dailyAyah.text} — ${dailyAyah.surah.name} (${dailyAyah.numberInSurah})`; if (navigator.share) navigator.share({ title: "آية اليوم", text }).catch(() => {}); else copyAyah(); };
 
-            <h2>الراديو</h2>
-            </div>
-        </div>
-        <div  className="card " onClick={()=> Handel_transform("tv")}>
-            <div className="card-content tv">
-            <h2>تلفزيون مباشر</h2>
-            </div>
-        </div>
-        <div data-state="new" className="card " onClick={()=> Handel_transform("timings")}>
-            <div className="card-content salah-time">
+  return <div className="home-page">
+    <section className="home-hero">
+      <div className="hero-copy"><span className="hero-kicker">رفيقك اليومي مع كتاب الله</span><h1>اقرأ بقلبٍ حاضر،<br /><em>واستمع بطمأنينة.</em></h1><p>مصحف موثوق، تلاوات مختارة، وإذاعات القرآن في تجربة عربية هادئة تحفظ تقدمك على هذا الجهاز.</p><div className="hero-actions"><Link className="primary-action" to={`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`}><FaBookOpen /> ابدأ القراءة</Link><Link className="secondary-action" to="/listen"><FaHeadphones /> استمع الآن</Link></div></div>
+      <div className="hero-verse" aria-label="آية افتتاحية"><span>﴿</span><p>أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p><small>الرعد • ٢٨</small></div>
+    </section>
 
-            <h2>مواقيت الصلاة</h2>
-            </div>
-        </div>
-    </div>
-    </div>
-    </>
-  )
+    <section className="continue-strip"><div><span>استكمل من حيث توقفت</span><strong>{lastRead.surahName}</strong><small>الآية {lastRead.ayahNumber}</small></div><div className="continue-progress"><i style={{ width: `${khatmaProgress}%` }} /><span>{khatmaProgress}% من الختمة</span></div><button type="button" onClick={() => navigate(`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`)}>متابعة <FaArrowLeft /></button></section>
+
+    <section className="home-section"><SectionHeader title="إذاعات القرآن الكريم" /><div className="home-radio-layout"><article className="home-cairo-radio"><div><span className="live-pill">LIVE • القاهرة</span><h2>{CAIRO_RADIO.name}</h2><p>التلاوات النادرة والبرامج الدينية من البث المصري المباشر.</p><button type="button" onClick={() => playRadio(CAIRO_RADIO)}>{cairoPlaying ? <FaPause /> : <FaPlay />} {cairoPlaying ? "إيقاف مؤقت" : "شغّل البث"}</button></div><img src="/img/radio.png" alt="" /></article><div className="quick-radios">{radios.slice(0, 3).map((radio) => <button type="button" key={radio.id} onClick={() => playRadio(radio)}><span><FaPlay /></span><div><small>بث مباشر</small><strong>{radio.name}</strong></div></button>)}<Link to="/radio">عرض دليل الإذاعات <FaArrowLeft /></Link></div></div></section>
+
+    <section className="home-section"><SectionHeader title="رحلتك اليومية" /><div className="journey-grid"><article><span className="journey-icon"><FaBookOpen /></span><small>تقدم الختمة</small><strong>{khatmaProgress}%</strong><div className="meter"><i style={{ width: `${khatmaProgress}%` }} /></div></article><article><span className="journey-icon"><FaBookmark /></span><small>العلامات المحفوظة</small><strong>{bookmarks.length}</strong><Link to={`/read/${lastRead.surahNumber}`}>راجع محفوظاتك</Link></article><article><span className="journey-icon"><FaCheck /></span><small>الورد اليومي</small><strong>{lastRead.ayahNumber >= 10 ? "مكتمل" : `${lastRead.ayahNumber}/10`}</strong><Link to={`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`}>أكمل وردك</Link></article></div></section>
+
+    <section className="home-section"><div className="section-heading-row"><SectionHeader title="استكشف السور" /><label className="home-search"><FaSearch /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ابحث باسم السورة" /></label></div><div className="surah-explorer">{filteredSurahs.map((surah) => <Link to={`/read/${surah.number}`} key={surah.number}><span>{surah.number.toLocaleString("ar-EG")}</span><div><strong>{surah.name}</strong><small>{surah.revelationType === "Meccan" ? "مكية" : "مدنية"} • {surah.numberOfAyahs} آية</small></div><FaArrowLeft /></Link>)}</div></section>
+
+    <section className="home-section"><SectionHeader title="القراء المميزون" /><div className="featured-readers">{reciters.map((reader, index) => <article key={reader.id}><div className="reader-number">0{index + 1}</div><img src={index % 2 ? "/img/الحصري.jpg" : "/img/المنشاوي.jpg"} alt="" /><div><small>قارئ مميز</small><h3>{reader.name}</h3><button type="button" onClick={() => playReader(reader)}><FaPlay /> استمع للفاتحة</button></div></article>)}</div></section>
+
+    {dailyAyah && <section className="daily-ayah"><span className="ayah-label">آية اليوم</span><blockquote>﴿ {dailyAyah.text} ﴾</blockquote><p>{dailyAyah.surah.name} • الآية {dailyAyah.numberInSurah}</p><div><button type="button" onClick={copyAyah}>{copied ? <FaCheck /> : <FaCopy />} {copied ? "تم النسخ" : "نسخ"}</button><button type="button" onClick={shareAyah}><FaShareAlt /> مشاركة</button><button type="button" onClick={() => navigate(`/read/${dailyAyah.surah.number}/${dailyAyah.numberInSurah}`)}><FaHeart /> تدبر الآية</button></div></section>}
+  </div>;
 }

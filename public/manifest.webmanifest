@@ -1,0 +1,12 @@
+{
+  "name": "القرآن الكريم",
+  "short_name": "القرآن",
+  "description": "قراءة واستماع وإذاعات القرآن الكريم",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbfdfc",
+  "theme_color": "#0b8c6d",
+  "icons": [{ "src": "/img/logo.png", "sizes": "any", "type": "image/png", "purpose": "any maskable" }]
+}
