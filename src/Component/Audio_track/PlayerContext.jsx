@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { FaChevronDown, FaExpand, FaHeart, FaPause, FaPlay, FaRegHeart, FaStop } from "react-icons/fa";
+import { FaChevronDown, FaExpand, FaHeart, FaPause, FaPlay, FaRegHeart, FaTimes } from "react-icons/fa";
 import "./audio-track.css";
 
 const PlayerContext = createContext(null);
@@ -93,13 +93,11 @@ export function PlayerProvider({ children }) {
 
   return <PlayerContext.Provider value={value}>
     {children}
-    <audio ref={audioRef} preload="none" onLoadStart={() => setStatus("loading")} onCanPlay={() => setStatus("ready")} onPlaying={() => { setPlaying(true); setStatus("playing"); }} onPause={() => setPlaying(false)} onError={() => setStatus("error")} onEnded={() => repeat ? audioRef.current?.play() : setPlaying(false)} />
+    <audio ref={audioRef} preload="none" onLoadStart={() => setStatus("loading")} onCanPlay={() => setStatus("ready")} onPlaying={() => { setPlaying(true); setStatus("playing"); }} onPause={() => setPlaying(false)} onError={() => setStatus("error")} onEnded={() => { if (repeat) audioRef.current?.play(); else if (track?.onEnded) { const hasNext = track.onEnded(); if (hasNext === false) { setPlaying(false); setStatus("ended"); } } else { setPlaying(false); setStatus("ended"); } }} />
     {track && <aside className={`global-player ${expanded ? "expanded" : ""}`} aria-label="مشغل الصوت">
       <button className="player-cover" type="button" onClick={() => setExpanded(!expanded)} aria-label={expanded ? "تصغير المشغل" : "توسيع المشغل"}><img src={track.img || "/img/logo.png"} alt="" /></button>
-      <div className="player-copy"><span className={track.isLive ? "live-state" : "track-state"}>{track.isLive ? "مباشر الآن" : status === "error" ? "تعذر التشغيل" : "تلاوة"}</span><strong>{track.name}</strong><small>{track.writer}</small></div>
-      <button type="button" className="player-main" onClick={toggle} aria-label={playing ? "إيقاف مؤقت" : "تشغيل"}>{playing ? <FaPause /> : <FaPlay />}</button>
-      <button type="button" onClick={() => setExpanded(!expanded)} aria-label={expanded ? "تصغير" : "توسيع"}>{expanded ? <FaChevronDown /> : <FaExpand />}</button>
-      <button type="button" onClick={close} aria-label="إغلاق المشغل"><FaStop /></button>
+      <div className="player-copy"><span className={track.isLive ? "live-state" : "track-state"}>{track.isLive ? "مباشر الآن" : status === "error" ? "تعذر التشغيل" : track.sequence ? "تلاوة السورة" : "تلاوة آية"}</span><strong>{track.name}</strong><small>{track.writer}</small></div>
+      <div className="player-controls"><button type="button" className="player-main" onClick={toggle} aria-label={playing ? "إيقاف مؤقت" : "تشغيل"}>{playing ? <FaPause /> : <FaPlay />}</button><button type="button" onClick={() => setExpanded(!expanded)} aria-label={expanded ? "تصغير" : "توسيع"}>{expanded ? <FaChevronDown /> : <FaExpand />}</button><button type="button" onClick={close} aria-label="إغلاق المشغل"><FaTimes /></button></div>
       {expanded && <div className="player-details">
         <button type="button" onClick={() => toggleFavorite()}>{favorite ? <FaHeart /> : <FaRegHeart />} {favorite ? "محفوظة" : "أضف للمفضلة"}</button>
         <label>الصوت <input type="range" min="0" max="1" step="0.05" value={volume} onChange={(event) => setVolume(event.target.value)} /></label>

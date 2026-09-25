@@ -32,6 +32,7 @@ function RouteLayout() {
 
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.href = new URL(location.pathname, "https://quran-website-app.netlify.app").href;
+    document.querySelector("main")?.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname]);
 
   return <><Header /><Nav /><Main><Outlet /></Main><Footer /></>;
