@@ -69,6 +69,14 @@ export async function getRadios() {
   return response.radios;
 }
 
+export async function getLiveTv() {
+  const response = await cachedGet(
+    "quran:live-tv:v1",
+    "https://www.mp3quran.net/api/v3/live-tv?language=ar",
+  );
+  return response.livetv || [];
+}
+
 export async function getPrayerTimes(city) {
   const date = new Date().toISOString().slice(0, 10);
   const response = await cachedGet(

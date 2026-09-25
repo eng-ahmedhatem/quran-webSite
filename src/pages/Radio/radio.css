@@ -6,7 +6,7 @@
 .cairo-feature p { max-width: 580px; opacity: .78; line-height: 1.8; }
 .cairo-feature img { width: min(200px, 24vw); filter: drop-shadow(0 22px 25px rgba(0,0,0,.25)); }
 .cairo-feature button { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; border: 0; border-radius: 13px; padding: 11px 20px; background: #e9b949; color: #173e34; cursor: pointer; }
-.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .04em; }
+.eyebrow { font-size: 14px; font-weight: 700; letter-spacing: .04em; }
 .radio-tools { display: grid; grid-template-columns: minmax(240px, 420px) 1fr; gap: 16px; align-items: center; margin-bottom: 24px; }
 .radio-tools > label { min-height: 46px; display: flex; align-items: center; gap: 10px; padding: 11px 15px; color: var(--muted-text); border: 1px solid var(--line-color); background: var(--main-bg); border-radius: 14px; }
 .radio-tools input { width: 100%; border: 0; outline: 0; color: var(--main-text-color); background: transparent; }
@@ -14,7 +14,7 @@
 .radio-filters button { border: 1px solid var(--line-color); background: var(--main-bg); color: var(--main-text-color); padding: 9px 14px; border-radius: 99px; cursor: pointer; }
 .radio-filters button.active { color: white; border-color: var(--green-text-color); background: var(--green-text-color); }
 .recent-radios { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; overflow-x: auto; }
-.recent-radios > span { flex: 0 0 auto; color: var(--muted-text); font-size: 12px; }
+.recent-radios > span { flex: 0 0 auto; color: var(--muted-text); font-size: 14px; }
 .recent-radios button { flex: 0 0 auto; display: flex; align-items: center; gap: 7px; border: 0; border-radius: 99px; padding: 8px 12px; color: var(--main-text-color); background: var(--green-color); cursor: pointer; }
 .radio .cards { width: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
 .radio .cards .card { min-height: 190px; display: grid; grid-template-rows: auto 1fr; gap: 22px; padding: 20px 22px 24px; overflow: hidden; border: 1px solid var(--line-color); border-radius: 22px 7px 22px 7px; color: var(--main-text-color); background: var(--main-bg); box-shadow: 0 10px 30px rgba(10, 62, 50, .065); position: relative; isolation: isolate; transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
@@ -23,12 +23,12 @@
 .radio .cards .card.playing { border-color: var(--green-text-color); box-shadow: inset -4px 0 0 var(--green-text-color), 0 14px 34px rgba(11, 140, 109, .12); }
 .radio .card header { grid-area: auto; width: 100%; height: auto; display: flex; align-items: center; justify-content: space-between; padding: 0; position: static; }
 .radio .card header::before, .radio .card header::after { content: none; }
-.radio .card .live { display: inline-flex; align-items: center; gap: 7px; padding: 5px 9px; border-radius: 99px; color: var(--green-text-color); background: var(--green-color); font-size: 11px; font-weight: 700; }
+.radio .card .live { display: inline-flex; align-items: center; gap: 7px; padding: 5px 9px; border-radius: 99px; color: var(--green-text-color); background: var(--green-color); font-size: 14px; font-weight: 700; }
 .radio .card .live i { width: 7px; height: 7px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 0 4px rgba(239,68,68,.13); }
 .favorite-radio { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line-color); border-radius: 50%; color: var(--green-text-color); background: transparent; cursor: pointer; }
 .station-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 18px; }
 .station-body > div { min-width: 0; text-align: right; }
-.station-body small { color: var(--muted-text); font-size: 11px; }
+.station-body small { color: var(--muted-text); font-size: 14px; }
 .station-body h2 { margin-top: 7px; color: var(--main-text-color); font-size: 18px; line-height: 1.65; overflow-wrap: anywhere; text-wrap: balance; }
 .play-radio { width: 50px; height: 50px; display: grid; place-items: center; flex: 0 0 auto; border: 0; border-radius: 50%; color: white; background: var(--green-text-color); box-shadow: 0 9px 22px rgba(11,140,109,.22); cursor: pointer; }
 .card.playing .play-radio { animation: playing-pulse 1.8s ease-in-out infinite; }

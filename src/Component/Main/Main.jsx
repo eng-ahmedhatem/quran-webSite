@@ -1,4 +1,5 @@
 import { memo, useEffect, useRef, useState } from "react";
+import { FaArrowUp } from "react-icons/fa";
 import "./main.css";
 
 function Main({ children }) {
@@ -19,7 +20,7 @@ function Main({ children }) {
         type="button"
         aria-label="العودة إلى أعلى الصفحة"
         onClick={() => mainRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
-      >↑</button>
+      ><span>للأعلى</span><FaArrowUp aria-hidden="true" /></button>
       <div className="content">{children}</div>
     </main>
   );

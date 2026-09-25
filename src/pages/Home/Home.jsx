@@ -28,6 +28,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [copied, setCopied] = useState(false);
   const [showDailyNotice, setShowDailyNotice] = useState(false);
+  const [noticeClosing, setNoticeClosing] = useState(false);
   const lastRead = readStorage("quran:last-read", { surahNumber: 1, surahName: "سُورَةُ ٱلْفَاتِحَةِ", ayahNumber: 1 });
   const bookmarks = readStorage("quran:bookmarks", []);
 
@@ -49,7 +50,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!dailyAyah) return;
-    const key = `quran:daily-ayah-shown:${new Date().toISOString().slice(0, 10)}`;
+    const key = `quran:daily-ayah-shown:v2:${new Date().toISOString().slice(0, 10)}`;
     try {
       if (sessionStorage.getItem(key)) return;
       sessionStorage.setItem(key, "true");
@@ -74,9 +75,13 @@ export default function Home() {
   };
   const copyAyah = async () => { if (!dailyAyah) return; await navigator.clipboard.writeText(`${dailyAyah.text} — ${dailyAyah.surah.name} (${dailyAyah.numberInSurah})`); setCopied(true); window.setTimeout(() => setCopied(false), 1500); };
   const shareAyah = () => { if (!dailyAyah) return; const text = `${dailyAyah.text} — ${dailyAyah.surah.name} (${dailyAyah.numberInSurah})`; if (navigator.share) navigator.share({ title: "آية اليوم", text }).catch(() => {}); else copyAyah(); };
+  const closeDailyNotice = (afterClose) => {
+    setNoticeClosing(true);
+    window.setTimeout(() => { setShowDailyNotice(false); setNoticeClosing(false); afterClose?.(); }, 320);
+  };
 
   return <div className="home-page">
-    {showDailyNotice && dailyAyah && <div className="daily-notice-backdrop" role="presentation"><section className="daily-notice" role="dialog" aria-modal="true" aria-labelledby="daily-notice-title"><button className="notice-close" type="button" onClick={() => setShowDailyNotice(false)} aria-label="إغلاق آية اليوم"><FaTimes /></button><span className="notice-mark">﴿</span><small>بداية مباركة ليومك</small><h2 id="daily-notice-title">آية اليوم</h2><blockquote>{dailyAyah.text}</blockquote><p>{dailyAyah.surah.name} • الآية {dailyAyah.numberInSurah}</p><div><button type="button" onClick={() => { setShowDailyNotice(false); navigate(`/read/${dailyAyah.surah.number}/${dailyAyah.numberInSurah}`); }}><FaBookOpen /> اقرأ في المصحف</button><button type="button" onClick={copyAyah}>{copied ? <FaCheck /> : <FaCopy />} {copied ? "تم النسخ" : "نسخ الآية"}</button></div></section></div>}
+    {showDailyNotice && dailyAyah && <div className={`daily-notice-backdrop ${noticeClosing ? "is-closing" : ""}`} role="presentation"><section className="daily-notice" role="dialog" aria-modal="true" aria-labelledby="daily-notice-title"><button className="notice-close" type="button" onClick={() => closeDailyNotice()} aria-label="إغلاق آية اليوم"><FaTimes /></button><div className="notice-intro"><span className="notice-mark">﴿</span><small>بداية مباركة ليومك</small></div><h2 id="daily-notice-title">آية اليوم</h2><blockquote>{dailyAyah.text}</blockquote><p>{dailyAyah.surah.name} • الآية {dailyAyah.numberInSurah}</p><div className="notice-actions"><button type="button" onClick={() => closeDailyNotice(() => navigate(`/read/${dailyAyah.surah.number}/${dailyAyah.numberInSurah}`))}><FaBookOpen /> اقرأ في المصحف</button><button type="button" onClick={copyAyah}>{copied ? <FaCheck /> : <FaCopy />} {copied ? "تم النسخ" : "نسخ الآية"}</button></div></section></div>}
     <section className="home-hero">
       <div className="hero-copy"><span className="hero-kicker">رفيقك اليومي مع كتاب الله</span><h1>اقرأ بقلبٍ حاضر،<br /><em>واستمع بطمأنينة.</em></h1><p>مصحف موثوق، تلاوات مختارة، وإذاعات القرآن في تجربة عربية هادئة تحفظ تقدمك على هذا الجهاز.</p><div className="hero-actions"><Link className="primary-action" to={`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`}><FaBookOpen /> ابدأ القراءة</Link><Link className="secondary-action" to="/listen"><FaHeadphones /> استمع الآن</Link></div></div>
       <div className="hero-verse" aria-label="آية افتتاحية"><span>﴿</span><p>أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p><small>الرعد • ٢٨</small></div>

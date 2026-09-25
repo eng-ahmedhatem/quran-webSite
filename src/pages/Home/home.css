@@ -2,7 +2,7 @@
 .home-hero { min-height: 480px; display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: clamp(30px, 6vw, 90px); padding: clamp(28px, 6vw, 72px); overflow: hidden; color: #f5fffb; border-radius: 34px 10px 34px 10px; background: #083e34; position: relative; isolation: isolate; }
 .home-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .18; background: radial-gradient(circle at 14% 20%, #7dd9bd 0 1px, transparent 2px) 0 0 / 22px 22px; mask-image: linear-gradient(90deg, black, transparent 75%); }
 .home-hero::after { content: "القرآن"; position: absolute; z-index: -1; left: -2%; bottom: -18%; font-size: clamp(120px, 22vw, 310px); font-weight: 800; color: rgba(255,255,255,.035); }
-.hero-kicker { color: #8ee0c5; font-size: 13px; font-weight: 700; }
+.hero-kicker { color: #8ee0c5; font-size: 14px; font-weight: 700; }
 .hero-copy h1 { margin: 14px 0 20px; font-size: clamp(38px, 5.3vw, 76px); line-height: 1.2; letter-spacing: -.04em; }
 .hero-copy h1 em { color: #e8bd58; font-style: normal; }
 .hero-copy p { max-width: 650px; color: rgba(255,255,255,.7); line-height: 1.9; }
@@ -16,7 +16,7 @@
 .hero-verse small { color: #8ee0c5; }
 .continue-strip { display: grid; grid-template-columns: minmax(230px, .8fr) minmax(240px, 1.2fr) auto; gap: clamp(18px, 3vw, 42px); align-items: center; margin-top: -45px; padding: 22px clamp(20px, 3vw, 34px); z-index: 2; border: 1px solid var(--line-color); border-inline-start: 5px solid var(--green-text-color); border-radius: 18px; color: var(--main-text-color); background: color-mix(in srgb, var(--main-bg) 94%, var(--green-color)); box-shadow: var(--card-shadow); backdrop-filter: blur(12px); }
 .continue-strip > div:first-child { display: grid; }
-.continue-strip small, .continue-strip span { color: var(--muted-text); font-size: 12px; }
+.continue-strip small, .continue-strip span { color: var(--muted-text); font-size: 14px; }
 .continue-strip strong { margin: 4px 0; font-size: 17px; }
 .continue-progress { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
 .continue-progress::before { content: ""; grid-column: 1; grid-row: 1; width: 100%; height: 6px; border-radius: 10px; background: var(--second-bg); }
@@ -30,7 +30,7 @@
 .home-cairo-radio p { opacity: .72; }
 .home-cairo-radio img { width: min(190px, 24vw); filter: drop-shadow(0 20px 22px rgba(0,0,0,.25)); }
 .home-cairo-radio button { display: flex; align-items: center; gap: 8px; margin-top: 24px; padding: 11px 18px; border: 0; border-radius: 99px; color: #173e34; background: #e8bd58; cursor: pointer; }
-.live-pill { font-size: 11px; font-weight: 700; color: #9af0d4; }
+.live-pill { font-size: 14px; font-weight: 700; color: #9af0d4; }
 .live-pill::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 6px; border-radius: 50%; background: #ff5757; }
 .quick-radios { display: grid; gap: 10px; }
 .quick-radios button { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; border: 1px solid var(--line-color); border-radius: 16px; padding: 14px; text-align: right; color: var(--main-text-color); background: var(--main-bg); cursor: pointer; }
@@ -45,7 +45,7 @@
 .journey-icon { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 22px; border-radius: 14px; color: var(--green-text-color); background: var(--green-color); }
 .journey-grid small { color: var(--muted-text); }
 .journey-grid strong { margin: 7px 0; font-size: 30px; }
-.journey-grid a { margin-top: auto; color: var(--green-text-color); font-size: 13px; }
+.journey-grid a { margin-top: auto; color: var(--green-text-color); font-size: 14px; }
 .meter { width: 100%; height: 7px; margin-top: auto; border-radius: 10px; background: var(--second-bg); }
 .meter i { display: block; height: 100%; border-radius: inherit; background: var(--green-text-color); }
 .section-heading-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
@@ -56,42 +56,48 @@
 .surah-explorer a:hover { transform: translateY(-3px); border-color: var(--green-text-color); }
 .surah-explorer a > span { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; color: var(--green-text-color); background: var(--green-color); }
 .surah-explorer a div { display: grid; }
-.surah-explorer small { color: var(--muted-text); font-size: 11px; }
+.surah-explorer small { color: var(--muted-text); font-size: 14px; }
 .surah-explorer a > svg { color: var(--muted-text); }
-.featured-readers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-.featured-readers article { min-width: 0; min-height: 270px; display: grid; grid-template-columns: 210px minmax(0, 1fr); overflow: hidden; border-radius: 24px 8px 24px 8px; color: var(--main-text-color); background: var(--main-bg); border: 1px solid var(--line-color); box-shadow: 0 10px 30px rgba(10, 62, 50, .07); position: relative; isolation: isolate; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+.featured-readers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.featured-readers article { min-width: 0; display: grid; grid-template-rows: auto 1fr; overflow: hidden; border-radius: 24px 8px 24px 8px; color: var(--main-text-color); background: var(--main-bg); border: 1px solid var(--line-color); box-shadow: 0 10px 30px rgba(10, 62, 50, .07); position: relative; isolation: isolate; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
 .featured-readers article::after { content: ""; position: absolute; inset-inline-end: -70px; bottom: -110px; z-index: -1; width: 210px; height: 210px; border: 1px solid color-mix(in srgb, var(--green-text-color) 12%, transparent); border-radius: 50%; box-shadow: 0 0 0 26px color-mix(in srgb, var(--green-text-color) 4%, transparent); }
 .featured-readers article:hover { transform: translateY(-5px); border-color: color-mix(in srgb, var(--green-text-color) 55%, var(--line-color)); box-shadow: 0 18px 38px rgba(10, 62, 50, .12); }
-.reader-portrait { min-height: 270px; overflow: hidden; background: var(--second-bg); position: relative; }
+.reader-portrait { min-height: 0; aspect-ratio: 4 / 3; overflow: hidden; background: var(--second-bg); position: relative; }
 .reader-portrait::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(5, 44, 36, .18), transparent 42%); }
-.featured-readers img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform .35s ease; }
+.featured-readers img { width: 100%; height: 100%; object-fit: cover; object-position: center 16%; transition: transform .4s cubic-bezier(.2,.8,.2,1); }
 .featured-readers article:hover img { transform: scale(1.025); }
-.reader-copy { min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 30px clamp(22px, 3vw, 38px); }
-.featured-readers h3 { margin: 9px 0 24px; font-size: clamp(20px, 2vw, 27px); line-height: 1.55; text-wrap: balance; }
-.featured-readers small { display: inline-flex; align-items: center; gap: 7px; color: var(--muted-text); font-size: 11px; }
+.reader-copy { min-width: 0; min-height: 182px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 22px; }
+.featured-readers h3 { margin: 8px 0 18px; font-size: clamp(19px, 1.7vw, 24px); line-height: 1.5; text-wrap: balance; }
+.featured-readers small { display: inline-flex; align-items: center; gap: 7px; color: var(--muted-text); font-size: 14px; }
 .featured-readers small::before { content: ""; width: 18px; height: 2px; border-radius: 2px; background: var(--green-text-color); }
 .featured-readers button { min-height: 46px; display: flex; gap: 10px; align-items: center; margin-top: auto; padding: 6px 8px 6px 15px; border: 1px solid color-mix(in srgb, var(--green-text-color) 32%, var(--line-color)); border-radius: 99px; color: var(--green-text-color); background: color-mix(in srgb, var(--green-color) 44%, var(--main-bg)); cursor: pointer; }
 .featured-readers button span { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--green-text-color); box-shadow: 0 7px 16px rgba(11, 140, 109, .2); }
-.daily-notice-backdrop { position: fixed; inset: 0; z-index: 250; display: grid; place-items: center; padding: 18px; background: rgba(4, 28, 23, .58); backdrop-filter: blur(8px); animation: notice-in .28s ease both; }
-.daily-notice { position: relative; width: min(620px, 100%); padding: clamp(28px, 6vw, 58px); overflow: hidden; text-align: center; border: 1px solid rgba(255,255,255,.16); border-radius: 30px 10px 30px 10px; color: #f5fffb; background: #083e34; box-shadow: 0 30px 90px rgba(0,0,0,.3); }
+.daily-notice-backdrop { position: fixed; inset: 0; z-index: 250; display: grid; place-items: center; padding: 18px; background: rgba(4, 28, 23, .58); backdrop-filter: blur(8px); animation: notice-backdrop-in .32s ease both; }
+.daily-notice { position: relative; width: min(620px, 100%); padding: clamp(28px, 6vw, 58px); overflow: hidden; text-align: center; border: 1px solid rgba(255,255,255,.16); border-radius: 30px 10px 30px 10px; color: #f5fffb; background: #083e34; box-shadow: 0 30px 90px rgba(0,0,0,.3); animation: notice-card-in .5s cubic-bezier(.2,.8,.2,1) both; }
+.daily-notice-backdrop.is-closing { animation: notice-backdrop-out .32s ease both; }
+.daily-notice-backdrop.is-closing .daily-notice { animation: notice-card-out .32s ease both; }
 .daily-notice::after { content: "آية"; position: absolute; left: -10px; bottom: -52px; z-index: 0; color: rgba(255,255,255,.045); font-size: 170px; font-weight: 900; }
 .notice-close { position: absolute; top: 16px; left: 16px; z-index: 2; width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; color: white; background: transparent; cursor: pointer; }
+.notice-intro { display: grid; justify-items: center; gap: 18px; margin-bottom: 6px; }
 .notice-mark { display: block; color: #e8bd58; font-family: var(--quran-font); font-size: 60px; line-height: .65; }
 .daily-notice small { color: #8ee0c5; }
 .daily-notice h2 { margin: 6px 0 18px; font-size: 28px; }
 .daily-notice blockquote { position: relative; z-index: 1; font-family: var(--quran-font); font-size: clamp(25px, 4vw, 38px); line-height: 1.8; }
 .daily-notice p { margin: 14px 0 24px; color: rgba(255,255,255,.65); }
-.daily-notice > div { position: relative; z-index: 1; display: flex; justify-content: center; gap: 9px; flex-wrap: wrap; }
-.daily-notice > div button { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid rgba(255,255,255,.22); border-radius: 99px; color: white; background: transparent; cursor: pointer; }
-.daily-notice > div button:first-child { border-color: #e8bd58; color: #083e34; background: #e8bd58; }
-@keyframes notice-in { from { opacity: 0; } to { opacity: 1; } }
+.daily-notice .notice-actions { position: relative; z-index: 1; display: flex; justify-content: center; gap: 9px; flex-wrap: wrap; }
+.daily-notice .notice-actions button { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid rgba(255,255,255,.22); border-radius: 99px; color: white; background: transparent; cursor: pointer; }
+.daily-notice .notice-actions button:first-child { border-color: #e8bd58; color: #083e34; background: #e8bd58; }
+@keyframes notice-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes notice-backdrop-out { to { opacity: 0; } }
+@keyframes notice-card-in { from { opacity: 0; transform: translateY(26px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes notice-card-out { to { opacity: 0; transform: translateY(18px) scale(.97); } }
 .daily-ayah { display: grid; place-items: center; gap: 14px; padding: clamp(32px, 7vw, 90px); text-align: center; border: 1px solid color-mix(in srgb, var(--green-text-color) 25%, transparent); border-radius: 50% 50% 24px 24px; color: var(--main-text-color); background: color-mix(in srgb, var(--main-bg) 87%, var(--green-color)); }
 .ayah-label { color: var(--green-text-color); font-weight: 700; }
 .daily-ayah blockquote { max-width: 1000px; font-family: var(--quran-font); font-size: clamp(25px, 4vw, 46px); line-height: 1.8; }
 .daily-ayah p { color: var(--muted-text); }
 .daily-ayah > div { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; }
 .daily-ayah button { display: flex; align-items: center; gap: 7px; padding: 9px 14px; border: 1px solid var(--line-color); border-radius: 99px; color: var(--main-text-color); background: var(--main-bg); cursor: pointer; }
-@media (max-width: 1100px) { .featured-readers { grid-template-columns: 1fr; } }
+@media (max-width: 1200px) { .featured-readers { grid-template-columns: repeat(2, minmax(0, 1fr)); }.featured-readers article { grid-template-columns: 160px minmax(0, 1fr); grid-template-rows: 220px; }.reader-portrait { height: 220px; aspect-ratio: auto; }.reader-copy { min-height: 220px; } }
 @media (max-width: 1000px) { .home-hero { grid-template-columns: 1fr; } .hero-verse { min-height: 220px; } .home-radio-layout { grid-template-columns: 1fr; } .surah-explorer { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 700px) { .home-page { gap: 48px; } .home-hero { min-height: auto; padding: 28px 22px; border-radius: 24px 8px; } .hero-copy h1 { font-size: 36px; } .hero-verse { padding: 24px; border-radius: 50% 50% 14px 14px; } .continue-strip { grid-template-columns: 1fr auto; gap: 14px; margin-top: -28px; padding: 16px; } .continue-progress { grid-column: 1 / -1; grid-row: 2; } .home-cairo-radio { min-height: 300px; align-items: flex-start; } .home-cairo-radio img { position: absolute; left: 12px; bottom: 14px; width: 100px; } .journey-grid { grid-template-columns: 1fr; } .journey-grid article:nth-child(2) { transform: none; } .section-heading-row { align-items: stretch; flex-direction: column; } .home-search { min-width: 0; } .surah-explorer { grid-template-columns: 1fr; } .featured-readers { gap: 12px; } .featured-readers article { min-height: 220px; grid-template-columns: 155px minmax(0, 1fr); } .reader-portrait { min-height: 220px; } .reader-copy { padding: 22px 18px; } .featured-readers h3 { margin-bottom: 18px; font-size: 18px; } .featured-readers button { font-size: 12px; } .daily-notice { border-radius: 24px 8px; } }
+@media (max-width: 700px) { .home-page { gap: 48px; } .home-hero { min-height: auto; padding: 28px 22px; border-radius: 24px 8px; } .hero-copy h1 { font-size: 36px; } .hero-verse { padding: 24px; border-radius: 50% 50% 14px 14px; } .continue-strip { grid-template-columns: 1fr auto; gap: 14px; margin-top: -28px; padding: 16px; } .continue-progress { grid-column: 1 / -1; grid-row: 2; } .home-cairo-radio { min-height: 300px; align-items: flex-start; } .home-cairo-radio img { position: absolute; left: 12px; bottom: 14px; width: 100px; } .journey-grid { grid-template-columns: 1fr; } .journey-grid article:nth-child(2) { transform: none; } .section-heading-row { align-items: stretch; flex-direction: column; } .home-search { min-width: 0; } .surah-explorer { grid-template-columns: 1fr; } .featured-readers { grid-template-columns: 1fr; gap: 12px; } .featured-readers article { grid-template-columns: 145px minmax(0, 1fr); grid-template-rows: 205px; } .reader-portrait { min-height: 205px; height: 205px; } .reader-copy { min-height: 205px; padding: 20px 16px; } .featured-readers h3 { margin-bottom: 15px; font-size: 17px; } .featured-readers button { font-size: 14px; } .daily-notice { border-radius: 24px 8px; } }
 @media (max-width: 430px) { .featured-readers article { grid-template-columns: 132px minmax(0, 1fr); } .reader-copy { padding: 18px 14px; } .featured-readers h3 { font-size: 16px; } .featured-readers button { width: 42px; padding: 4px; overflow: hidden; white-space: nowrap; color: transparent; } .featured-readers button span { flex: 0 0 auto; color: white; } }

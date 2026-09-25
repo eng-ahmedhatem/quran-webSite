@@ -1,10 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaBell, FaBellSlash, FaClock, FaMapMarkerAlt, FaRegCalendarAlt } from "react-icons/fa";
 import SalahCard from "./SalahCard";
 import Status from "../../Component/Status/Status";
 import { getPrayerTimes } from "../../services/api";
@@ -52,6 +47,10 @@ export default function Timing() {
   const [timings, setTimings] = useState(null);
   const [error, setError] = useState("");
   const [retry, setRetry] = useState(0);
+  const [notificationStatus, setNotificationStatus] = useState(() => {
+    if (!("Notification" in window)) return "unsupported";
+    return localStorage.getItem("quran:prayer-notifications") === "enabled" && Notification.permission === "granted" ? "enabled" : "disabled";
+  });
 
   useEffect(() => {
     const interval = window.setInterval(() => setNow(new Date()), 1000);
@@ -73,8 +72,33 @@ export default function Timing() {
     let match = obligatory.map(([name]) => ({ name, at: prayerDate(timings[name], now) })).find((item) => item.at > now);
     if (!match) match = { name: "Fajr", at: prayerDate(timings.Fajr, now, true) };
     const seconds = Math.max(0, Math.floor((match.at - now) / 1000));
-    return { name: match.name, timeLeft: `${String(Math.floor(seconds / 3600)).padStart(2, "0")} : ${String(Math.floor((seconds % 3600) / 60)).padStart(2, "0")} : ${String(seconds % 60).padStart(2, "0")}` };
+    return { name: match.name, label: prayers.find(([key]) => key === match.name)?.[1], at: match.at, timeLeft: `${String(Math.floor(seconds / 3600)).padStart(2, "0")} : ${String(Math.floor((seconds % 3600) / 60)).padStart(2, "0")} : ${String(seconds % 60).padStart(2, "0")}` };
   }, [now, timings]);
+
+  const enableNotifications = async () => {
+    if (!("Notification" in window)) return setNotificationStatus("unsupported");
+    const permission = Notification.permission === "granted" ? "granted" : await Notification.requestPermission();
+    if (permission === "granted") { localStorage.setItem("quran:prayer-notifications", "enabled"); setNotificationStatus("enabled"); }
+    else setNotificationStatus("denied");
+  };
+  const disableNotifications = () => { localStorage.removeItem("quran:prayer-notifications"); setNotificationStatus("disabled"); };
+
+  useEffect(() => {
+    if (!timings || notificationStatus !== "enabled" || Notification.permission !== "granted") return undefined;
+    const cityLabel = cities.find((item) => item.apiName === city)?.displayName;
+    const notify = async (label) => {
+      const options = { body: `حان الآن وقت صلاة ${label} في ${cityLabel}`, icon: "/img/logo.png", badge: "/img/logo.png", tag: `prayer-${label}`, dir: "rtl", lang: "ar" };
+      const registration = await navigator.serviceWorker?.getRegistration();
+      if (registration) registration.showNotification(`موعد صلاة ${label}`, options);
+      else new Notification(`موعد صلاة ${label}`, options);
+    };
+    const timers = prayers.filter(([key]) => key !== "Sunrise").map(([key, label]) => {
+      const at = prayerDate(timings[key], new Date(), key === "Fajr" && prayerDate(timings[key], new Date()) <= new Date());
+      const delay = at.getTime() - Date.now();
+      return delay > 0 ? window.setTimeout(() => notify(label), delay) : null;
+    }).filter(Boolean);
+    return () => timers.forEach((timer) => window.clearTimeout(timer));
+  }, [city, notificationStatus, timings]);
 
   if (error) return <Status message={error} action={() => setRetry((value) => value + 1)} />;
   if (!timings) return <div className="loading_section"><span className="loader_section" /></div>;
@@ -85,26 +109,15 @@ export default function Timing() {
 
   return (
     <div className="Timing">
-      <div className="row-1">
-        <div className="text-day">
-          <h4>اليوم <FaRegCalendarAlt /></h4>
-          <p><span>{hijri[0]}</span><span>{hijri[1]}</span><span>{hijri[2]} هجرياً</span></p>
-          <p><span>{gregorian[0]}</span><span>{gregorian[1]}</span><span>{gregorian[2]} ميلادياً</span></p>
-          <p>{now.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</p>
-        </div>
-        <div className="text-location">
-          <h1>أوقات الصلاة في <span>{cityName}</span></h1>
-          <Box><FormControl fullWidth variant="filled">
-            <InputLabel id="select-city">اختر المدينة</InputLabel>
-            <Select labelId="select-city" value={city} onChange={(event) => setCity(event.target.value)}>
-              {cities.map((item) => <MenuItem value={item.apiName} key={item.apiName}>{item.displayName}</MenuItem>)}
-            </Select>
-          </FormControl></Box>
-        </div>
-      </div>
-      <div className="row-2"><div className="cards">
+      <section className={`prayer-hero prayer-${nextPrayer?.name || "day"}`}>
+        <div className="prayer-heading"><span><FaRegCalendarAlt /> مواقيت اليوم</span><h1>أوقات الصلاة في <em>{cityName}</em></h1><p>مواقيت محسوبة لمدينتك مع تنبيه اختياري عند دخول وقت الصلاة.</p><label className="city-select"><FaMapMarkerAlt /><select aria-label="اختر المدينة" value={city} onChange={(event) => setCity(event.target.value)}>{cities.map((item) => <option value={item.apiName} key={item.apiName}>{item.displayName}</option>)}</select></label></div>
+        <div className="next-prayer-panel"><small>الصلاة التالية</small><strong>{nextPrayer?.label}</strong><time><FaClock /> {nextPrayer?.timeLeft}</time><span>الوقت المتبقي</span></div>
+        <div className="prayer-date"><div><span>{hijri[0]}</span><strong>{hijri[1]}</strong><small>{hijri[2]} هـ</small></div><p>{gregorian.join(" ")}</p><time>{now.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</time></div>
+      </section>
+      <section className="prayer-notifications"><div className="notification-icon">{notificationStatus === "enabled" ? <FaBell /> : <FaBellSlash />}</div><div><strong>تنبيهات مواقيت الصلاة</strong><p>{notificationStatus === "enabled" ? `مفعّلة لمواقيت ${cityName} ما دام التطبيق مفتوحًا.` : notificationStatus === "denied" ? "الإشعارات محظورة من المتصفح. فعّلها من إعدادات الموقع." : notificationStatus === "unsupported" ? "هذا المتصفح لا يدعم إشعارات الويب." : "فعّلها ليصلك تنبيه عند دخول وقت كل صلاة."}</p></div>{notificationStatus === "enabled" ? <button type="button" onClick={disableNotifications}>إيقاف التنبيهات</button> : <button type="button" disabled={notificationStatus === "unsupported" || notificationStatus === "denied"} onClick={enableNotifications}>تفعيل التنبيهات</button>}</section>
+      <section className="prayer-times"><div className="prayer-section-head"><div><small>اليوم</small><h2>جدول الصلوات</h2></div><span>التوقيت المحلي لمدينة {cityName}</span></div><div className="cards">
         {prayers.map(([key, name]) => <SalahCard key={key} name={name} time={displayPrayer(timings[key])} next={nextPrayer?.name === key ? nextPrayer : false} />)}
-      </div></div>
+      </div></section>
     </div>
   );
 }
