@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Section_header({title}) {
   return (
     <div className = "Section_header">

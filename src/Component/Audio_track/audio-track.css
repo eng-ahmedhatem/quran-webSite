@@ -1,0 +1,6 @@
+.native-audio-player { width: 100%; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; padding: 12px; color: var(--main-text-color); }
+.native-audio-player img { width: 48px; height: 48px; object-fit: contain; border-radius: 10px; }
+.native-audio-player .track-copy { min-width: 0; }
+.native-audio-player strong, .native-audio-player small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.native-audio-player small { color: var(--second-text-color); margin-top: 3px; }
+.native-audio-player audio { grid-column: 1 / -1; width: 100%; height: 42px; direction: ltr; }

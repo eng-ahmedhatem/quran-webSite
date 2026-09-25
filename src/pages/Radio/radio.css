@@ -18,6 +18,7 @@
   position: relative;
 }
 .radio .cards .card {
+  border: 0;
   box-sizing: content-box !important;
   overflow: hidden;
   text-align: center;

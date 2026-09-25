@@ -1,28 +1,28 @@
-import React, { useContext , memo} from "react"
-import "./main.css"
-import { useEffect } from "react"
+import { memo, useEffect, useRef, useState } from "react";
+import "./main.css";
 
-export default memo( function Main({children , btnTotop}) {
-  useEffect(()=> {
-    document.querySelector(".scrollTo_top").addEventListener("click",()=>{
-      document.querySelector("main").scrollTop = 0
-    })
-    document.querySelector("main").addEventListener('scroll', ()=>{
-        if(document.querySelector("main").scrollTop > 500){
-          document.querySelector(".scrollTo_top").classList.add("showBtn")
-        }else {
-          document.querySelector(".scrollTo_top").classList.remove("showBtn")
-        }
-      });
-},[])
+function Main({ children }) {
+  const mainRef = useRef(null);
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const main = mainRef.current;
+    const onScroll = () => setShowTop(main.scrollTop > 500);
+    main.addEventListener("scroll", onScroll, { passive: true });
+    return () => main.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <main id="main">
-
-      <div className='content'>
-        {children}
-      </div>
+    <main id="main" ref={mainRef}>
+      <button
+        className={`scrollTo_top ${showTop ? "showBtn" : ""}`}
+        type="button"
+        aria-label="العودة إلى أعلى الصفحة"
+        onClick={() => mainRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
+      >↑</button>
+      <div className="content">{children}</div>
     </main>
-  )
+  );
 }
-)
+
+export default memo(Main);

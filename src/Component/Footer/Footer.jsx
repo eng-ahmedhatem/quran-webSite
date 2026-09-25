@@ -1,51 +1,12 @@
-import { MyContext } from "../../App";
-import React, { useContext } from "react";
-import UseAnimations from "react-useanimations";
-import github from "react-useanimations/lib/github";
-import Facebook from "react-useanimations/lib/facebook";
-import Twitter from "react-useanimations/lib/twitter";
+import { FaFacebookF, FaGithub, FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
-  const [them] = useContext(MyContext);
   return (
     <footer>
-      <ul>
-        <a>
-          <li>
-            <UseAnimations
-              autoplay={true}
-              speed={0.5}
-              size={35}
-              loop={true}
-              strokeColor={them == "dark" ? "#fff" : "000"}
-              animation={Facebook}
-            />
-          </li>
-        </a>
-        <a>
-          <li>
-            <UseAnimations
-              autoplay={true}
-              speed={0.1}
-              size={35}
-              loop={true}
-              strokeColor={them == "dark" ? "#fff" : "000"}
-              animation={github}
-            />
-          </li>
-        </a>
-        <a>
-          <li>
-            <UseAnimations
-              autoplay={true}
-              speed={0.1}
-              size={35}
-              loop={true}
-              strokeColor={them == "dark" ? "#fff" : "000"}
-              animation={Twitter}
-            />
-          </li>
-        </a>
+      <ul aria-label="روابط التواصل">
+        <li><span aria-label="فيسبوك"><FaFacebookF size={26} /></span></li>
+        <li><span aria-label="جيت هب"><FaGithub size={26} /></span></li>
+        <li><span aria-label="إكس"><FaXTwitter size={26} /></span></li>
       </ul>
     </footer>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 // import "node_modules/video-react/dist/video-react.css"; // import css
 import Section_header from "../../Component/Section_header/Section_header";
 import "./tv.css";
@@ -48,7 +48,7 @@ export default function Tv() {
               title="🔴 بث مباشر قناة السنة النبوية "
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
+              allowFullScreen
             ></iframe>
           )}
         </div>

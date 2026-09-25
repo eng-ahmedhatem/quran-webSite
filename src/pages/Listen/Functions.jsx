@@ -1,63 +1,30 @@
-import axios from "axios";
-import React from "react";
+import { getSurahs } from "../../services/api";
 
-export function Sorah_card({ sorahId, title, ayaCount, theClass, transform }) {
+export function Sorah_card({ sorahId, title, ayaCount, theClass = "show", transform }) {
   return (
-    <div
-      title={title}
-      onClick={(e) => transform(e)}
-      className={`card-sorah ${theClass}`}
-      id={sorahId}
-    >
+    <button title={title} onClick={transform} className={`card-sorah ${theClass}`} id={sorahId} type="button">
       <span className="sorahId">{sorahId}</span>
-      <h5 className="title">{title}</h5>
-      <span className="ayaCount">{ayaCount} أيه</span>
-    </div>
+      <span className="title">{title}</span>
+      <span className="ayaCount">{ayaCount} آية</span>
+    </button>
   );
 }
-export function get_SorahData(setSorah,set_sorah_forSearch) {
-  async function getData(url) {
-    try {
-      axios.get("https://quranapi.pages.dev/api/surah.json").then((res) => {
-        set_sorah_forSearch(res.data);
-      });
-      await axios.get(url).then((res) => {
-        setSorah(res.data.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  if (localStorage.getItem("soraData"))
-    setSorah((prev) => (prev = JSON.parse(localStorage.getItem("soraData"))));
-  else getData("https://api.alquran.cloud/v1/surah");
+
+export const normalizeArabic = (value = "") => value
+  .normalize("NFD")
+  .replace(/[\u064B-\u065F\u0670]/g, "")
+  .replace(/[أإآٱ]/g, "ا")
+  .replace(/ة/g, "ه")
+  .trim();
+
+export async function get_SorahData(setSorah) {
+  const surahs = await getSurahs();
+  setSorah(surahs.map((surah) => ({ ...surah, name_2: normalizeArabic(surah.name.replace("سُورَةُ", "سورة")) })));
 }
 
-export function handelData_sorah(sorah,sorahName_foreSearch,setFillterSorah,handelClick) {
-  if (sorah.length > 0) {
-    if (sorahName_foreSearch) {
-      sorahName_foreSearch[0].surahNameArabicLong = "سورة الفاتحة"
-      console.log(sorahName_foreSearch)
-      sorah.map((ele) => {
-        ele.name_2 = sorahName_foreSearch[ele.number - 1].surahNameArabicLong;
-      });
-      localStorage.setItem("soraData", JSON.stringify(sorah));
-    }
-    setFillterSorah(
-      (prev) =>
-        (prev = sorah.map((ele) => (
-          <Sorah_card
-            transform={handelClick}
-            key={ele.number}
-            sorahId={ele.number}
-            title={ele.name}
-            ayaCount={ele.numberOfAyahs}
-            theClass={"show"}
-          />
-        )))
-    );
-  }
-
-  }
-
-
+export function handelData_sorah(sorah, _unused, setFilteredSorah, handleClick) {
+  if (!Array.isArray(sorah)) return;
+  setFilteredSorah(sorah.map((item) => (
+    <Sorah_card key={item.number} transform={handleClick} sorahId={item.number} title={item.name} ayaCount={item.numberOfAyahs} />
+  )));
+}

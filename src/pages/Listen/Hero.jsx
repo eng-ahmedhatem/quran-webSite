@@ -1,13 +1,13 @@
-import React, { memo, useEffect, useState, useRef } from "react";
+import { memo, useEffect, useState, useRef } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import {useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import Section_header from "../../Component/Section_header/Section_header";
 import { Search_component } from "../../Component/Header/Header";
 import {get_SorahData ,Sorah_card,handelData_sorah} from "./Functions"
 function CardSlider({ name, image, navigateAudio, data }) {
   return (
-    <div className="slider" onClick={(e) => navigateAudio(data)}>
+    <div className="slider" onClick={() => navigateAudio(data)}>
       <div className="img-slider">
         <img src={image} alt="" />
       </div>
@@ -50,7 +50,7 @@ export default memo(function Hero() {
   }
   let handelSearch = (e) => {
     document.querySelector("main").scrollTop;
-    setSearchVal((val) => (val = e.target.value));
+    setSearchVal(e.target.value);
     const newData = sorah.map((ele) => {
       if (ele.name_2.includes(e.target.value)) {
         return (

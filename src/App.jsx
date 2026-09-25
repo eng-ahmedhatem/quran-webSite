@@ -1,100 +1,50 @@
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import Header from "./Component/Header/Header"
-import React, { createContext, useEffect, useState ,useRef} from "react"
-import Nav from "./Component/Nav/Nav"
-import Main from "./Component/Main/Main"
+import { createContext, lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import Header from "./Component/Header/Header";
+import Nav from "./Component/Nav/Nav";
+import Main from "./Component/Main/Main";
 import Footer from "./Component/Footer/Footer";
-import UseAnimations from "react-useanimations";
-import arrowUp from 'react-useanimations/lib/arrowUp';
-import { Home, ListenLayout  , Audio} from "./pages/Index";
-import Tv from "./pages/Tv/Tv";
-import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider, Routes } from 'react-router-dom';
-import Radio from "./pages/Radio/Radio";
-import Timing from "./pages/Timing/Timing";
-export const MyContext = createContext(null)
-export default function App() {
-  const [them,setThem] = useState(null)
-  const [isLoading,setIsLoading] = useState(false)
-  gsap.registerPlugin(useGSAP);
-  useEffect(()=>{
-    // btn_scrollToTop.current.classList.add("showBtn")
-    if (localStorage.getItem('them')) {
-      setThem(localStorage.getItem("them"))
-      return
-    }
-    setThem("light")
-  })
-document.body.classList = them
-  useGSAP(
-    () => {
-        // gsap code here...
-        gsap.to('.loading', {
-          delay:0,
-          scale :0,
-          duration: 3,
-          ease: "elastic.inOut(0, 0.3)",
-          visibility:"hidden",
-          display:"none",
-          stagger: {
-            amount: 0.1
-          }
-        });
+import Home from "./pages/Home/Home";
 
+const ListenLayout = lazy(() => import("./pages/Listen/ListenLayout"));
+const Audio = lazy(() => import("./pages/Listen/Audio"));
+const Radio = lazy(() => import("./pages/Radio/Radio"));
+const Tv = lazy(() => import("./pages/Tv/Tv"));
+const Timing = lazy(() => import("./pages/Timing/Timing"));
+const Read = lazy(() => import("./pages/Read/Read"));
 
-    },
-    { scope: "body" }
-); // <-- scope is for selector text (optional)
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path='/' element={<Route_layout/>}>
-      <Route index element={<Home/>}/>
-      <Route path='listen' element={<ListenLayout/>}>
-      <Route path='audio' element={<Audio/>} />
-      </Route>
-    </Route>
-  )
-)
+export const MyContext = createContext(null);
 
-function Route_layout(){
-return (
-<>
-<Header/>
-    <Nav/>
-    <Main>
-      <div className={isLoading ? "loading_section": "loading_section end"}>
-      <span className="loader_section"></span>
-      </div>
-      <div className={`scrollTo_top`} >
-      <UseAnimations animation={arrowUp} size={56} />
-      </div>
-      <Outlet/>
-    </Main>
-    <Footer/>
-</>
-)
+function RouteLayout() {
+  return <><Header /><Nav /><Main><Outlet /></Main><Footer /></>;
 }
+
+export default function App() {
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || localStorage.getItem("them") || "light");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    document.body.className = theme;
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const value = useMemo(() => [theme, setTheme, isLoading, setIsLoading], [theme, isLoading]);
+
   return (
-    <>
-  <MyContext.Provider value= {[them,setThem,isLoading,setIsLoading]}>
-      <div className="loading">
-      <span className="loader"></span>
-    </div>
-    <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<Route_layout/>}>
-        <Route index element={<Home/>}/>
-        <Route path='listen' element={<ListenLayout/>}>
-        <Route path='audio' element={<Audio/>} />
-        </Route>
-        <Route path='radio' element={<Radio/>} />
-        <Route path='tv' element={<Tv/>} />
-        <Route path='timings' element={<Timing/>} />
-      </Route>
-    </Routes>
-    </BrowserRouter>
-    {/* <RouterProvider router={router}/> */}
-  </MyContext.Provider>
-    </>
-  )
+    <MyContext.Provider value={value}>
+      <BrowserRouter>
+        <Suspense fallback={<div className="loading_section"><span className="loader_section" /></div>}><Routes>
+          <Route path="/" element={<RouteLayout />}>
+            <Route index element={<Home />} />
+            <Route path="listen" element={<ListenLayout />}><Route path="audio" element={<Audio />} /></Route>
+            <Route path="read/:surahNumber?" element={<Read />} />
+            <Route path="radio" element={<Radio />} />
+            <Route path="tv" element={<Tv />} />
+            <Route path="timings" element={<Timing />} />
+            <Route path="*" element={<Home />} />
+          </Route>
+        </Routes></Suspense>
+      </BrowserRouter>
+    </MyContext.Provider>
+  );
 }

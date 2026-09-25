@@ -1,26 +1,16 @@
-import React, { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import Section_header from "../../Component/Section_header/Section_header"
 import "./home.css"
 import { useNavigate } from "react-router-dom"
 import { MyContext } from "../../App"
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-let targetLink
 export default function Home() {
-    const [,,isLoading,setIsLoading]= useContext(MyContext)
+    const [,,,setIsLoading]= useContext(MyContext)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (isLoading) {
-            setTimeout(()=>{
-                navigate(targetLink)
-                setIsLoading(false)
-            },200)
-        }
-    }, [isLoading])
     function Handel_transform(link) {
-        targetLink = link
         setIsLoading(true)
+        navigate(link)
+        window.setTimeout(() => setIsLoading(false), 250)
     }
 
   return (
@@ -33,7 +23,7 @@ export default function Home() {
             <h2>اللاستــمـاع</h2>
             </div>
         </div>
-        <div  data-state="soon" className="card " >
+        <div className="card" onClick={()=> Handel_transform("read/1")}>
             <div className="card-content reade">
 
             <h2>القــراءة</h2>

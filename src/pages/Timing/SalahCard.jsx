@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 const SalahCard = memo(({ name, time, next }) => {
   return (
@@ -10,5 +10,6 @@ const SalahCard = memo(({ name, time, next }) => {
     </div>
   );
 });
+SalahCard.displayName = "SalahCard";
 
 export default SalahCard;
