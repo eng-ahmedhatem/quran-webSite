@@ -76,8 +76,10 @@ button, a, nav, header, img { user-select: none; }
 .search-key-hint kbd { min-width: 26px; height: 25px; display: inline-grid; place-items: center; padding: 0 5px; border: 1px solid var(--line-color); border-bottom-width: 2px; border-radius: 7px; color: var(--main-text-color); background: var(--second-bg); font: 600 12px "Readex Pro", sans-serif; direction: ltr; }
 .search-panel-head button { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--line-color); border-radius: 50%; color: var(--main-text-color); background: var(--main-bg); cursor: pointer; }
 @keyframes search-panel-in { from { opacity: 0; transform: translateY(-12px) scale(.98); } }
-.status-message { min-height: 260px; display: grid; place-content: center; justify-items: center; gap: 18px; color: var(--main-text-color); text-align: center; }
-.status-message button { border: 0; border-radius: 99px; background: var(--green-text-color); color: white; padding: 10px 20px; cursor: pointer; }
+.status-message { width: min(620px, 100%); min-height: 240px; display: grid; place-content: center; justify-items: center; gap: 14px; margin: 18px auto; padding: 30px; color: var(--main-text-color); text-align: center; border: 1px dashed color-mix(in srgb, var(--green-text-color) 30%, var(--line-color)); border-radius: 26px 8px; background: color-mix(in srgb, var(--main-bg) 90%, var(--green-color)); }
+.status-message::before { content: "۞"; width: 52px; height: 52px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, #e8bd58 48%, var(--line-color)); border-radius: 18px 6px; color: #a27313; background: color-mix(in srgb, #e8bd58 13%, var(--main-bg)); font-family: var(--quran-font); font-size: 28px; }
+.status-message > span { max-width: 470px; color: var(--muted-text); line-height: 1.8; }
+.status-message button { min-height: 42px; border: 0; border-radius: 99px; background: var(--green-text-color); color: white; padding: 10px 20px; cursor: pointer; }
 button { font: inherit; }
 :focus-visible { outline: 3px solid var(--green-text-color); outline-offset: 3px; }
 button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }

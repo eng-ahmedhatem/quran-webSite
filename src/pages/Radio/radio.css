@@ -10,7 +10,8 @@
 .cairo-feature.error { background: linear-gradient(135deg, #6b2b25, #0a5c4a 88%); }
 .eyebrow { font-size: 14px; font-weight: 700; letter-spacing: .04em; }
 .radio-tools { display: grid; grid-template-columns: minmax(240px, 420px) 1fr; gap: 16px; align-items: center; margin-bottom: 24px; }
-.radio-tools > label { min-height: 46px; display: flex; align-items: center; gap: 10px; padding: 11px 15px; color: var(--muted-text); border: 1px solid var(--line-color); background: var(--main-bg); border-radius: 14px; }
+.radio-search-box { min-height: 46px; display: flex; align-items: center; gap: 10px; padding: 11px 15px; color: var(--muted-text); border: 1px solid var(--line-color); background: var(--main-bg); border-radius: 14px; }
+.radio-search-box:focus-within { color: var(--green-text-color); border-color: var(--green-text-color); box-shadow: 0 0 0 4px color-mix(in srgb, var(--green-text-color) 10%, transparent); }
 .radio-tools input { width: 100%; border: 0; outline: 0; color: var(--main-text-color); background: transparent; }
 .radio-filters { display: flex; gap: 8px; flex-wrap: wrap; }
 .radio-filters button { border: 1px solid var(--line-color); background: var(--main-bg); color: var(--main-text-color); padding: 9px 14px; border-radius: 99px; cursor: pointer; }
@@ -24,6 +25,8 @@
 .recent-radios { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; overflow-x: auto; }
 .recent-radios > span { flex: 0 0 auto; color: var(--muted-text); font-size: 14px; }
 .recent-radios button { flex: 0 0 auto; display: flex; align-items: center; gap: 7px; border: 0; border-radius: 99px; padding: 8px 12px; color: var(--main-text-color); background: var(--green-color); cursor: pointer; }
+.radio-results-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 13px; color: var(--muted-text); font-size: 14px; }
+.radio-results-meta button { min-height: 34px; padding: 6px 11px; border: 1px solid var(--line-color); border-radius: 99px; color: var(--green-text-color); background: var(--main-bg); cursor: pointer; }
 .radio .cards { width: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
 .radio .cards .card { min-height: 190px; display: grid; grid-template-rows: auto 1fr; gap: 22px; padding: 20px 22px 24px; overflow: hidden; border: 1px solid var(--line-color); border-radius: 22px 7px 22px 7px; color: var(--main-text-color); background: var(--main-bg); box-shadow: 0 10px 30px rgba(10, 62, 50, .065); position: relative; isolation: isolate; transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
 .radio .cards .card::after { content: ""; position: absolute; left: -24px; bottom: -36px; z-index: -1; width: 130px; height: 130px; border: 1px solid color-mix(in srgb, var(--green-text-color) 14%, transparent); border-radius: 50%; box-shadow: 0 0 0 20px color-mix(in srgb, var(--green-text-color) 5%, transparent); }
@@ -47,6 +50,8 @@
 .station-body h2 { margin-top: 7px; color: var(--main-text-color); font-size: 18px; line-height: 1.65; overflow-wrap: anywhere; text-wrap: balance; }
 .play-radio { width: 50px; height: 50px; display: grid; place-items: center; flex: 0 0 auto; border: 0; border-radius: 50%; color: white; background: var(--green-text-color); box-shadow: 0 9px 22px rgba(11,140,109,.22); cursor: pointer; }
 .card.playing .play-radio { animation: playing-pulse 1.8s ease-in-out infinite; }
+.radio-load-more { min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 9px; margin: 20px auto 0; padding: 10px 22px; border: 1px solid color-mix(in srgb, var(--green-text-color) 35%, var(--line-color)); border-radius: 99px; color: var(--green-text-color); background: color-mix(in srgb, var(--green-color) 44%, var(--main-bg)); cursor: pointer; font-weight: 700; }
+.radio-load-more span { color: var(--muted-text); font-weight: 500; }
 @keyframes playing-pulse { 50% { box-shadow: 0 0 0 9px rgba(11,140,109,.11); } }
 @keyframes radio-fade { 50% { opacity: .45; } }
 @media (max-width: 768px) { .cairo-feature { min-height: 270px; align-items: flex-start; } .cairo-feature img { position: absolute; left: 12px; bottom: 12px; width: 100px; } .radio-tools { grid-template-columns: 1fr; } .radio-alert { grid-template-columns: auto 1fr; } .radio-alert button { grid-column: 1 / -1; justify-self: stretch; justify-content: center; } .radio .cards { grid-template-columns: 1fr; } .radio .cards .card { min-height: 176px; padding: 18px 18px 22px; } }

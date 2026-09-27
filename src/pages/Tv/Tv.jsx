@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { FaBroadcastTower, FaExternalLinkAlt, FaKaaba, FaMosque, FaPlay, FaRedoAlt, FaSignal, FaTv } from "react-icons/fa";
+import { FaBroadcastTower, FaCompress, FaExpand, FaExternalLinkAlt, FaKaaba, FaMosque, FaPlay, FaRedoAlt, FaSignal, FaTv } from "react-icons/fa";
 import { getLiveTv } from "../../services/api";
 import "./tv.css";
 
@@ -34,7 +34,11 @@ const mergeChannels = (apiChannels) => CHANNEL_DETAILS.map((fallback, index) => 
 
 export default function Tv() {
   const [channels, setChannels] = useState(CHANNEL_DETAILS);
-  const [activeId, setActiveId] = useState(CHANNEL_DETAILS[0].id);
+  const [activeId, setActiveId] = useState(() => {
+    const saved = localStorage.getItem("quran:last-tv-channel");
+    return CHANNEL_DETAILS.some((channel) => channel.id === saved) ? saved : CHANNEL_DETAILS[0].id;
+  });
+  const [cinemaMode, setCinemaMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [playerError, setPlayerError] = useState(false);
   const [apiNotice, setApiNotice] = useState("");
@@ -53,6 +57,7 @@ export default function Tv() {
   const selectChannel = (channel) => {
     if (String(channel.id) === String(activeId)) return;
     setActiveId(String(channel.id));
+    localStorage.setItem("quran:last-tv-channel", String(channel.id));
     setIsLoading(true);
     setPlayerError(false);
   };
@@ -63,14 +68,14 @@ export default function Tv() {
         <div><span><FaBroadcastTower /> بث إسلامي مباشر</span><h1>من الحرمين<br /><em>إلى قلبك.</em></h1><p>القنوات العربية الإسلامية المباشرة المتاحة من المصدر الرسمي، داخل تجربة مشاهدة هادئة وواضحة.</p></div>
         <div className="tv-heading-status"><FaSignal /><strong>{channels.length}</strong><span>قنوات متاحة الآن</span></div>
       </section>
-      <section className="tv-studio" aria-label="مشغّل البث المباشر">
+      <section className={`tv-studio ${cinemaMode ? "cinema" : ""}`} aria-label="مشغّل البث المباشر">
         <div className="tv-player-shell">
-          <div className="tv-player-top"><span className="tv-live"><i /> مباشر الآن</span><div><strong>{activeChannel.name}</strong><small>{activeChannel.location}</small></div></div>
+          <div className="tv-player-top"><div className="tv-player-actions"><span className="tv-live"><i /> مباشر الآن</span><button type="button" onClick={() => setCinemaMode((current) => !current)} aria-pressed={cinemaMode} aria-label={cinemaMode ? "إنهاء وضع المشاهدة الواسع" : "تفعيل وضع المشاهدة الواسع"}>{cinemaMode ? <FaCompress /> : <FaExpand />}<span>{cinemaMode ? "عرض القنوات" : "مشاهدة واسعة"}</span></button></div><div className="tv-player-title"><strong>{activeChannel.name}</strong><small>{activeChannel.location}</small></div></div>
           <div className="tv-video">
             {isLoading && <div className="tv-loading"><span className="loader_section" /><p>جارٍ تجهيز البث عالي الجودة…</p></div>}
             {playerError ? <div className="tv-error"><FaTv /><strong>تعذّر تشغيل البث داخل التطبيق</strong><p>قد تمنع القناة التضمين مؤقتًا. يمكنك فتح البث الرسمي مباشرة.</p><a href={activeChannel.watchUrl} target="_blank" rel="noreferrer"><FaExternalLinkAlt /> فتح البث الرسمي</a><button type="button" onClick={() => { setPlayerError(false); setIsLoading(true); }}><FaRedoAlt /> إعادة المحاولة</button></div> : <iframe key={activeChannel.id} src={activeChannel.embedUrl} title={`بث مباشر — ${activeChannel.name}`} loading="eager" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen onLoad={() => setIsLoading(false)} onError={() => { setIsLoading(false); setPlayerError(true); }} />}
           </div>
-          <div className="tv-now"><div className={`tv-now-icon ${activeChannel.kind}`}>{activeChannel.kind === "quran" ? <FaKaaba /> : <FaMosque />}</div><div><small>تشاهد الآن</small><strong>{activeChannel.name}</strong><p>{activeChannel.description}</p></div><a href={activeChannel.watchUrl} target="_blank" rel="noreferrer" aria-label={`فتح ${activeChannel.name} في نافذة جديدة`}><FaExternalLinkAlt /></a></div>
+          <div className="tv-now" aria-live="polite"><div className={`tv-now-icon ${activeChannel.kind}`}>{activeChannel.kind === "quran" ? <FaKaaba /> : <FaMosque />}</div><div><small>تشاهد الآن</small><strong>{activeChannel.name}</strong><p>{activeChannel.description}</p></div><a href={activeChannel.watchUrl} target="_blank" rel="noreferrer" aria-label={`فتح ${activeChannel.name} في نافذة جديدة`}><FaExternalLinkAlt /></a></div>
         </div>
         <aside className="tv-channels" aria-label="قائمة القنوات المتاحة">
           <div className="tv-channels-head"><span>اختر القناة</span><small>متاح بجودة تلقائية حسب اتصالك</small></div>
