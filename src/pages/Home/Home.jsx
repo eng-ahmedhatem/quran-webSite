@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
-import { FaArrowLeft, FaBookmark, FaBookOpen, FaCheck, FaCopy, FaHeadphones, FaHeart, FaPause, FaPlay, FaSearch, FaShareAlt, FaTimes } from "react-icons/fa";
+import { FaArrowLeft, FaBookmark, FaBookOpen, FaCheck, FaCopy, FaHeadphones, FaHeart, FaMoon, FaPause, FaPlay, FaSearch, FaShareAlt, FaSun, FaTimes } from "react-icons/fa";
 import SectionHeader from "../../Component/Section_header/Section_header";
 import { usePlayer } from "../../Component/Audio_track/PlayerContext";
 import { CAIRO_RADIO, getRadios, getReciters, getSurah, getSurahs, toSurahAudio } from "../../services/api";
@@ -116,6 +116,12 @@ export default function Home() {
     </section>
 
     <section className="continue-strip"><div><span>استكمل من حيث توقفت</span><strong>{lastRead.surahName}</strong><small>الآية {lastRead.ayahNumber}</small></div><div className="continue-progress"><i style={{ width: `${khatmaProgress}%` }} /><span>{khatmaProgress}% من الختمة</span></div><button type="button" onClick={() => navigate(`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`)}>متابعة <FaArrowLeft /></button></section>
+
+    <section className="adhkar-promo">
+      <div className="adhkar-promo-mark" aria-hidden="true"><span>ذِكر</span><i /><i /><i /><i /><i /></div>
+      <div className="adhkar-promo-copy"><span>وردك اليومي في دقائق</span><h2>ابدأ يومك واختتمه بذكر الله</h2><p>أذكار الصباح والمساء مع عدّاد تفاعلي وصوت هادئ وحفظ تلقائي لتقدم اليوم.</p></div>
+      <div className="adhkar-promo-actions"><Link to="/adhkar?period=morning"><FaSun /><span><small>ابدأ الآن</small><strong>أذكار الصباح</strong></span><FaArrowLeft /></Link><Link to="/adhkar?period=evening"><FaMoon /><span><small>سكينة المساء</small><strong>أذكار المساء</strong></span><FaArrowLeft /></Link></div>
+    </section>
 
     <section className="home-section"><SectionHeader title="إذاعات القرآن الكريم" /><div className="home-radio-layout"><article className="home-cairo-radio"><div><span className="live-pill">LIVE • القاهرة</span><h2>{CAIRO_RADIO.name}</h2><p>التلاوات النادرة والبرامج الدينية من البث المصري المباشر.</p><button type="button" onClick={() => playRadio(CAIRO_RADIO)}>{cairoPlaying ? <FaPause /> : <FaPlay />} {cairoPlaying ? "إيقاف مؤقت" : "شغّل البث"}</button></div><img src="/img/radio.png" alt="" /></article><div className="quick-radios">{radios.slice(0, 3).map((radio) => <button type="button" key={radio.id} onClick={() => playRadio(radio)}><span><FaPlay /></span><div><small>بث مباشر</small><strong>{radio.name}</strong></div></button>)}<Link to="/radio">عرض دليل الإذاعات <FaArrowLeft /></Link></div></div></section>
 

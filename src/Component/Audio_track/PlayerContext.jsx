@@ -220,11 +220,11 @@ export function PlayerProvider({ children }) {
       }}
       onError={() => recoverRef.current?.(mediaErrorMessage(audioRef.current?.error))}
       onEnded={() => {
-        if (repeat) audioRef.current?.play().catch(() => failRef.current?.("تعذّر تكرار الصوت."));
-        else if (trackRef.current?.onEnded) {
+        if (trackRef.current?.onEnded) {
           const hasNext = trackRef.current.onEnded();
           if (hasNext === false) { setPlaying(false); setStatus("ended"); }
-        } else { setPlaying(false); setStatus("ended"); }
+        } else if (repeat) audioRef.current?.play().catch(() => failRef.current?.("تعذّر تكرار الصوت."));
+        else { setPlaying(false); setStatus("ended"); }
       }}
     />
     {track && <aside className={`global-player ${expanded ? "expanded" : ""} ${status === "error" ? "has-error" : ""}`} aria-label="مشغل الصوت">

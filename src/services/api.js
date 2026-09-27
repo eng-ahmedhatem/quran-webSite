@@ -122,10 +122,16 @@ export async function getSurahs() {
 
 export async function getSurah(number) {
   const response = await cachedGet(
-    `quran:surah:${number}:v2`,
+    `quran:surah:${number}:v3`,
     `https://api.alquran.cloud/v1/surah/${number}/quran-uthmani`,
   );
-  return response.data;
+  return {
+    ...response.data,
+    ayahs: response.data.ayahs.map((ayah) => ({
+      ...ayah,
+      text: String(ayah.text || "").normalize("NFC"),
+    })),
+  };
 }
 
 export async function getReciters() {

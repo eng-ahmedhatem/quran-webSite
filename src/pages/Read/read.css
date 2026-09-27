@@ -1,4 +1,4 @@
-.reader-page { max-width: 1120px; margin: 0 auto; padding: 8px 0 140px; }
+.reader-page { max-width: 1280px; margin: 0 auto; padding: 8px 0 140px; }
 .reader-title { display: grid; grid-template-columns: 1fr minmax(240px, 310px) auto; align-items: end; gap: 18px; margin-bottom: 22px; }
 .reader-title .Section_header h1 { margin: 6px 0 0; }
 .reader-kicker { display: inline-flex; align-items: center; gap: 8px; color: var(--green-text-color); font-size: 14px; font-weight: 700; }
@@ -27,9 +27,19 @@
 .reading-now strong { font-size: 14px; }
 .reading-now > div { height: 5px; overflow: hidden; border-radius: 10px; background: var(--second-bg); direction: rtl; }
 .reading-now > div i { display: block; height: 100%; border-radius: inherit; background: var(--green-text-color); transition: width .35s ease; }
+.juz-navigator { display: flex; align-items: center; gap: 14px; margin: 0 0 18px; padding: 12px 15px; overflow: hidden; border: 1px solid var(--line-color); border-radius: 16px; color: var(--main-text-color); background: color-mix(in srgb, var(--main-bg) 92%, var(--green-color)); }
+.juz-navigator > span { flex: 0 0 auto; color: var(--muted-text); font-size: 14px; font-weight: 700; }
+.juz-navigator > div { display: flex; gap: 7px; overflow-x: auto; padding: 2px; scrollbar-width: thin; }
+.juz-navigator button { flex: 0 0 auto; min-height: 36px; padding: 6px 13px; border: 1px solid color-mix(in srgb, var(--green-text-color) 24%, var(--line-color)); border-radius: 99px; color: var(--green-text-color); background: var(--main-bg); cursor: pointer; }
 .basmala { margin: 30px 0; text-align: center; color: var(--main-text-color); font-family: var(--quran-font); font-size: clamp(26px, 4vw, 40px); line-height: 1.7; }
-.ayahs { color: var(--main-text-color); font-family: var(--quran-font); font-size: var(--reader-font-size); line-height: var(--reader-line-height); word-spacing: .06em; user-select: text; }
-.mode-continuous .ayahs { padding: clamp(26px, 5vw, 62px); border: 1px solid var(--line-color); border-radius: 26px; text-align: justify; background: color-mix(in srgb, var(--main-bg) 95%, var(--green-color)); box-shadow: var(--card-shadow); }
+.ayahs { color: var(--main-text-color); font-family: var(--quran-font); font-size: var(--reader-font-size); font-synthesis: none; font-feature-settings: "liga" 1, "clig" 1, "calt" 1; line-height: var(--reader-line-height); word-spacing: .045em; user-select: text; unicode-bidi: plaintext; }
+.ayahs .ayah-text { font-family: inherit; }
+.mode-continuous .ayahs { padding: clamp(26px, 5vw, 68px); border: 1px solid var(--line-color); border-radius: 26px; text-align: justify; background: color-mix(in srgb, var(--main-bg) 95%, var(--green-color)); box-shadow: var(--card-shadow); }
+.juz-divider { scroll-margin-top: 118px; font-family: "Readex Pro", sans-serif; }
+.mode-continuous .juz-divider { display: flex; align-items: center; gap: 11px; margin: 4px 0 26px; color: var(--green-text-color); font-size: 14px; font-weight: 800; }
+.mode-continuous .juz-divider::before, .mode-continuous .juz-divider::after { content: ""; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--green-text-color) 42%, var(--line-color))); }
+.mode-continuous .juz-divider::after { background: linear-gradient(90deg, color-mix(in srgb, var(--green-text-color) 42%, var(--line-color)), transparent); }
+.juz-divider small { color: var(--muted-text); font-size: 14px; font-weight: 500; }
 .mode-continuous .ayah-card { display: inline; scroll-margin-top: 110px; border-radius: 8px; transition: background .25s ease, color .25s ease; }
 .mode-continuous .ayah-card p { display: inline; }
 .mode-continuous .ayah-card.currently-playing { padding: 3px 5px; color: #075f4c; background: #ccecdf; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
@@ -44,9 +54,22 @@ body.dark .mode-continuous .ayah-card.currently-playing { color: #dffaf1; backgr
 .ayah-actions button:hover { color: white; background: var(--green-text-color); transform: translateY(-1px); }
 .ayah-actions button:focus-visible { outline: 3px solid color-mix(in srgb, var(--green-text-color) 26%, transparent); outline-offset: 2px; }
 .mode-focus .ayahs { display: grid; gap: 12px; }
+.mode-focus .juz-divider { display: flex; grid-column: 1 / -1; align-items: center; justify-content: space-between; margin: 16px 0 2px; padding: 10px 15px; border: 1px solid color-mix(in srgb, var(--green-text-color) 22%, var(--line-color)); border-radius: 13px 4px; color: var(--green-text-color); background: color-mix(in srgb, var(--green-color) 42%, var(--main-bg)); font-size: 14px; font-weight: 800; }
 .mode-focus .ayah-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 20px; padding: clamp(20px, 3.5vw, 34px); scroll-margin-top: 110px; border: 1px solid var(--line-color); border-radius: 18px; background: var(--main-bg); box-shadow: 0 8px 24px rgba(10, 62, 50, .055); transition: border-color .25s ease, background .25s ease, transform .25s ease; }
 .mode-focus .ayah-card.currently-playing { border-color: var(--green-text-color); background: color-mix(in srgb, var(--green-color) 48%, var(--main-bg)); box-shadow: inset -4px 0 0 var(--green-text-color), 0 12px 32px rgba(11, 140, 109, .11); transform: translateY(-2px); }
 .mode-focus .ayah-card p { margin: 0; line-height: inherit; }
 .mode-focus .ayah-actions { display: flex; flex-direction: column; justify-content: center; border-radius: 22px; }
 @media (max-width: 900px) { .reader-title { grid-template-columns: 1fr 1fr; } .surah-meta { grid-column: 1 / -1; } }
 @media (max-width: 700px) { .reader-page { padding-top: 0; } .reader-title { grid-template-columns: 1fr; align-items: stretch; } .surah-switcher { order: 3; } .surah-meta { grid-column: auto; margin-top: -10px; } .reader-toolbar { top: -1px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; } .reader-toolbar::-webkit-scrollbar { display: none; } .reader-toolbar > * { flex: 0 0 auto; } .reader-toolbar .reader-search { min-width: 165px; order: -2; } .reader-toolbar .surah-play { margin-inline-start: 0; order: -1; padding-inline: 10px; font-size: 14px; white-space: nowrap; } .surah-play-desktop { display: none; } .surah-play-mobile { display: inline; } .reading-now { grid-template-columns: 1fr auto; } .reading-now > div { grid-column: 1 / -1; } .mode-continuous .ayahs { padding: 28px 20px; text-align: right; } .mode-continuous .ayah-tools-trigger { width: 32px; height: 32px; display: inline-grid; place-items: center; margin: 0 4px; border: 1px solid color-mix(in srgb, var(--green-text-color) 34%, var(--line-color)); border-radius: 50%; color: var(--green-text-color); background: color-mix(in srgb, var(--main-bg) 92%, var(--green-color)); vertical-align: middle; } .mode-continuous .ayah-actions.open { display: inline-flex; margin: 8px 5px; } .mode-focus .ayah-tools-trigger { display: none; } .mode-focus .ayah-card { grid-template-columns: 1fr; gap: 16px; padding: 24px 20px; } .mode-focus .ayah-actions { flex-direction: row; justify-content: flex-start; border-radius: 99px; } }
+
+.surah-pagination { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 14px; margin-top: 28px; }
+.surah-pagination > button { min-height: 78px; display: flex; align-items: center; gap: 13px; padding: 14px 18px; border: 1px solid var(--line-color); border-radius: 18px 6px; color: var(--main-text-color); text-align: right; background: var(--main-bg); cursor: pointer; box-shadow: 0 8px 22px rgba(10,62,50,.05); }
+.surah-pagination > button:last-child { justify-content: flex-end; text-align: left; border-radius: 6px 18px; }
+.surah-pagination > button svg { flex: 0 0 auto; color: var(--green-text-color); }
+.surah-pagination > button span, .surah-pagination > div { display: grid; gap: 2px; }
+.surah-pagination small, .surah-pagination > div span { color: var(--muted-text); font-size: 14px; }
+.surah-pagination > div { min-width: 170px; place-content: center; justify-items: center; padding: 10px 18px; text-align: center; border-radius: 16px; color: white; background: #075744; }
+
+@media (min-width: 1380px) { .mode-continuous .ayahs { padding-inline: 82px; } }
+@media (max-width: 900px) { .surah-pagination > div { display: none; } .surah-pagination { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 700px) { .surah-meta { overflow-x: auto; } .juz-navigator { align-items: flex-start; flex-direction: column; } .juz-navigator > div { width: 100%; } .surah-pagination > button { min-height: 68px; padding: 11px; } .surah-pagination strong { font-size: 14px; } }
