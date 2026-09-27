@@ -1,77 +1,94 @@
 nav {
   grid-area: nav;
-  padding: 15px;
+  width: 94px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 9px 14px;
   position: relative;
   z-index: 3;
   background: var(--main-bg);
 }
+
 nav .link {
-  margin-top: 1cqb;
+  width: 100%;
+  display: grid;
+  gap: 5px;
+  align-content: center;
+  flex: 1;
+}
+
+nav .link a {
+  position: relative;
+  min-height: 58px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 6px 4px;
+  border: 1px solid transparent;
+  border-radius: 17px 6px;
+  color: var(--muted-text);
 }
-nav .link a {
-  cursor: pointer;
-  display: inline-block;
-  margin-block: 15px;
-}
-nav .link a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; transition: background .2s ease, transform .2s ease; }
-nav .link a:hover { background: var(--green-color); transform: translateY(-2px); }
-nav .link a.active i{
-color: var(--green-text-color);
-}
-nav .link a.active { background: var(--green-color); }
-nav .link i {
-  font-size: 30px;
-  color: var(--main-text-color);
-}
-nav .mode {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  bottom: 10%;
-  left: 20%;
-  transform: translateX(-50%);
-  animation: pulsate-bck 1s ease-in-out infinite both;
-  cursor: pointer;
-}
-nav .mode:hover {
-  animation-play-state: paused;
-}
-nav .mode img {
-  width: 100%;
-  height: 100%;
-}
-nav .mode button { width: 100%; height: 100%; border: 0; padding: 0; background: transparent; cursor: pointer; }
 
-@media (max-width:768px) {
-  nav{
+nav .link a::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -9px;
+  width: 3px;
+  height: 0;
+  border-radius: 4px;
+  background: var(--green-text-color);
+  transition: height .22s ease;
+}
+
+nav .link a:hover { color: var(--green-text-color); background: color-mix(in srgb, var(--green-color) 46%, transparent); }
+nav .link a.active { color: var(--green-text-color); border-color: color-mix(in srgb, var(--green-text-color) 18%, var(--line-color)); background: var(--green-color); }
+nav .link a.active::before { height: 26px; }
+nav .link i { height: 24px; display: grid; place-items: center; font-size: 22px; color: currentColor; }
+nav .link span { font-size: 14px; font-weight: 650; line-height: 1.2; }
+
+nav .mode { width: 100%; padding-top: 10px; border-top: 1px solid var(--line-color); }
+nav .mode button {
+  width: 100%; min-height: 54px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  padding: 5px; border: 0; border-radius: 15px 5px; color: var(--muted-text); background: transparent; cursor: pointer;
+}
+nav .mode button:hover { color: var(--green-text-color); background: var(--green-color); }
+nav .mode img { width: 25px; height: 25px; object-fit: contain; }
+nav .mode span { font-size: 14px; font-weight: 650; }
+
+@media (max-width: 768px) {
+  nav {
     position: fixed;
     z-index: 90;
-    right: 12px;
-    left: 12px;
-    bottom: 10px;
-    padding: 6px 8px;
-    border: 1px solid var(--line-color);
-    border-radius: 20px;
-    box-shadow: 0 12px 35px rgba(0,0,0,.15);
-    display: flex;
-    align-items: center;
+    right: 10px;
+    left: 10px;
+    bottom: max(9px, env(safe-area-inset-bottom));
+    width: auto;
+    min-height: 62px;
+    flex-direction: row;
+    padding: 7px 8px;
+    border: 1px solid color-mix(in srgb, var(--green-text-color) 16%, var(--line-color));
+    border-radius: 22px 8px;
+    background: color-mix(in srgb, var(--main-bg) 94%, transparent);
+    box-shadow: 0 16px 38px rgba(5, 45, 36, .18);
+    backdrop-filter: blur(18px);
   }
-  nav .link { flex: 1; margin: 0; flex-direction: row; justify-content: space-around; }
-  nav .link a { width: 40px; height: 40px; margin: 0; }
-  nav .link i {
-    font-size: 21px;
-  } 
-  nav .mode {
-    display: block;
-    position: static;
-    width: 30px;
-    height: 30px;
-    transform: none;
-    animation: none;
-  }
-  
+  nav .link { min-width: 0; display: flex; flex-direction: row; justify-content: space-around; gap: 2px; }
+  nav .link a { width: 42px; min-height: 46px; flex: 0 0 42px; padding: 4px; border-radius: 14px 5px; }
+  nav .link a::before { inset: auto auto -7px; width: 0; height: 3px; }
+  nav .link a.active::before { width: 22px; height: 3px; }
+  nav .link i { font-size: 20px; }
+  nav .link span { display: none; }
+  nav .mode { width: 38px; flex: 0 0 38px; padding: 0 4px 0 0; border-top: 0; border-right: 1px solid var(--line-color); }
+  nav .mode button { min-height: 46px; padding: 4px; }
+  nav .mode img { width: 23px; height: 23px; }
+  nav .mode span { display: none; }
+}
+
+@media (max-width: 390px) {
+  nav { right: 6px; left: 6px; padding-inline: 5px; }
+  nav .link a { width: 38px; flex-basis: 38px; }
+  nav .mode { width: 34px; flex-basis: 34px; }
 }

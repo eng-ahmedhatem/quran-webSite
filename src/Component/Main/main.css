@@ -12,6 +12,27 @@ main {
   overflow-x: hidden;
 }
 
+main > .content { width: min(1680px, 100%); min-height: 100%; margin-inline: auto; }
+.reading-progress {
+  position: sticky;
+  top: -20px;
+  z-index: 70;
+  width: calc(100% + 60px);
+  height: 4px;
+  margin: -20px -30px 18px;
+  overflow: hidden;
+  direction: rtl;
+  background: color-mix(in srgb, var(--line-color) 72%, transparent);
+}
+.reading-progress i {
+  display: block;
+  height: 100%;
+  border-radius: 0 0 0 99px;
+  background: linear-gradient(90deg, #e8bd58, var(--green-text-color) 55%, #075744);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--green-text-color) 35%, transparent);
+  transition: width .12s linear;
+}
+
 main::after {
   content: "";   
   border-radius: 30px;
@@ -33,4 +54,4 @@ z-index: -1;
     display: none;
   }
 }
-@media (max-width: 768px) { main { margin: 0 8px 8px; padding: 14px; border-radius: 22px; } main > .content { padding-bottom: 82px; } }
+@media (max-width: 768px) { main { margin: 0 8px 8px; padding: 14px; border-radius: 22px; } main > .content { padding-bottom: 82px; } .reading-progress { top: -14px; width: calc(100% + 28px); margin: -14px -14px 14px; } }

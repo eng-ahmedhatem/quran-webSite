@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaBookmark, FaBookOpen, FaCheck, FaCopy, FaHeadphones, FaHeart, FaPause, FaPlay, FaSearch, FaShareAlt, FaTimes } from "react-icons/fa";
 import SectionHeader from "../../Component/Section_header/Section_header";
@@ -31,6 +32,10 @@ export default function Home() {
   const [noticeClosing, setNoticeClosing] = useState(false);
   const lastRead = readStorage("quran:last-read", { surahNumber: 1, surahName: "سُورَةُ ٱلْفَاتِحَةِ", ayahNumber: 1 });
   const bookmarks = readStorage("quran:bookmarks", []);
+  const closeDailyNotice = useCallback((afterClose) => {
+    setNoticeClosing(true);
+    window.setTimeout(() => { setShowDailyNotice(false); setNoticeClosing(false); afterClose?.(); }, 320);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -58,6 +63,21 @@ export default function Home() {
     setShowDailyNotice(true);
   }, [dailyAyah]);
 
+  useEffect(() => {
+    if (!showDailyNotice) return undefined;
+    const main = document.querySelector("main");
+    const previousOverflow = main?.style.overflow;
+    if (main) main.style.overflow = "hidden";
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") closeDailyNotice();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      if (main) main.style.overflow = previousOverflow || "";
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [closeDailyNotice, showDailyNotice]);
+
   const filteredSurahs = useMemo(() => {
     const search = normalizeArabic(query);
     return surahs.filter((surah) => normalizeArabic(surah.name).includes(search)).slice(0, query ? 12 : 8);
@@ -75,13 +95,21 @@ export default function Home() {
   };
   const copyAyah = async () => { if (!dailyAyah) return; await navigator.clipboard.writeText(`${dailyAyah.text} — ${dailyAyah.surah.name} (${dailyAyah.numberInSurah})`); setCopied(true); window.setTimeout(() => setCopied(false), 1500); };
   const shareAyah = () => { if (!dailyAyah) return; const text = `${dailyAyah.text} — ${dailyAyah.surah.name} (${dailyAyah.numberInSurah})`; if (navigator.share) navigator.share({ title: "آية اليوم", text }).catch(() => {}); else copyAyah(); };
-  const closeDailyNotice = (afterClose) => {
-    setNoticeClosing(true);
-    window.setTimeout(() => { setShowDailyNotice(false); setNoticeClosing(false); afterClose?.(); }, 320);
-  };
+  const dailyNotice = showDailyNotice && dailyAyah ? createPortal(
+    <div className={`daily-notice-backdrop ${noticeClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeDailyNotice(); }}>
+      <section className="daily-notice" role="dialog" aria-modal="true" aria-labelledby="daily-notice-title">
+        <button className="notice-close" type="button" onClick={() => closeDailyNotice()} aria-label="إغلاق آية اليوم"><FaTimes /></button>
+        <div className="notice-intro"><span className="notice-mark">﴿</span><small>بداية مباركة ليومك</small></div>
+        <h2 id="daily-notice-title">آية اليوم</h2>
+        <blockquote>{dailyAyah.text}</blockquote>
+        <p>{dailyAyah.surah.name} • الآية {dailyAyah.numberInSurah}</p>
+        <div className="notice-actions"><button type="button" onClick={() => closeDailyNotice(() => navigate(`/read/${dailyAyah.surah.number}/${dailyAyah.numberInSurah}`))}><FaBookOpen /> اقرأ في المصحف</button><button type="button" onClick={copyAyah}>{copied ? <FaCheck /> : <FaCopy />} {copied ? "تم النسخ" : "نسخ الآية"}</button></div>
+      </section>
+    </div>,
+    document.body,
+  ) : null;
 
-  return <div className="home-page">
-    {showDailyNotice && dailyAyah && <div className={`daily-notice-backdrop ${noticeClosing ? "is-closing" : ""}`} role="presentation"><section className="daily-notice" role="dialog" aria-modal="true" aria-labelledby="daily-notice-title"><button className="notice-close" type="button" onClick={() => closeDailyNotice()} aria-label="إغلاق آية اليوم"><FaTimes /></button><div className="notice-intro"><span className="notice-mark">﴿</span><small>بداية مباركة ليومك</small></div><h2 id="daily-notice-title">آية اليوم</h2><blockquote>{dailyAyah.text}</blockquote><p>{dailyAyah.surah.name} • الآية {dailyAyah.numberInSurah}</p><div className="notice-actions"><button type="button" onClick={() => closeDailyNotice(() => navigate(`/read/${dailyAyah.surah.number}/${dailyAyah.numberInSurah}`))}><FaBookOpen /> اقرأ في المصحف</button><button type="button" onClick={copyAyah}>{copied ? <FaCheck /> : <FaCopy />} {copied ? "تم النسخ" : "نسخ الآية"}</button></div></section></div>}
+  return <>{dailyNotice}<div className="home-page">
     <section className="home-hero">
       <div className="hero-copy"><span className="hero-kicker">رفيقك اليومي مع كتاب الله</span><h1>اقرأ بقلبٍ حاضر،<br /><em>واستمع بطمأنينة.</em></h1><p>مصحف موثوق، تلاوات مختارة، وإذاعات القرآن في تجربة عربية هادئة تحفظ تقدمك على هذا الجهاز.</p><div className="hero-actions"><Link className="primary-action" to={`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`}><FaBookOpen /> ابدأ القراءة</Link><Link className="secondary-action" to="/listen"><FaHeadphones /> استمع الآن</Link></div></div>
       <div className="hero-verse" aria-label="آية افتتاحية"><span>﴿</span><p>أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p><small>الرعد • ٢٨</small></div>
@@ -98,5 +126,5 @@ export default function Home() {
     <section className="home-section"><SectionHeader title="القراء المميزون" /><div className="featured-readers">{reciters.map((reader) => <article key={reader.id}><div className="reader-portrait"><img src={reader.portrait} alt={`صورة ${reader.displayName || reader.name}`} loading="lazy" /></div><div className="reader-copy"><small>قارئ من روائع التلاوات</small><h3>{reader.displayName || reader.name}</h3><button type="button" onClick={() => playReader(reader)}><span><FaPlay /></span> استمع لسورة الفاتحة</button></div></article>)}</div></section>
 
     {dailyAyah && <section className="daily-ayah"><span className="ayah-label">آية اليوم</span><blockquote>﴿ {dailyAyah.text} ﴾</blockquote><p>{dailyAyah.surah.name} • الآية {dailyAyah.numberInSurah}</p><div><button type="button" onClick={copyAyah}>{copied ? <FaCheck /> : <FaCopy />} {copied ? "تم النسخ" : "نسخ"}</button><button type="button" onClick={shareAyah}><FaShareAlt /> مشاركة</button><button type="button" onClick={() => navigate(`/read/${dailyAyah.surah.number}/${dailyAyah.numberInSurah}`)}><FaHeart /> تدبر الآية</button></div></section>}
-  </div>;
+  </div></>;
 }

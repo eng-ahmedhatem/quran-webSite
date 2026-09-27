@@ -35,7 +35,7 @@ function RouteLayout() {
     document.querySelector("main")?.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname]);
 
-  return <><Header /><Nav /><Main><Outlet /></Main><Footer /></>;
+  return <><a className="skip-link" href="#main">انتقل إلى المحتوى</a><Header /><Nav /><Main><Outlet /></Main><Footer /></>;
 }
 
 export default function App() {

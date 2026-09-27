@@ -8,6 +8,10 @@ export const CAIRO_RADIO = {
   writer: "القاهرة • مصر • 98.2 FM",
   src: "https://n12.radiojar.com/8s5u5tpdtwzuv",
   url: "https://n12.radiojar.com/8s5u5tpdtwzuv",
+  fallbackSrcs: [
+    "https://stream.radiojar.com/8s5u5tpdtwzuv",
+    "https://n0e.radiojar.com/8s5u5tpdtwzuv",
+  ],
   img: "/img/radio.png",
   isLive: true,
   country: "مصر",
@@ -17,7 +21,7 @@ export const CAIRO_RADIO = {
 const readCache = (key) => {
   try {
     const cached = JSON.parse(localStorage.getItem(key));
-    if (cached && Date.now() - cached.savedAt < 1000 * 60 * 60 * 24) return cached.data;
+    if (cached?.savedAt && cached?.data) return cached;
   } catch {
     localStorage.removeItem(key);
   }
@@ -33,12 +37,83 @@ const writeCache = (key, data) => {
   return data;
 };
 
-async function cachedGet(key, url) {
+async function cachedGet(key, url, maxAge = 1000 * 60 * 60 * 24) {
   const cached = readCache(key);
-  if (cached) return cached;
-  const { data } = await client.get(url);
-  return writeCache(key, data);
+  if (cached && Date.now() - cached.savedAt < maxAge) return cached.data;
+  try {
+    const { data } = await client.get(url);
+    return writeCache(key, data);
+  } catch (error) {
+    // A stale response is preferable to an empty application during a temporary API outage.
+    if (cached?.data) return cached.data;
+    throw error;
+  }
 }
+
+const normalizeStreamUrl = (value) => {
+  try {
+    const url = new URL(String(value || "").trim());
+    if (url.protocol === "http:") url.protocol = "https:";
+    return url.protocol === "https:" ? url.href : "";
+  } catch {
+    return "";
+  }
+};
+
+const cleanStationName = (value) => String(value || "")
+  .replace(/\*+/g, "")
+  .replace(/-{2,}\s*$/g, "")
+  .replace(/\s+/g, " ")
+  .trim();
+
+const describeStationVariant = (name, url) => {
+  const slug = decodeURIComponent(new URL(url).pathname).toLowerCase();
+  const variants = [
+    [/mojawwad|mujawwad/, "المصحف المجوّد"],
+    [/murattal|morattal/, "المصحف المرتل"],
+    [/warsh/, "رواية ورش"],
+    [/qaloon|qalun/, "رواية قالون"],
+    [/khalaf/, "رواية خلف"],
+  ];
+  const match = variants.find(([pattern]) => pattern.test(slug));
+  return match && !name.includes(match[1]) ? `${name} — ${match[1]}` : name;
+};
+
+const radioFallbacks = (url) => {
+  try {
+    const stream = new URL(url);
+    if (stream.hostname.toLowerCase() === "backup.qurango.net") {
+      stream.hostname = "qurango.net";
+      return [stream.href];
+    }
+    if (stream.hostname.toLowerCase() === "qurango.net") {
+      stream.hostname = "backup.qurango.net";
+      return [stream.href];
+    }
+  } catch {
+    // The invalid primary URL is filtered before this function is called.
+  }
+  return [];
+};
+
+const normalizeRadios = (items = []) => {
+  const seenUrls = new Set();
+  return items.flatMap((item) => {
+    const url = normalizeStreamUrl(item?.url);
+    const rawName = cleanStationName(item?.name);
+    const name = url && rawName ? describeStationVariant(rawName, url) : rawName;
+    if (!url || !name || seenUrls.has(url) || name.includes("ترجمة")) return [];
+    seenUrls.add(url);
+    return [{
+      ...item,
+      id: `radio-${item.id || encodeURIComponent(name)}`,
+      name,
+      url,
+      src: url,
+      fallbackSrcs: radioFallbacks(url),
+    }];
+  });
+};
 
 export async function getSurahs() {
   const response = await cachedGet("quran:surahs:v2", "https://api.alquran.cloud/v1/surah");
@@ -63,10 +138,11 @@ export async function getReciters() {
 
 export async function getRadios() {
   const response = await cachedGet(
-    "quran:radios:v3",
+    "quran:radios:v4",
     "https://www.mp3quran.net/api/v3/radios?language=ar",
+    1000 * 60 * 30,
   );
-  return response.radios;
+  return normalizeRadios(response.radios);
 }
 
 export async function getLiveTv() {

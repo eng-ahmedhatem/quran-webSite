@@ -1,64 +1,40 @@
 import { useContext } from "react";
-import "./nav.css";
-import { MyContext } from "../../App";
-import { FaHome } from "react-icons/fa";
-import {  NavLink } from "react-router-dom";
-import { FaHeadphones } from "react-icons/fa";
-import { FaBookReader } from "react-icons/fa";
-import { FaRadio } from "react-icons/fa6";
 import { CgTime } from "react-icons/cg";
-
+import { FaBookReader, FaHeadphones, FaHome } from "react-icons/fa";
+import { FaRadio } from "react-icons/fa6";
 import { ImTv } from "react-icons/im";
+import { NavLink } from "react-router-dom";
+import { MyContext } from "../../App";
+import "./nav.css";
+
+const navigationItems = [
+  { to: "/", label: "الرئيسية", icon: FaHome, end: true },
+  { to: "/listen", label: "الاستماع", icon: FaHeadphones },
+  { to: "/read", label: "القراءة", icon: FaBookReader },
+  { to: "/radio", label: "الإذاعات", icon: FaRadio },
+  { to: "/tv", label: "التلفزيون", icon: ImTv },
+  { to: "/timings", label: "الصلاة", icon: CgTime },
+];
 
 export default function Nav() {
-  const [them, setThem] = useContext(MyContext);
-  function handelThem() {
-    if (them === "light") {
-      setThem("dark");
-      localStorage.setItem("them", "dark");
-    } else {
-      setThem("light");
-      localStorage.setItem("them", "light");
-    }
-  }
+  const [theme, setTheme] = useContext(MyContext);
+  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+
   return (
-    <nav>
+    <nav aria-label="التنقل الرئيسي">
       <div className="link">
-        <NavLink to={"/"} aria-label="الرئيسية" title="الرئيسية">
-          <i>
-            <FaHome />
-          </i>
-        </NavLink>
-        <NavLink to={"listen"} aria-label="الاستماع" title="الاستماع">
-          <i>
-            <FaHeadphones />{" "}
-          </i>
-        </NavLink>
-        <NavLink to={"read/1"} aria-label="قراءة القرآن" title="قراءة القرآن">
-          <i><FaBookReader />
-          </i>
-        </NavLink>
-        <NavLink to={"radio"} aria-label="الإذاعات" title="الإذاعات">
-          <i>
-            <FaRadio />{" "}
-          </i>
-        </NavLink>
-        <NavLink to={"tv"} aria-label="البث التلفزيوني" title="البث التلفزيوني">
-          <i>
-            <ImTv />{" "}
-          </i>
-        </NavLink>
-        <NavLink to={"timings"} aria-label="مواقيت الصلاة" title="مواقيت الصلاة">
-          <i>
-            <CgTime />{" "}
-          </i>
-        </NavLink>
+        {navigationItems.map(({ to, label, icon: Icon, end }) => (
+          <NavLink key={to} to={to} end={end} aria-label={label} title={label}>
+            <i aria-hidden="true"><Icon /></i>
+            <span>{label}</span>
+          </NavLink>
+        ))}
       </div>
       <div className="mode">
-        <button type="button" onClick={handelThem} aria-label={them === "light" ? "تفعيل الوضع الليلي" : "تفعيل الوضع النهاري"}><img
-          src={them === "light" ? "/img/moon.png" : "/img/sun.png"}
-          alt={them === "light" ? "تفعيل الوضع الليلي" : "تفعيل الوضع النهاري"}
-        /></button>
+        <button type="button" onClick={toggleTheme} aria-label={theme === "light" ? "تفعيل الوضع الليلي" : "تفعيل الوضع النهاري"} title={theme === "light" ? "الوضع الليلي" : "الوضع النهاري"}>
+          <img src={theme === "light" ? "/img/moon.png" : "/img/sun.png"} alt="" />
+          <span>{theme === "light" ? "ليلي" : "نهاري"}</span>
+        </button>
       </div>
     </nav>
   );
