@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FaBell, FaBellSlash, FaClock, FaMapMarkerAlt, FaRegCalendarAlt } from "react-icons/fa";
 import SalahCard from "./SalahCard";
 import Status from "../../Component/Status/Status";
@@ -42,9 +42,15 @@ function displayPrayer(time) {
 }
 
 export default function Timing() {
-  const [city, setCity] = useState("Cairo");
+  const [city, setCity] = useState(() => {
+    const saved = localStorage.getItem("quran:prayer-city");
+    return cities.some((item) => item.apiName === saved) ? saved : "Cairo";
+  });
   const [now, setNow] = useState(new Date());
   const [timings, setTimings] = useState(null);
+  const timingsRef = useRef(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshNotice, setRefreshNotice] = useState("");
   const [error, setError] = useState("");
   const [retry, setRetry] = useState(0);
   const [notificationStatus, setNotificationStatus] = useState(() => {
@@ -59,12 +65,22 @@ export default function Timing() {
 
   useEffect(() => {
     let active = true;
-    setTimings(null);
+    setIsRefreshing(true);
+    setRefreshNotice("");
     setError("");
-    getPrayerTimes(city).then((data) => active && setTimings(data.timings))
-      .catch(() => active && setError("تعذر تحميل مواقيت الصلاة. تحقق من اتصالك ثم أعد المحاولة."));
+    getPrayerTimes(city).then((data) => {
+      if (!active) return;
+      timingsRef.current = data.timings;
+      setTimings(data.timings);
+    }).catch(() => {
+      if (!active) return;
+      if (timingsRef.current) setRefreshNotice("تعذّر تحديث المواقيت؛ نعرض آخر بيانات متاحة.");
+      else setError("تعذر تحميل مواقيت الصلاة. تحقق من اتصالك ثم أعد المحاولة.");
+    }).finally(() => active && setIsRefreshing(false));
     return () => { active = false; };
   }, [city, retry]);
+
+  useEffect(() => { localStorage.setItem("quran:prayer-city", city); }, [city]);
 
   const nextPrayer = useMemo(() => {
     if (!timings) return null;
@@ -108,9 +124,9 @@ export default function Timing() {
   const cityName = cities.find((item) => item.apiName === city)?.displayName;
 
   return (
-    <div className="Timing">
+    <div className="Timing" aria-busy={isRefreshing}>
       <section className={`prayer-hero prayer-${nextPrayer?.name || "day"}`}>
-        <div className="prayer-heading"><span><FaRegCalendarAlt /> مواقيت اليوم</span><h1>أوقات الصلاة في <em>{cityName}</em></h1><p>مواقيت محسوبة لمدينتك مع تنبيه اختياري عند دخول وقت الصلاة.</p><label className="city-select"><FaMapMarkerAlt /><select aria-label="اختر المدينة" value={city} onChange={(event) => setCity(event.target.value)}>{cities.map((item) => <option value={item.apiName} key={item.apiName}>{item.displayName}</option>)}</select></label></div>
+        <div className="prayer-heading"><span><FaRegCalendarAlt /> مواقيت اليوم</span><h1>أوقات الصلاة في <em>{cityName}</em></h1><p>مواقيت محسوبة لمدينتك مع تنبيه اختياري عند دخول وقت الصلاة.</p><label className="city-select"><FaMapMarkerAlt /><select aria-label="اختر المدينة" value={city} onChange={(event) => setCity(event.target.value)}>{cities.map((item) => <option value={item.apiName} key={item.apiName}>{item.displayName}</option>)}</select></label><span className={`prayer-sync ${refreshNotice ? "has-warning" : ""}`} aria-live="polite">{isRefreshing ? "جارٍ تحديث المواقيت…" : refreshNotice || "المواقيت محدّثة"}</span></div>
         <div className="next-prayer-panel"><small>الصلاة التالية</small><strong>{nextPrayer?.label}</strong><time><FaClock /> {nextPrayer?.timeLeft}</time><span>الوقت المتبقي</span></div>
         <div className="prayer-date"><div><span>{hijri[0]}</span><strong>{hijri[1]}</strong><small>{hijri[2]} هـ</small></div><p>{gregorian.join(" ")}</p><time>{now.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</time></div>
       </section>

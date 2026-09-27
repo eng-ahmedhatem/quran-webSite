@@ -15,13 +15,14 @@ export default memo(function Hero() {
   const navigate = useNavigate();
   const [surahs, setSurahs] = useState([]);
   const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => { get_SorahData(setSurahs).catch(() => setSurahs([])); }, []);
 
   const visibleSurahs = useMemo(() => {
     const normalized = normalizeArabic(query);
-    return surahs.filter((surah) => !normalized || surah.name_2.includes(normalized));
-  }, [query, surahs]);
+    return surahs.filter((surah) => (!normalized || surah.name_2.includes(normalized)) && (filter === "all" || surah.revelationType === filter));
+  }, [filter, query, surahs]);
 
   const openAudio = (item) => {
     navigate("/listen/audio", { state: item });
@@ -42,8 +43,9 @@ export default memo(function Hero() {
 
       <section className="listen-surahs" aria-labelledby="listen-surahs-title">
         <div className="listen-section-head"><div><small>المصحف الصوتي</small><h2 id="listen-surahs-title">اختر السورة</h2></div><label className="listen-search"><FaSearch /><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ابحث باسم السورة" /><span>{visibleSurahs.length}</span></label></div>
+        <div className="listen-surah-filters" aria-label="تصفية السور">{[["all", "كل السور"], ["Meccan", "السور المكية"], ["Medinan", "السور المدنية"]].map(([value, label]) => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => setFilter(value)}>{label}</button>)}</div>
         <div className="listen-surah-grid">{visibleSurahs.map((surah) => <Sorah_card key={surah.number} sorahId={surah.number} title={surah.name} ayaCount={surah.numberOfAyahs} transform={() => openAudio({ title: surah.name, sorah_id: surah.number, id: 112, ro: 112 })} />)}</div>
-        {!visibleSurahs.length && <div className="listen-empty"><strong>لم نجد سورة بهذا الاسم</strong><button type="button" onClick={() => setQuery("")}>مسح البحث <FaArrowLeft /></button></div>}
+        {!visibleSurahs.length && <div className="listen-empty"><strong>لا توجد سورة مطابقة للبحث والتصنيف</strong><button type="button" onClick={() => { setQuery(""); setFilter("all"); }}>عرض كل السور <FaArrowLeft /></button></div>}
       </section>
     </div>
   );
