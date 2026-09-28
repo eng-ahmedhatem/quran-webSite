@@ -7,9 +7,15 @@
 .hero-copy h1 em { color: #e8bd58; font-style: normal; }
 .hero-copy p { max-width: 650px; color: rgba(255,255,255,.7); line-height: 1.9; }
 .hero-actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
-.hero-actions a { display: inline-flex; align-items: center; gap: 9px; padding: 12px 20px; border-radius: 99px; }
+.hero-actions a { display: inline-flex; align-items: center; gap: 9px; padding: 12px 20px; border-radius: 99px; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.hero-actions a:hover { transform: translateY(-2px); }
 .primary-action { color: #083e34; background: #e8bd58; }
+.primary-action:hover { box-shadow: 0 12px 26px rgba(232,189,88,.22); }
 .secondary-action { color: white; border: 1px solid rgba(255,255,255,.3); }
+.secondary-action:hover { background: rgba(255,255,255,.1); }
+.hero-highlights { display: flex; align-items: center; gap: 10px 18px; margin-top: 22px; color: rgba(255,255,255,.72); flex-wrap: wrap; }
+.hero-highlights span { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; }
+.hero-highlights svg { color: #e8bd58; font-size: 12px; }
 .hero-verse { min-height: 300px; display: grid; place-content: center; gap: 16px; padding: 38px; text-align: center; border: 1px solid rgba(255,255,255,.16); border-radius: 50% 50% 18px 18px; background: rgba(255,255,255,.06); backdrop-filter: blur(8px); }
 .hero-verse > span { color: #e8bd58; font-size: 56px; line-height: .5; }
 .hero-verse p { color: white; font-family: var(--quran-font); font-size: clamp(27px, 3vw, 42px); line-height: 2; }
@@ -39,11 +45,18 @@
 .adhkar-promo-copy p { max-width: 620px; color: rgba(255,255,255,.7); line-height: 1.9; }
 .adhkar-promo-actions { display: grid; gap: 10px; }
 .adhkar-promo-actions a { min-height: 70px; display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid rgba(255,255,255,.17); border-radius: 17px 6px; color: white; background: rgba(255,255,255,.07); backdrop-filter: blur(7px); }
+.adhkar-promo-actions > a { transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+.adhkar-promo-actions > a:hover { border-color: rgba(232,189,88,.55); background: rgba(255,255,255,.12); transform: translateY(-2px); }
 .adhkar-promo-actions a > svg:first-child { width: 42px; height: 42px; padding: 12px; border-radius: 13px; color: #0a5445; background: #e8bd58; }
 .adhkar-promo-actions a > svg:last-child { color: #92e5cc; }
 .adhkar-promo-actions a span { display: grid; }
 .adhkar-promo-actions small { color: #92e5cc; font-size: 14px; }
 .adhkar-promo-actions strong { font-size: 16px; }
+.adhkar-promo-directory { align-content: center; }
+.adhkar-promo-categories { display: flex; gap: 7px; flex-wrap: wrap; }
+.adhkar-promo-categories a { min-height: 38px; display: inline-flex; grid-template-columns: none; gap: 7px; padding: 7px 11px; border-radius: 999px; color: rgba(255,255,255,.82); font-size: 14px; transition: color .2s ease, background .2s ease, transform .2s ease; }
+.adhkar-promo-categories a:hover { color: #083e34; background: #e8bd58; transform: translateY(-1px); }
+.adhkar-promo-actions .adhkar-promo-categories a svg:first-child { width: auto; height: auto; padding: 0; border-radius: 0; color: currentColor; background: transparent; }
 .home-section { display: grid; gap: 24px; }
 .home-section .Section_header h1 { margin-bottom: 0; }
 .home-radio-layout { display: grid; grid-template-columns: 1.45fr .75fr; gap: 18px; }
@@ -120,6 +133,6 @@
 .daily-ayah > div { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; }
 .daily-ayah button { display: flex; align-items: center; gap: 7px; padding: 9px 14px; border: 1px solid var(--line-color); border-radius: 99px; color: var(--main-text-color); background: var(--main-bg); cursor: pointer; }
 @media (max-width: 1200px) { .featured-readers { grid-template-columns: repeat(2, minmax(0, 1fr)); }.featured-readers article { grid-template-columns: 160px minmax(0, 1fr); grid-template-rows: 220px; }.reader-portrait { height: 220px; aspect-ratio: auto; }.reader-copy { min-height: 220px; } }
-@media (max-width: 1000px) { .home-hero { grid-template-columns: 1fr; } .hero-verse { min-height: 220px; } .adhkar-promo { grid-template-columns: 140px 1fr; } .adhkar-promo-mark { width: 130px; height: 130px; } .adhkar-promo-actions { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; } .home-radio-layout { grid-template-columns: 1fr; } .surah-explorer { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 700px) { .home-page { gap: 48px; } .home-hero { min-height: auto; padding: 28px 22px; border-radius: 24px 8px; } .hero-copy h1 { font-size: 36px; } .hero-verse { padding: 24px; border-radius: 50% 50% 14px 14px; } .continue-strip { grid-template-columns: 1fr auto; gap: 14px; margin-top: -28px; padding: 16px; } .continue-progress { grid-column: 1 / -1; grid-row: 2; } .adhkar-promo { grid-template-columns: 1fr; gap: 20px; padding: 27px 20px; border-radius: 8px 24px; } .adhkar-promo-mark { width: 108px; height: 108px; justify-self: center; } .adhkar-promo-mark::before { inset: 12px; } .adhkar-promo-mark span { font-size: 27px; } .adhkar-promo-actions { grid-column: auto; grid-template-columns: 1fr; } .home-cairo-radio { min-height: 300px; align-items: flex-start; } .home-cairo-radio img { position: absolute; left: 12px; bottom: 14px; width: 100px; } .journey-grid { grid-template-columns: 1fr; } .journey-grid article:nth-child(2) { transform: none; } .section-heading-row { align-items: stretch; flex-direction: column; } .home-search { min-width: 0; } .surah-explorer { grid-template-columns: 1fr; } .featured-readers { grid-template-columns: 1fr; gap: 12px; } .featured-readers article { grid-template-columns: 145px minmax(0, 1fr); grid-template-rows: 205px; } .reader-portrait { min-height: 205px; height: 205px; } .reader-copy { min-height: 205px; padding: 20px 16px; } .featured-readers h3 { margin-bottom: 15px; font-size: 17px; } .featured-readers button { font-size: 14px; } .daily-notice { border-radius: 24px 8px; } }
+@media (max-width: 1000px) { .home-hero { grid-template-columns: 1fr; } .hero-verse { min-height: 220px; } .adhkar-promo { grid-template-columns: 140px 1fr; } .adhkar-promo-mark { width: 130px; height: 130px; } .adhkar-promo-actions { grid-column: 1 / -1; } .home-radio-layout { grid-template-columns: 1fr; } .surah-explorer { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) { .home-page { gap: 48px; } .home-hero { min-height: auto; padding: 28px 22px; border-radius: 24px 8px; } .hero-copy h1 { font-size: 36px; } .hero-verse { padding: 24px; border-radius: 50% 50% 14px 14px; } .continue-strip { grid-template-columns: 1fr auto; gap: 14px; margin-top: -28px; padding: 16px; } .continue-progress { grid-column: 1 / -1; grid-row: 2; } .adhkar-promo { grid-template-columns: 1fr; gap: 16px; padding: 24px 20px; border-radius: 8px 24px; } .adhkar-promo-mark { width: 86px; height: 86px; justify-self: center; } .adhkar-promo-mark::before { inset: 10px; } .adhkar-promo-mark span { font-size: 23px; } .adhkar-promo-mark i { width: 10px; height: 10px; } .adhkar-promo-actions { grid-column: auto; grid-template-columns: 1fr; } .home-cairo-radio { min-height: 300px; align-items: flex-start; } .home-cairo-radio img { position: absolute; left: 12px; bottom: 14px; width: 100px; } .journey-grid { grid-template-columns: 1fr; } .journey-grid article:nth-child(2) { transform: none; } .section-heading-row { align-items: stretch; flex-direction: column; } .home-search { min-width: 0; } .surah-explorer { grid-template-columns: 1fr; } .featured-readers { grid-template-columns: 1fr; gap: 12px; } .featured-readers article { grid-template-columns: 145px minmax(0, 1fr); grid-template-rows: 205px; } .reader-portrait { min-height: 205px; height: 205px; } .reader-copy { min-height: 205px; padding: 20px 16px; } .featured-readers h3 { margin-bottom: 15px; font-size: 17px; } .featured-readers button { font-size: 14px; } .daily-notice { border-radius: 24px 8px; } }
 @media (max-width: 430px) { .featured-readers article { grid-template-columns: 132px minmax(0, 1fr); } .reader-copy { padding: 18px 14px; } .featured-readers h3 { font-size: 16px; } .featured-readers button { width: 42px; padding: 4px; overflow: hidden; white-space: nowrap; color: transparent; } .featured-readers button span { flex: 0 0 auto; color: white; } }

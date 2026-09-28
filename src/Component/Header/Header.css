@@ -145,6 +145,10 @@ header .logo h2 {
     }
 
   }
+@media (max-width:768px) {
+    body.reader-page-active header::before,
+    body.reader-page-active header::after { display: none; }
+}
   @media (max-width:400px) {
      .search { width: auto; }
 

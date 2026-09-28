@@ -134,6 +134,20 @@ export async function getSurah(number) {
   };
 }
 
+export async function getJuz(number) {
+  const response = await cachedGet(
+    `quran:juz:${number}:v1`,
+    `https://api.alquran.cloud/v1/juz/${number}/quran-uthmani`,
+  );
+  return {
+    ...response.data,
+    ayahs: response.data.ayahs.map((ayah) => ({
+      ...ayah,
+      text: String(ayah.text || "").normalize("NFC"),
+    })),
+  };
+}
+
 export async function getReciters() {
   const response = await cachedGet(
     "quran:reciters:v3",

@@ -13,7 +13,7 @@ const Audio = lazy(() => import("./pages/Listen/Audio"));
 const Radio = lazy(() => import("./pages/Radio/Radio"));
 const Tv = lazy(() => import("./pages/Tv/Tv"));
 const Timing = lazy(() => import("./pages/Timing/Timing"));
-const Read = lazy(() => import("./pages/Read/Read"));
+const Read = lazy(() => import("./pages/Read/ReadBySelection"));
 const Adhkar = lazy(() => import("./pages/Adhkar/Adhkar"));
 
 export const MyContext = createContext(null);
@@ -29,7 +29,7 @@ function RouteLayout() {
       radio: "إذاعات القرآن الكريم",
       tv: "البث القرآني المباشر",
       timings: "مواقيت الصلاة",
-      adhkar: "أذكار الصباح والمساء",
+      adhkar: "موسوعة الأذكار اليومية",
     };
     const section = location.pathname.split("/").filter(Boolean)[0];
     document.title = section ? `${routeTitles[section] || "القرآن الكريم"} — القرآن الكريم` : "القرآن الكريم — قراءة واستماع وإذاعات مباشرة";
@@ -60,6 +60,7 @@ export default function App() {
           <Route path="/" element={<RouteLayout />}>
             <Route index element={<Home />} />
             <Route path="listen" element={<ListenLayout />}><Route path="audio" element={<Audio />} /></Route>
+            <Route path="read/juz/:juzNumber" element={<Read />} />
             <Route path="read/:surahNumber?/:ayahNumber?" element={<Read />} />
             <Route path="adhkar" element={<Adhkar />} />
             <Route path="radio" element={<Radio />} />

@@ -158,7 +158,9 @@ main > .content > * { animation: page-reveal .48s cubic-bezier(.2,.8,.2,1) both;
   width: 38px;
   height: 38px;
   display: grid;
-  place-items: center;
+  place-content: center;
+  justify-items: center;
+  gap: 16px;
   border-radius: 12px 4px;
   color: var(--green-text-color);
   background: var(--green-color);
@@ -303,7 +305,9 @@ footer {
   z-index: 3;
   min-height: 50px;
   display: grid;
-  place-items: center;
+  place-content: center;
+  justify-items: center;
+  gap: 16px;
   padding: 8px 18px;
   grid-area: foot;
   text-align: center;
@@ -418,20 +422,29 @@ li {
   height: 100%;
   min-height: 220px;
   display: grid;
-  place-items: center;
+  place-content: center;
+  justify-items: center;
+  gap: 16px;
   z-index: 20;
   background: color-mix(in srgb, var(--second-bg) 76%, transparent);
   backdrop-filter: blur(8px);
   transform-origin: center;
   transition: opacity .35s ease, transform .35s ease;
 }
+.loading_section > p {
+  margin: 0;
+  color: var(--main-text-color);
+  font-size: 14px;
+  font-weight: 650;
+  animation: loading-copy 1.4s ease-in-out infinite;
+}
 .loading_section.end {
   opacity: 0;
   transform: scale(0) !important;
 }
 .loader_section {
-  width: 64px;
-  height: 64px;
+  width: 82px;
+  height: 82px;
   display: inline-grid;
   place-items: center;
   border-radius: 50%;
@@ -452,22 +465,17 @@ li {
   animation: loader-orbit 1.05s cubic-bezier(.45,.05,.55,.95) infinite;
 }
 .loader_section::after {
-  content: "۞";
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, #e8bd58 48%, transparent);
-  border-radius: 13px 4px;
-  color: #b98b24;
-  background: color-mix(in srgb, var(--main-bg) 94%, #e8bd58);
-  font-family: var(--quran-font);
-  font-size: 24px;
-  line-height: 1;
+  content: "";
+  width: 54px;
+  height: 54px;
+  border: 1px solid color-mix(in srgb, #e8bd58 42%, transparent);
+  border-radius: 18px 6px;
+  background: color-mix(in srgb, var(--main-bg) 94%, #e8bd58) url('/img/logo.png') center / 42px 42px no-repeat;
   animation: loader-mark 1.05s ease-in-out infinite;
 }
 @keyframes loader-orbit { to { transform: rotate(360deg); } }
-@keyframes loader-mark { 50% { transform: scale(.9) rotate(7deg); color: var(--green-text-color); } }
+@keyframes loader-mark { 50% { transform: scale(.92) rotate(4deg); } }
+@keyframes loading-copy { 50% { opacity: .58; } }
 
 
 ::-webkit-scrollbar-thumb {

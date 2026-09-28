@@ -111,7 +111,7 @@ export default function Home() {
 
   return <>{dailyNotice}<div className="home-page">
     <section className="home-hero">
-      <div className="hero-copy"><span className="hero-kicker">رفيقك اليومي مع كتاب الله</span><h1>اقرأ بقلبٍ حاضر،<br /><em>واستمع بطمأنينة.</em></h1><p>مصحف موثوق، تلاوات مختارة، وإذاعات القرآن في تجربة عربية هادئة تحفظ تقدمك على هذا الجهاز.</p><div className="hero-actions"><Link className="primary-action" to={`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`}><FaBookOpen /> ابدأ القراءة</Link><Link className="secondary-action" to="/listen"><FaHeadphones /> استمع الآن</Link></div></div>
+      <div className="hero-copy"><span className="hero-kicker">رفيقك اليومي مع كتاب الله</span><h1>اقرأ بقلبٍ حاضر،<br /><em>واستمع بطمأنينة.</em></h1><p>مصحف موثوق، تلاوات مختارة، وإذاعات القرآن في تجربة عربية هادئة تحفظ تقدمك على هذا الجهاز.</p><div className="hero-actions"><Link className="primary-action" to={`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`}><FaBookOpen /> ابدأ القراءة</Link><Link className="secondary-action" to="/listen"><FaHeadphones /> استمع الآن</Link></div><div className="hero-highlights" aria-label="مزايا التطبيق"><span><FaCheck /> قراءة بالسور والأجزاء</span><span><FaCheck /> تقدمك محفوظ</span><span><FaCheck /> بدون إعلانات</span></div></div>
       <div className="hero-verse" aria-label="آية افتتاحية"><span>﴿</span><p>أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p><small>الرعد • ٢٨</small></div>
     </section>
 
@@ -119,8 +119,8 @@ export default function Home() {
 
     <section className="adhkar-promo">
       <div className="adhkar-promo-mark" aria-hidden="true"><span>ذِكر</span><i /><i /><i /><i /><i /></div>
-      <div className="adhkar-promo-copy"><span>وردك اليومي في دقائق</span><h2>ابدأ يومك واختتمه بذكر الله</h2><p>أذكار الصباح والمساء مع عدّاد تفاعلي وصوت هادئ وحفظ تلقائي لتقدم اليوم.</p></div>
-      <div className="adhkar-promo-actions"><Link to="/adhkar?period=morning"><FaSun /><span><small>ابدأ الآن</small><strong>أذكار الصباح</strong></span><FaArrowLeft /></Link><Link to="/adhkar?period=evening"><FaMoon /><span><small>سكينة المساء</small><strong>أذكار المساء</strong></span><FaArrowLeft /></Link></div>
+      <div className="adhkar-promo-copy"><span>موسوعة الأذكار اليومية</span><h2>وردك كله في صفحة واحدة</h2><p>ثمانية أقسام من الصباح حتى النوم، مع عدّاد تفاعلي وصوت واهتزاز وحفظ تلقائي لتقدم اليوم.</p></div>
+      <div className="adhkar-promo-actions adhkar-promo-directory"><Link className="adhkar-promo-primary" to="/adhkar"><FaBookOpen /><span><small>كل الأذكار</small><strong>افتح الموسوعة</strong></span><FaArrowLeft /></Link><div className="adhkar-promo-categories"><Link to="/adhkar?category=morning"><FaSun /> الصباح</Link><Link to="/adhkar?category=evening"><FaMoon /> المساء</Link><Link to="/adhkar?category=sleep">أذكار النوم</Link><Link to="/adhkar?category=afterPrayer">بعد الصلاة</Link></div></div>
     </section>
 
     <section className="home-section"><SectionHeader title="إذاعات القرآن الكريم" /><div className="home-radio-layout"><article className="home-cairo-radio"><div><span className="live-pill">LIVE • القاهرة</span><h2>{CAIRO_RADIO.name}</h2><p>التلاوات النادرة والبرامج الدينية من البث المصري المباشر.</p><button type="button" onClick={() => playRadio(CAIRO_RADIO)}>{cairoPlaying ? <FaPause /> : <FaPlay />} {cairoPlaying ? "إيقاف مؤقت" : "شغّل البث"}</button></div><img src="/img/radio.png" alt="" /></article><div className="quick-radios">{radios.slice(0, 3).map((radio) => <button type="button" key={radio.id} onClick={() => playRadio(radio)}><span><FaPlay /></span><div><small>بث مباشر</small><strong>{radio.name}</strong></div></button>)}<Link to="/radio">عرض دليل الإذاعات <FaArrowLeft /></Link></div></div></section>

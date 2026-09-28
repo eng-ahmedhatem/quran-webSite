@@ -195,6 +195,11 @@ export function PlayerProvider({ children }) {
       : status === "loading" || status === "stalled" ? "جارٍ الاتصال…"
         : playing ? "مباشر الآن" : "بث مباشر";
 
+  const expandFromPlayerBar = (event) => {
+    if (expanded || event.target.closest("button, input, select, label, a")) return;
+    setExpanded(true);
+  };
+
   return <PlayerContext.Provider value={value}>
     {children}
     <audio
@@ -227,9 +232,15 @@ export function PlayerProvider({ children }) {
         else { setPlaying(false); setStatus("ended"); }
       }}
     />
-    {track && <aside className={`global-player ${expanded ? "expanded" : ""} ${status === "error" ? "has-error" : ""}`} aria-label="مشغل الصوت">
+    {track && <aside
+      className={`global-player ${expanded ? "expanded" : ""} ${status === "error" ? "has-error" : ""}`}
+      aria-label="مشغل الصوت"
+      aria-expanded={expanded}
+      onClick={expandFromPlayerBar}
+      title={expanded ? undefined : "اضغط لعرض خيارات التشغيل"}
+    >
       <button className="player-cover" type="button" onClick={() => setExpanded(!expanded)} aria-label={expanded ? "تصغير المشغل" : "توسيع المشغل"}><img src={track.img || "/img/logo.png"} alt="" /></button>
-      <div className="player-copy"><span className={`${track.isLive ? "live-state" : "track-state"} ${status === "error" ? "is-error" : ""}`}>{stateLabel}</span><strong>{track.name}</strong><small>{track.writer}</small></div>
+      <div className="player-copy"><span className={`${track.isLive ? "live-state" : "track-state"} ${status === "error" ? "is-error" : ""}`}>{stateLabel}</span><strong>{track.name}</strong><small>{track.writer}</small>{!expanded && <em className="player-expand-hint">اضغط على الشريط لعرض الخيارات</em>}</div>
       <div className="player-controls"><button type="button" className="player-main" onClick={toggle} aria-label={playing ? "إيقاف مؤقت" : status === "error" ? "إعادة المحاولة" : "تشغيل"}>{playing ? <FaPause /> : status === "error" ? <FaRedo /> : <FaPlay />}</button><button type="button" onClick={() => setExpanded(!expanded)} aria-label={expanded ? "تصغير" : "توسيع"}>{expanded ? <FaChevronDown /> : <FaExpand />}</button><button type="button" onClick={close} aria-label="إغلاق المشغل"><FaTimes /></button></div>
       {status === "error" && <div className="player-error" role="status"><span>{errorMessage}</span><button type="button" onClick={retry}><FaRedo /> إعادة المحاولة</button></div>}
       {expanded && <div className="player-details">
