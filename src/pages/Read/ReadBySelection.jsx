@@ -2,25 +2,17 @@ import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "rea
 import { useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight, FaBookmark, FaBookOpen, FaCheck, FaCopy, FaEllipsisH, FaFont, FaHeadphones, FaPause, FaPlay, FaRegBookmark, FaSearch, FaShareAlt, FaSlidersH } from "react-icons/fa";
 import SectionHeader from "../../Component/Section_header/Section_header";
+import Breadcrumb from "../../Component/Breadcrumb/Breadcrumb";
+import PageSkeleton from "../../Component/Skeleton/PageSkeleton";
 import Status from "../../Component/Status/Status";
 import { usePlayer } from "../../Component/Audio_track/PlayerContext";
 import { getJuz, getSurah, getSurahs } from "../../services/api";
 import { normalizeArabic } from "../Listen/Functions";
+import { displayAyahText, nextSequenceIndex } from "./readingUtils";
 import "./read.css";
 
 const readBookmarks = () => { try { return JSON.parse(localStorage.getItem("quran:bookmarks")) || []; } catch { return []; } };
-const BASMALA_PREFIX = /^\s*ب\p{M}*س\p{M}*م\p{M}*\s+[ٱا]\p{M}*ل\p{M}*ل\p{M}*ه\p{M}*\s+[ٱا]\p{M}*ل\p{M}*ر\p{M}*ح\p{M}*م\p{M}*ن\p{M}*\s+[ٱا]\p{M}*ل\p{M}*ر\p{M}*ح\p{M}*ي\p{M}*م\p{M}*\s*/u;
-const DIRECTION_CONTROLS = /[\u200e\u200f\u202a-\u202e\u2066-\u2069]/g;
 const JUZ_NUMBERS = Array.from({ length: 30 }, (_, index) => index + 1);
-const cleanQuranText = (text = "") => text.replace(DIRECTION_CONTROLS, "").trim();
-const displayAyahText = (ayah, surah) => {
-  const text = cleanQuranText(ayah.text);
-  return (
-  ayah.numberInSurah === 1 && surah.number !== 1 && surah.number !== 9
-    ? text.replace(BASMALA_PREFIX, "").trim()
-    : text
-  );
-};
 
 export default function ReadBySelection() {
   const { surahNumber, ayahNumber, juzNumber } = useParams();
@@ -120,7 +112,7 @@ export default function ReadBySelection() {
   const toggleBookmark = (ayah) => {
     const surah = surahForAyah(ayah);
     const exists = isBookmarked(ayah);
-    const next = exists ? bookmarks.filter((item) => item.number !== ayah.number) : [...bookmarks, { number: ayah.number, surahNumber: surah.number, surahName: surah.name, ayahNumber: ayah.numberInSurah, text: displayAyahText(ayah, surah) }];
+    const next = exists ? bookmarks.filter((item) => item.number !== ayah.number) : [...bookmarks, { number: ayah.number, surahNumber: surah.number, surahName: surah.name, ayahNumber: ayah.numberInSurah, text: displayAyahText(ayah, surah), savedAt: Date.now() }];
     setBookmarks(next);
     localStorage.setItem("quran:bookmarks", JSON.stringify(next));
     showNotice(exists ? "تمت إزالة العلامة" : `تم حفظ علامة عند الآية ${ayah.numberInSurah}`);
@@ -134,7 +126,10 @@ export default function ReadBySelection() {
   const playSequence = (index) => {
     const ayah = ayahs[index];
     if (!ayah) return false;
-    player.playTrack(ayahTrack(ayah, { sequence: true, sequenceIndex: index, sequenceLength: ayahs.length, onEnded: () => playSequence(index + 1) }));
+    player.playTrack(ayahTrack(ayah, { sequence: true, sequenceIndex: index, sequenceLength: ayahs.length, onEnded: () => {
+      const nextIndex = nextSequenceIndex(index, ayahs.length);
+      return nextIndex === null ? false : playSequence(nextIndex);
+    } }));
     return true;
   };
   const sequenceActive = player.track?.sequence && player.track?.readingKey === readingKey;
@@ -169,7 +164,7 @@ export default function ReadBySelection() {
   };
 
   if (error) return <Status message={error} action={() => setRequestKey((key) => key + 1)} />;
-  if (!readingReady) return <div className="loading_section reader-loading" role="status" aria-live="polite"><span className="loader_section" /><p>نُحضّر صفحة {isJuzMode ? "الجزء" : "السورة"} للقراءة…</p></div>;
+  if (!readingReady) return <PageSkeleton variant="reader" label={`نُحضّر صفحة ${isJuzMode ? "الجزء" : "السورة"} للقراءة`} />;
 
   const title = isJuzMode ? `الجزء ${Number(juzNumber).toLocaleString("ar-EG")}` : reading.name;
   const totalAyahs = ayahs.length;
@@ -178,6 +173,7 @@ export default function ReadBySelection() {
 
   return <section className={`reader-page mode-${mode}`}>
     {notice && <div className="reader-toast" role="status" aria-live="polite"><FaCheck /> {notice}</div>}
+    <Breadcrumb items={[{ label: "القراءة", to: "/read" }, { label: title }]} />
     <div className="reader-title">
       <div className="reader-heading"><span className="reader-kicker"><FaBookOpen /> المصحف الشريف</span><SectionHeader title={title} /><p>قراءة هادئة، وضبط يناسب عينيك، وتلاوة تتابع موضع الآية تلقائيًا.</p></div>
       <div className="reader-selection-panel">

@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaBookmark, FaBookOpen, FaCheck, FaCopy, FaHeadphones, FaHeart, FaMoon, FaPause, FaPlay, FaSearch, FaShareAlt, FaSun, FaTimes } from "react-icons/fa";
 import SectionHeader from "../../Component/Section_header/Section_header";
 import { usePlayer } from "../../Component/Audio_track/PlayerContext";
+import PageSkeleton from "../../Component/Skeleton/PageSkeleton";
 import { CAIRO_RADIO, getRadios, getReciters, getSurah, getSurahs, toSurahAudio } from "../../services/api";
 import { normalizeArabic } from "../Listen/Functions";
 import "./home.css";
@@ -30,6 +31,9 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [showDailyNotice, setShowDailyNotice] = useState(false);
   const [noticeClosing, setNoticeClosing] = useState(false);
+  const [onboardingComplete, setOnboardingComplete] = useState(() => localStorage.getItem("quran:onboarding-complete-v1") === "true");
+  const noticeRef = useRef(null);
+  const previousFocusRef = useRef(null);
   const lastRead = readStorage("quran:last-read", { surahNumber: 1, surahName: "سُورَةُ ٱلْفَاتِحَةِ", ayahNumber: 1 });
   const bookmarks = readStorage("quran:bookmarks", []);
   const closeDailyNotice = useCallback((afterClose) => {
@@ -54,27 +58,43 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!dailyAyah) return;
+    const markComplete = () => setOnboardingComplete(true);
+    window.addEventListener("quran:onboarding-complete", markComplete);
+    return () => window.removeEventListener("quran:onboarding-complete", markComplete);
+  }, []);
+
+  useEffect(() => {
+    if (!dailyAyah || !onboardingComplete) return;
     const key = `quran:daily-ayah-shown:v2:${new Date().toISOString().slice(0, 10)}`;
     try {
       if (sessionStorage.getItem(key)) return;
       sessionStorage.setItem(key, "true");
     } catch { /* The notice can still be shown when session storage is unavailable. */ }
     setShowDailyNotice(true);
-  }, [dailyAyah]);
+  }, [dailyAyah, onboardingComplete]);
 
   useEffect(() => {
     if (!showDailyNotice) return undefined;
     const main = document.querySelector("main");
     const previousOverflow = main?.style.overflow;
+    previousFocusRef.current = document.activeElement;
+    window.requestAnimationFrame(() => noticeRef.current?.querySelector("button")?.focus());
     if (main) main.style.overflow = "hidden";
     const closeOnEscape = (event) => {
       if (event.key === "Escape") closeDailyNotice();
+      if (event.key !== "Tab" || !noticeRef.current) return;
+      const focusable = [...noticeRef.current.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])")];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     };
     window.addEventListener("keydown", closeOnEscape);
     return () => {
       if (main) main.style.overflow = previousOverflow || "";
       window.removeEventListener("keydown", closeOnEscape);
+      previousFocusRef.current?.focus?.();
     };
   }, [closeDailyNotice, showDailyNotice]);
 
@@ -97,11 +117,11 @@ export default function Home() {
   const shareAyah = () => { if (!dailyAyah) return; const text = `${dailyAyah.text} — ${dailyAyah.surah.name} (${dailyAyah.numberInSurah})`; if (navigator.share) navigator.share({ title: "آية اليوم", text }).catch(() => {}); else copyAyah(); };
   const dailyNotice = showDailyNotice && dailyAyah ? createPortal(
     <div className={`daily-notice-backdrop ${noticeClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeDailyNotice(); }}>
-      <section className="daily-notice" role="dialog" aria-modal="true" aria-labelledby="daily-notice-title">
+      <section ref={noticeRef} className="daily-notice" role="dialog" aria-modal="true" aria-labelledby="daily-notice-title" aria-describedby="daily-notice-verse">
         <button className="notice-close" type="button" onClick={() => closeDailyNotice()} aria-label="إغلاق آية اليوم"><FaTimes /></button>
         <div className="notice-intro"><span className="notice-mark">﴿</span><small>بداية مباركة ليومك</small></div>
         <h2 id="daily-notice-title">آية اليوم</h2>
-        <blockquote>{dailyAyah.text}</blockquote>
+        <blockquote id="daily-notice-verse">{dailyAyah.text}</blockquote>
         <p>{dailyAyah.surah.name} • الآية {dailyAyah.numberInSurah}</p>
         <div className="notice-actions"><button type="button" onClick={() => closeDailyNotice(() => navigate(`/read/${dailyAyah.surah.number}/${dailyAyah.numberInSurah}`))}><FaBookOpen /> اقرأ في المصحف</button><button type="button" onClick={copyAyah}>{copied ? <FaCheck /> : <FaCopy />} {copied ? "تم النسخ" : "نسخ الآية"}</button></div>
       </section>
@@ -125,11 +145,11 @@ export default function Home() {
 
     <section className="home-section"><SectionHeader title="إذاعات القرآن الكريم" /><div className="home-radio-layout"><article className="home-cairo-radio"><div><span className="live-pill">LIVE • القاهرة</span><h2>{CAIRO_RADIO.name}</h2><p>التلاوات النادرة والبرامج الدينية من البث المصري المباشر.</p><button type="button" onClick={() => playRadio(CAIRO_RADIO)}>{cairoPlaying ? <FaPause /> : <FaPlay />} {cairoPlaying ? "إيقاف مؤقت" : "شغّل البث"}</button></div><img src="/img/radio.png" alt="" /></article><div className="quick-radios">{radios.slice(0, 3).map((radio) => <button type="button" key={radio.id} onClick={() => playRadio(radio)}><span><FaPlay /></span><div><small>بث مباشر</small><strong>{radio.name}</strong></div></button>)}<Link to="/radio">عرض دليل الإذاعات <FaArrowLeft /></Link></div></div></section>
 
-    <section className="home-section"><SectionHeader title="رحلتك اليومية" /><div className="journey-grid"><article><span className="journey-icon"><FaBookOpen /></span><small>تقدم الختمة</small><strong>{khatmaProgress}%</strong><div className="meter"><i style={{ width: `${khatmaProgress}%` }} /></div></article><article><span className="journey-icon"><FaBookmark /></span><small>العلامات المحفوظة</small><strong>{bookmarks.length}</strong><Link to={`/read/${lastRead.surahNumber}`}>راجع محفوظاتك</Link></article><article><span className="journey-icon"><FaCheck /></span><small>الورد اليومي</small><strong>{lastRead.ayahNumber >= 10 ? "مكتمل" : `${lastRead.ayahNumber}/10`}</strong><Link to={`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`}>أكمل وردك</Link></article></div></section>
+    <section className="home-section"><SectionHeader title="رحلتك اليومية" /><div className="journey-grid"><article><span className="journey-icon"><FaBookOpen /></span><small>تقدم الختمة</small><strong>{khatmaProgress}%</strong><div className="meter"><i style={{ width: `${khatmaProgress}%` }} /></div></article><article><span className="journey-icon"><FaBookmark /></span><small>العلامات المحفوظة</small><strong>{bookmarks.length}</strong><Link to="/bookmarks">راجع محفوظاتك</Link></article><article><span className="journey-icon"><FaCheck /></span><small>الورد اليومي</small><strong>{lastRead.ayahNumber >= 10 ? "مكتمل" : `${lastRead.ayahNumber}/10`}</strong><Link to={`/read/${lastRead.surahNumber}/${lastRead.ayahNumber}`}>أكمل وردك</Link></article></div></section>
 
-    <section className="home-section"><div className="section-heading-row"><SectionHeader title="استكشف السور" /><label className="home-search"><FaSearch /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ابحث باسم السورة" /></label></div><div className="surah-explorer">{filteredSurahs.map((surah) => <Link to={`/read/${surah.number}`} key={surah.number}><span>{surah.number.toLocaleString("ar-EG")}</span><div><strong>{surah.name}</strong><small>{surah.revelationType === "Meccan" ? "مكية" : "مدنية"} • {surah.numberOfAyahs} آية</small></div><FaArrowLeft /></Link>)}</div></section>
+    <section className="home-section"><div className="section-heading-row"><SectionHeader title="استكشف السور" /><label className="home-search"><FaSearch /><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ابحث باسم السورة" aria-label="البحث في سور القرآن" /></label></div>{surahs.length ? <div className="surah-explorer">{filteredSurahs.map((surah) => <Link to={`/read/${surah.number}`} key={surah.number}><span>{surah.number.toLocaleString("ar-EG")}</span><div><strong>{surah.name}</strong><small>{surah.revelationType === "Meccan" ? "مكية" : "مدنية"} • {surah.numberOfAyahs} آية</small></div><FaArrowLeft /></Link>)}</div> : <PageSkeleton compact label="جارٍ تحميل فهرس السور" />}</section>
 
-    <section className="home-section"><SectionHeader title="القراء المميزون" /><div className="featured-readers">{reciters.map((reader) => <article key={reader.id}><div className="reader-portrait"><img src={reader.portrait} alt={`صورة ${reader.displayName || reader.name}`} loading="lazy" /></div><div className="reader-copy"><small>قارئ من روائع التلاوات</small><h3>{reader.displayName || reader.name}</h3><button type="button" onClick={() => playReader(reader)}><span><FaPlay /></span> استمع لسورة الفاتحة</button></div></article>)}</div></section>
+    <section className="home-section"><SectionHeader title="القراء المميزون" />{reciters.length ? <div className="featured-readers">{reciters.map((reader) => <article key={reader.id}><div className="reader-portrait"><img src={reader.portrait} alt={`صورة ${reader.displayName || reader.name}`} loading="lazy" /></div><div className="reader-copy"><small>قارئ من روائع التلاوات</small><h3>{reader.displayName || reader.name}</h3><button type="button" onClick={() => playReader(reader)}><span><FaPlay /></span> استمع لسورة الفاتحة</button></div></article>)}</div> : <PageSkeleton compact label="جارٍ تحميل القراء المميزين" />}</section>
 
     {dailyAyah && <section className="daily-ayah"><span className="ayah-label">آية اليوم</span><blockquote>﴿ {dailyAyah.text} ﴾</blockquote><p>{dailyAyah.surah.name} • الآية {dailyAyah.numberInSurah}</p><div><button type="button" onClick={copyAyah}>{copied ? <FaCheck /> : <FaCopy />} {copied ? "تم النسخ" : "نسخ"}</button><button type="button" onClick={shareAyah}><FaShareAlt /> مشاركة</button><button type="button" onClick={() => navigate(`/read/${dailyAyah.surah.number}/${dailyAyah.numberInSurah}`)}><FaHeart /> تدبر الآية</button></div></section>}
   </div></>;

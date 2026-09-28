@@ -1,6 +1,7 @@
 .radio { display: flex; flex-direction: column; align-items: center; padding-bottom: 120px; }
+.radio > .Section_header { width: 100%; margin: 6px 0 24px; }
 .radio > div { width: 100%; }
-.cairo-feature { width: 100%; min-height: 240px; margin: -18px 0 28px; padding: clamp(26px, 5vw, 54px); display: flex; align-items: center; justify-content: space-between; overflow: hidden; color: #f7fffc; background: #0a5c4a; border-radius: 30px 8px; position: relative; isolation: isolate; }
+.cairo-feature { width: 100%; min-height: 240px; margin: 0 0 28px; padding: clamp(26px, 5vw, 54px); display: flex; align-items: center; justify-content: space-between; overflow: hidden; color: #f7fffc; background: #0a5c4a; border-radius: var(--radius-hero); position: relative; isolation: isolate; }
 .cairo-feature::after { content: "القاهرة"; position: absolute; left: -12px; bottom: -42px; z-index: -1; font-size: clamp(70px, 14vw, 170px); font-weight: 800; color: rgba(255,255,255,.055); }
 .cairo-feature h2 { margin: 8px 0; font-size: clamp(25px, 4vw, 45px); }
 .cairo-feature p { max-width: 580px; opacity: .78; line-height: 1.8; }

@@ -4,6 +4,10 @@ import "./audio-track.css";
 
 const PlayerContext = createContext(null);
 const LIVE_CONNECT_TIMEOUT = 18000;
+const formatMediaTime = (seconds = 0) => {
+  const safeSeconds = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0;
+  return `${Math.floor(safeSeconds / 60).toLocaleString("ar-EG", { minimumIntegerDigits: 2 })}:${(safeSeconds % 60).toLocaleString("ar-EG", { minimumIntegerDigits: 2 })}`;
+};
 
 const readList = (key) => {
   try { return JSON.parse(localStorage.getItem(key)) || []; } catch { return []; }
@@ -39,6 +43,8 @@ export function PlayerProvider({ children }) {
   const [repeat, setRepeat] = useState(false);
   const [favorites, setFavorites] = useState(() => readList("quran:audio-favorites"));
   const [sleepMinutes, setSleepMinutes] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   const clearConnectTimer = useCallback(() => {
     window.clearTimeout(connectTimerRef.current);
@@ -113,6 +119,8 @@ export function PlayerProvider({ children }) {
     if (!nextTrack) return;
     trackRef.current = nextTrack;
     rememberedRef.current = "";
+    setCurrentTime(0);
+    setDuration(0);
     setTrack(nextTrack);
     playSource(nextTrack, 0);
   }, [playSource]);
@@ -199,6 +207,17 @@ export function PlayerProvider({ children }) {
     if (expanded || event.target.closest("button, input, select, label, a")) return;
     setExpanded(true);
   };
+  const expandFromKeyboard = (event) => {
+    if (expanded || !["Enter", " "].includes(event.key)) return;
+    event.preventDefault();
+    setExpanded(true);
+  };
+  const seek = (event) => {
+    const nextTime = Number(event.target.value);
+    if (!audioRef.current || !Number.isFinite(nextTime)) return;
+    audioRef.current.currentTime = nextTime;
+    setCurrentTime(nextTime);
+  };
 
   return <PlayerContext.Provider value={value}>
     {children}
@@ -216,6 +235,8 @@ export function PlayerProvider({ children }) {
         }
       }}
       onPause={() => setPlaying(false)}
+      onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime || 0)}
+      onDurationChange={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)}
       onWaiting={() => { if (trackRef.current?.isLive) setStatus("loading"); }}
       onStalled={() => {
         if (!trackRef.current?.isLive) return;
@@ -240,8 +261,9 @@ export function PlayerProvider({ children }) {
       title={expanded ? undefined : "اضغط لعرض خيارات التشغيل"}
     >
       <button className="player-cover" type="button" onClick={() => setExpanded(!expanded)} aria-label={expanded ? "تصغير المشغل" : "توسيع المشغل"}><img src={track.img || "/img/logo.png"} alt="" /></button>
-      <div className="player-copy"><span className={`${track.isLive ? "live-state" : "track-state"} ${status === "error" ? "is-error" : ""}`}>{stateLabel}</span><strong>{track.name}</strong><small>{track.writer}</small>{!expanded && <em className="player-expand-hint">اضغط على الشريط لعرض الخيارات</em>}</div>
+      <div className="player-copy" role={expanded ? undefined : "button"} tabIndex={expanded ? -1 : 0} onKeyDown={expandFromKeyboard} aria-label={expanded ? undefined : "عرض خيارات التشغيل"}><span className={`${track.isLive ? "live-state" : "track-state"} ${status === "error" ? "is-error" : ""}`}>{stateLabel}</span><strong>{track.name}</strong><small>{track.writer}</small>{!expanded && <em className="player-expand-hint">اضغط على الشريط لعرض الخيارات</em>}</div>
       <div className="player-controls"><button type="button" className="player-main" onClick={toggle} aria-label={playing ? "إيقاف مؤقت" : status === "error" ? "إعادة المحاولة" : "تشغيل"}>{playing ? <FaPause /> : status === "error" ? <FaRedo /> : <FaPlay />}</button><button type="button" onClick={() => setExpanded(!expanded)} aria-label={expanded ? "تصغير" : "توسيع"}>{expanded ? <FaChevronDown /> : <FaExpand />}</button><button type="button" onClick={close} aria-label="إغلاق المشغل"><FaTimes /></button></div>
+      {!track.isLive && <div className="player-timeline"><input type="range" min="0" max={duration || 0} step="1" value={Math.min(currentTime, duration || 0)} onChange={seek} aria-label="موضع التلاوة" disabled={!duration} style={{ "--track-progress": `${duration ? Math.min(100, (currentTime / duration) * 100) : 0}%` }} /><div><time>{formatMediaTime(currentTime)}</time><span>{track.surahNumber && track.ayahNumber ? `سورة ${track.name.split("•")[0].replace("سورة", "").trim()} • الآية ${Number(track.ayahNumber).toLocaleString("ar-EG")}` : track.name}</span><time>{formatMediaTime(duration)}</time></div></div>}
       {status === "error" && <div className="player-error" role="status"><span>{errorMessage}</span><button type="button" onClick={retry}><FaRedo /> إعادة المحاولة</button></div>}
       {expanded && <div className="player-details">
         <button type="button" onClick={() => toggleFavorite()}>{favorite ? <FaHeart /> : <FaRegHeart />} {favorite ? "محفوظة" : "أضف للمفضلة"}</button>

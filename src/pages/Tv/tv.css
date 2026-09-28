@@ -1,5 +1,5 @@
 .tv { display: grid; gap: 22px; padding-bottom: 120px; }
-.tv-heading { min-height: 270px; display: grid; grid-template-columns: minmax(0, 1fr) 210px; align-items: center; gap: 32px; padding: clamp(30px, 5vw, 62px); overflow: hidden; border-radius: 34px 10px; color: #f5fffb; background: #083e34; position: relative; isolation: isolate; }
+.tv-heading { min-height: 270px; display: grid; grid-template-columns: minmax(0, 1fr) 210px; align-items: center; gap: 32px; padding: clamp(30px, 5vw, 62px); overflow: hidden; border-radius: var(--radius-hero); color: #f5fffb; background: #083e34; position: relative; isolation: isolate; }
 .tv-heading::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .24; background: radial-gradient(circle at 18% 24%, #8ee0c5 0 1px, transparent 2px) 0 0 / 24px 24px; mask-image: linear-gradient(90deg, #000, transparent 80%); }
 .tv-heading::after { content: "مباشر"; position: absolute; left: -18px; bottom: -70px; z-index: -1; color: rgba(255,255,255,.045); font-size: clamp(110px, 18vw, 240px); font-weight: 850; }
 .tv-heading > div:first-child > span { display: inline-flex; align-items: center; gap: 9px; color: #95e4cb; font-weight: 700; }
@@ -19,6 +19,8 @@
 .tv-video { aspect-ratio: 16 / 9; min-height: 280px; overflow: hidden; background: #021d17; position: relative; }
 .tv-video iframe { width: 100%; height: 100%; display: block; border: 0; }
 .tv-loading, .tv-error { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; justify-items: center; gap: 13px; padding: 24px; text-align: center; color: #f5fffb; background: #062f27; }
+.tv-skeleton-frame { width: min(520px, 72vw); display: grid; gap: 12px; }.tv-skeleton-frame i { height: 14px; border-radius: 99px; background: linear-gradient(100deg, rgba(255,255,255,.08) 30%, rgba(255,255,255,.2) 48%, rgba(255,255,255,.08) 66%) 100% 0 / 250% 100%; animation: tv-skeleton-wave 1.3s ease-in-out infinite; }.tv-skeleton-frame i:first-child { height: clamp(120px, 22vw, 230px); border-radius: var(--radius-card); }.tv-skeleton-frame i:nth-child(2) { width: 70%; }.tv-skeleton-frame i:nth-child(3) { width: 45%; }
+@keyframes tv-skeleton-wave { to { background-position: -150% 0; } }
 .tv-loading p, .tv-error p { max-width: 520px; color: rgba(255,255,255,.7); }.tv-error > svg { color: #e8bd58; font-size: 40px; }.tv-error a, .tv-error button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 9px 15px; border: 1px solid rgba(255,255,255,.2); border-radius: 99px; color: #f5fffb; background: transparent; cursor: pointer; }.tv-error a { color: #082f27; background: #e8bd58; border-color: #e8bd58; }
 .tv-now { min-height: 112px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 15px; padding: 18px; }
 .tv-now-icon, .channel-icon { display: grid; place-items: center; color: #f5fffb; background: #0b8c6d; }.tv-now-icon { width: 54px; height: 54px; border-radius: 17px 6px; font-size: 22px; }.tv-now-icon.sunnah, .channel-icon.sunnah { color: #5a430e; background: #f0cf7d; }

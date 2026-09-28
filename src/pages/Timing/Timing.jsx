@@ -4,6 +4,7 @@ import SalahCard from "./SalahCard";
 import Status from "../../Component/Status/Status";
 import { getPrayerTimes } from "../../services/api";
 import "./timing.css";
+import PageSkeleton from "../../Component/Skeleton/PageSkeleton";
 
 const cities = [
   ["القاهرة", "Cairo"], ["الجيزة", "Giza"], ["الإسكندرية", "Alexandria"],
@@ -117,7 +118,7 @@ export default function Timing() {
   }, [city, notificationStatus, timings]);
 
   if (error) return <Status message={error} action={() => setRetry((value) => value + 1)} />;
-  if (!timings) return <div className="loading_section"><span className="loader_section" /></div>;
+  if (!timings) return <PageSkeleton variant="timing" label="جارٍ تحميل مواقيت الصلاة" />;
 
   const hijri = dateParts(now, "islamic");
   const gregorian = dateParts(now, "gregory");

@@ -59,8 +59,9 @@
 
 /* Unified library experience */
 .adhkar-unified-page { max-width: 1380px; gap: 26px; }
+.adhkar-unified-page > .page-breadcrumb { margin-bottom: -10px; }
 .adhkar-unified-page header { grid-area: auto; }
-.adhkar-unified-hero { min-height: 410px; grid-template-columns: minmax(0, 1fr) minmax(320px, 430px); gap: clamp(36px, 7vw, 96px); padding: clamp(36px, 6vw, 78px); border-radius: 46px 14px; background: linear-gradient(125deg, #052f28 0%, #075744 58%, #0a7157 100%); box-shadow: 0 28px 70px rgba(4, 52, 42, .22); }
+.adhkar-unified-hero { min-height: 410px; grid-template-columns: minmax(0, 1fr) minmax(320px, 430px); gap: clamp(36px, 7vw, 96px); padding: clamp(36px, 6vw, 78px); border-radius: var(--radius-hero); background: linear-gradient(125deg, #052f28 0%, #075744 58%, #0a7157 100%); box-shadow: 0 28px 70px rgba(4, 52, 42, .22); }
 .adhkar-unified-hero::before { opacity: .28; background: radial-gradient(circle at 75% 35%, #b6f1df 0 1.2px, transparent 1.8px) 0 0 / 22px 22px; mask-image: linear-gradient(90deg, transparent 4%, #000 100%); }
 .adhkar-unified-hero::after { inset-inline-end: -24px; bottom: -84px; color: rgba(255, 255, 255, .055); font-size: clamp(190px, 24vw, 340px); }
 .adhkar-hero-copy { z-index: 1; }

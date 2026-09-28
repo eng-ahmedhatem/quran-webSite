@@ -1,5 +1,5 @@
-.home-page { display: grid; gap: 64px; padding-bottom: 110px; }
-.home-hero { min-height: 480px; display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: clamp(30px, 6vw, 90px); padding: clamp(28px, 6vw, 72px); overflow: hidden; color: #f5fffb; border-radius: 34px 10px 34px 10px; background: #083e34; position: relative; isolation: isolate; }
+.home-page { display: grid; gap: var(--page-section-gap); padding-bottom: 110px; }
+.home-hero { min-height: 480px; display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: clamp(30px, 6vw, 90px); padding: clamp(28px, 6vw, 72px); overflow: hidden; color: #f5fffb; border-radius: var(--radius-hero); background: #083e34; position: relative; isolation: isolate; }
 .home-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .18; background: radial-gradient(circle at 14% 20%, #7dd9bd 0 1px, transparent 2px) 0 0 / 22px 22px; mask-image: linear-gradient(90deg, black, transparent 75%); }
 .home-hero::after { content: "القرآن"; position: absolute; z-index: -1; left: -2%; bottom: -18%; font-size: clamp(120px, 22vw, 310px); font-weight: 800; color: rgba(255,255,255,.035); }
 .hero-kicker { color: #8ee0c5; font-size: 14px; font-weight: 700; }

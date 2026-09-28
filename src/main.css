@@ -11,6 +11,15 @@
   --card-shadow: 0 12px 36px rgba(10, 62, 50, .08);
   --quran-font: "KFGQPC Uthmanic Script HAFS", "Amiri Quran", "Noto Naskh Arabic", "Scheherazade New", "Traditional Arabic", serif;
   --main-font-s: 24px;
+  --radius-sm: 11px 4px;
+  --radius-button: 14px 5px;
+  --radius-card: 22px 7px;
+  --radius-lg: 28px 9px;
+  --radius-hero: 36px 11px;
+  --icon-sm: 17px;
+  --icon-md: 21px;
+  --control-height: 44px;
+  --page-section-gap: clamp(42px, 5vw, 68px);
   color-scheme: light;
 }
 @font-face {
@@ -109,6 +118,7 @@ button, a, nav, header, img { user-select: none; }
 .status-message > span { max-width: 470px; color: var(--muted-text); line-height: 1.8; }
 .status-message button { min-height: 42px; border: 0; border-radius: 99px; background: var(--green-text-color); color: white; padding: 10px 20px; cursor: pointer; }
 button { font: inherit; }
+button > svg, a > svg { flex: 0 0 auto; font-size: var(--icon-sm); }
 :focus-visible { outline: 3px solid var(--green-text-color); outline-offset: 3px; }
 button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 button:not(:disabled), a[href], [role="button"] { transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease, filter .2s ease; }
@@ -117,12 +127,12 @@ button:not(:disabled), a[href], [role="button"] { transition: transform .2s ease
   a[href]:not(.logo):hover { filter: brightness(1.06); }
 }
 button:not(:disabled):not(.scrollTo_top):active, [role="button"]:not([aria-disabled="true"]):active { transform: translateY(0) scale(.985); }
-main > .content > * { animation: page-reveal .48s cubic-bezier(.2,.8,.2,1) both; }
+.route-stage { min-height: 100%; animation: page-reveal .42s cubic-bezier(.2,.8,.2,1) both; }
 .featured-readers > *, .listen-reader-grid > *, .journey-grid > *, .radio .cards > *, .prayer-times .cards > *, .tv-channels > button { animation: card-reveal .44s ease both; }
 .featured-readers > *:nth-child(2), .listen-reader-grid > *:nth-child(2), .journey-grid > *:nth-child(2), .radio .cards > *:nth-child(2), .prayer-times .cards > *:nth-child(2), .tv-channels > button:nth-of-type(2) { animation-delay: .055s; }
 .featured-readers > *:nth-child(3), .listen-reader-grid > *:nth-child(3), .journey-grid > *:nth-child(3), .radio .cards > *:nth-child(3), .prayer-times .cards > *:nth-child(3) { animation-delay: .1s; }
 .featured-readers > *:nth-child(4), .listen-reader-grid > *:nth-child(4), .radio .cards > *:nth-child(4), .prayer-times .cards > *:nth-child(4) { animation-delay: .145s; }
-@keyframes page-reveal { from { opacity: 0; transform: translateY(16px); } }
+@keyframes page-reveal { from { opacity: 0; transform: translateY(12px); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
 @keyframes card-reveal { from { opacity: 0; transform: translateY(12px) scale(.985); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
 .search-home .cards{
@@ -203,14 +213,20 @@ main > .content > * { animation: page-reveal .48s cubic-bezier(.2,.8,.2,1) both;
   backdrop-filter: blur(50px);
   z-index: 20;
 }
+.Section_header { display: grid; gap: 6px; }
+.Section_header .section-eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--green-text-color); font-size: 14px; font-weight: 750; }
+.Section_header .section-eyebrow::before { content: ""; width: 22px; height: 2px; border-radius: 99px; background: #e8bd58; }
+.Section_header > p { max-width: 680px; margin: 2px 0 0; color: var(--muted-text); line-height: 1.8; }
 .Section_header h1 {
-  font-size: 2em;
+  margin: 0;
+  font-size: clamp(28px, 3.2vw, 44px);
   font-weight: 900;
   position: relative;
   max-width: fit-content;
   color: var(--main-text-color);
   z-index: 1;
-  margin-bottom: 50px;
+  line-height: 1.25;
+  text-wrap: balance;
 }
 .Section_header h1::after {
   content: "";
@@ -220,9 +236,9 @@ main > .content > * { animation: page-reveal .48s cubic-bezier(.2,.8,.2,1) both;
   background: var(--green-color);
   opacity: 1;
   z-index: -1;
-  width: 50%;
-  height: 16px;
-  top: 60%;
+  width: 46%;
+  height: 12px;
+  top: 64%;
   border-radius: 12px 2px;
 }
 .scrollTo_top {
@@ -287,17 +303,13 @@ a {
   :root {
     --main-font-s: 20px;
   }
-  .Section_header h1 {
-    font-size: 27px;
-  }
+  .Section_header h1 { font-size: 28px; }
 }
 @media (max-width: 400px) {
   :root {
     --main-font-s: 18px;
   }
-  .Section_header h1 {
-    font-size: 23px;
-  }
+  .Section_header h1 { font-size: 26px; }
 }
 footer {
   background: var(--main-bg);

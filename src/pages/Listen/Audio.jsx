@@ -5,6 +5,7 @@ import Audio_track from "../../Component/Audio_track/Audio_track";
 import Status from "../../Component/Status/Status";
 import { getReciters, toSurahAudio } from "../../services/api";
 import "./audio.css";
+import PageSkeleton from "../../Component/Skeleton/PageSkeleton";
 
 function Audio() {
   const location = useLocation();
@@ -42,7 +43,7 @@ function Audio() {
   ].find(([name]) => selectedReader?.name.replace(/\s/g, "").includes(name))?.[1] || "/img/logo.png";
 
   if (error) return <Status message={error} action={() => setRetry((value) => value + 1)} />;
-  if (!readers.length) return <div className="loading_section"><span className="loader_section" /></div>;
+  if (!readers.length) return <PageSkeleton compact label="جارٍ تحميل القراء والتلاوات" />;
 
   return (
     <aside className="Audio" aria-label="اختيارات التلاوة">

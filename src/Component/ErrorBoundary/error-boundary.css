@@ -1,0 +1,8 @@
+.fatal-error { min-height: 100dvh; display: grid; place-content: center; justify-items: center; gap: 12px; margin: 0; padding: 32px 20px; text-align: center; color: var(--main-text-color); background: radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--green-color) 72%, transparent), transparent 34%), var(--second-bg); }
+.fatal-error img { width: 82px; height: 82px; object-fit: contain; filter: drop-shadow(0 14px 24px rgba(6, 68, 53, .18)); }
+.fatal-error > span { color: var(--green-text-color); font-size: 14px; font-weight: 800; }
+.fatal-error h1 { margin: 2px 0; font-size: clamp(30px, 6vw, 52px); }
+.fatal-error p { max-width: 560px; color: var(--muted-text); line-height: 1.8; }
+.fatal-error div { display: flex; justify-content: center; gap: 9px; margin-top: 10px; flex-wrap: wrap; }
+.fatal-error button, .fatal-error a { min-height: 46px; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--line-color); border-radius: 14px 5px; color: var(--main-text-color); background: var(--main-bg); cursor: pointer; }
+.fatal-error button { color: white; border-color: var(--green-text-color); background: var(--green-text-color); }

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaCheck, FaCopy, FaRedo, FaSearch, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 import { normalizeArabic } from "../Listen/Functions";
+import Breadcrumb from "../../Component/Breadcrumb/Breadcrumb";
 import "./adhkar.css";
 
 const ADHKAR = {
@@ -321,6 +322,7 @@ export default function Adhkar() {
   })).filter((section) => section.items.length);
 
   return <section className="adhkar-page adhkar-unified-page">
+    <Breadcrumb items={[{ label: "الأذكار" }]} />
     <header className="adhkar-hero adhkar-unified-hero">
       <div className="adhkar-hero-copy"><span className="adhkar-eyebrow">موسوعة الأذكار اليومية</span><h1>وردك كله<br /><em>في مكان واحد</em></h1><p>من الصباح حتى النوم، اقرأ كل الأذكار في صفحة واحدة واحفظ تقدمك تلقائيًا على جهازك.</p><button type="button" className="adhkar-sound-toggle" onClick={toggleSound}>{muted ? <FaVolumeMute /> : <FaVolumeUp />} {muted ? "تشغيل صوت العداد" : "الصوت والاهتزاز مفعّلان"}</button></div>
       <div className="adhkar-hero-summary">

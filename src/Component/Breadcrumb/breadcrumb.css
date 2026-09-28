@@ -1,0 +1,11 @@
+.page-breadcrumb { width: 100%; margin: 2px 0 14px; }
+.page-breadcrumb ol { display: flex; align-items: center; gap: 8px; overflow-x: auto; padding: 4px 2px; list-style: none; scrollbar-width: none; }
+.page-breadcrumb ol::-webkit-scrollbar { display: none; }
+.page-breadcrumb li, .page-breadcrumb a { display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto; }
+.page-breadcrumb a { color: var(--muted-text); }
+.page-breadcrumb a:hover { color: var(--green-text-color); }
+.page-breadcrumb li > span[aria-current="page"] { color: var(--main-text-color); font-weight: 750; }
+.page-breadcrumb svg { font-size: 14px; }
+.page-breadcrumb .breadcrumb-separator { color: color-mix(in srgb, var(--muted-text) 55%, transparent); font-size: 10px; }
+
+@media (max-width: 768px) { .page-breadcrumb { margin-bottom: 10px; } }
